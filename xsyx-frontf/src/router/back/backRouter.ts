@@ -7,17 +7,14 @@ import BackHome from "@/views/back/BackHome.vue";
 const BackRouter: Array<RouteConfig> = [
     {
         path: '/',
-        name: 'Back',
         component: BackHome,
     },
     {
         path: '/aaa',
-        name: 'aaa',
         component: BackHome,
         children: [
             {
                 path: '/aaa',
-                name: 'aaa',
                 component: BackHome,
             }
         ]

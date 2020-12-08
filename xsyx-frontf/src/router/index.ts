@@ -16,7 +16,6 @@ const routes: Array<RouteConfig> = [
    */
   {
     path: '/',
-    name: 'Home',
     component: FrontHome
   },
   /**
@@ -24,7 +23,6 @@ const routes: Array<RouteConfig> = [
    */
   {
     path: '/back',
-    name: 'Back',
     component: BackHome,
     children: BackRouter
   },
