@@ -1,0 +1,50 @@
+/* 默认字体 */
+body {
+    font-family: "Microsoft JhengHei", verdana, sans-serif;
+}
+
+/* 添加滚动条样式 */
+.bse-scroll, .bse-scroll-hover:hover {
+    overflow-x: auto;
+    overflow-y: auto;
+}
+.bse-scroll-x, .bse-scroll-x-hover:hover {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+.bse-scroll-y, .bse-scroll-y-hover:hover {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.bse-scroll-hover,.bse-scroll-x-hover,.bse-scroll-y-hover {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+/* 滚动条 */
+.bse-scroll::-webkit-scrollbar,
+.bse-scroll-x::-webkit-scrollbar,
+.bse-scroll-y::-webkit-scrollbar,
+.bse-scroll-hover::-webkit-scrollbar,
+.bse-scroll-x-hover::-webkit-scrollbar,
+.bse-scroll-y-hover::-webkit-scrollbar {/*滚动条整体样式*/
+    width: 5px;
+    height: 5px;
+}
+.bse-scroll-x::-webkit-scrollbar-thumb,
+.bse-scroll-y::-webkit-scrollbar-thumb,
+.bse-scroll-hover::-webkit-scrollbar-thumb,
+.bse-scroll-x-hover::-webkit-scrollbar-thumb,
+.bse-scroll-y-hover::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+    border-radius: 5px;
+    -webkit-box-shadow: inset 0 0 5px rgba(255, 255, 255, 0);
+    background: #d4d4d4;
+}
+.bse-scroll-x::-webkit-scrollbar-track,
+.bse-scroll-y::-webkit-scrollbar-track,
+.bse-scroll-hover::-webkit-scrollbar-track,
+.bse-scroll-x-hover::-webkit-scrollbar-track,
+.bse-scroll-y-hover::-webkit-scrollbar-track {/*滚动条里面轨道*/
+    -webkit-box-shadow: inset 0 0 5px rgba(255, 255, 255, 0);
+    border-radius: 5px;
+    background: #efefef;
+}
