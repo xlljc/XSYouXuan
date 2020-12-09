@@ -1,14 +1,21 @@
 package com.xsyx.controller;
 
+import com.xsyx.dao.RoleDao;
+import com.xsyx.vo.Role;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/test")
 public class TestController {
+
+    @Autowired
+    private RoleDao roleDao;
 
     /**
      * 测试
@@ -18,6 +25,15 @@ public class TestController {
         Map<String,String> map = new HashMap<>();
         map.put("title","标题");
         return map;
+    }
+
+    /**
+     * 测试2
+     */
+    @RequestMapping("/test2")
+    public List<Role> test2() {
+        List<Role> roles = roleDao.queryAll();
+        return roles;
     }
 
 }
