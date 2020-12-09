@@ -25,7 +25,7 @@ module.exports = {
     //不能比较自身
     'no-self-compare': 1,
     //禁止使用弹窗
-    'no-alert': 2,
+    'no-alert': 1,
     //推断禁止使用类型
     '@typescript-eslint/no-inferrable-types': 0,
     //禁止类型与:间有空格
