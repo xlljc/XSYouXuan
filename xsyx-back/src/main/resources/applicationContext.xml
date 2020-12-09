@@ -7,22 +7,20 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!-- spring  配置文件  -->
-
+    <!-- 自动扫描  需要spring管理的包 -->
     <context:component-scan base-package="com.xsyx">
-        <!-- 大容器  扫描时  排出 Controller注解 -->
+        <!-- 指定不扫描得注解-->
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
-
 
     <!-- 初始化数据源对象；DruidDataSource -->
     <bean id="druiddataSource" class="com.alibaba.druid.pool.DruidDataSource">
         <!-- 与数据库建立连接的基本信息 -->
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
         <property name="url"
-                  value="jdbc:mysql://localhost:3306/shiro_demo?characterEncoding=utf-8"/>
-        <property name="username" value="root"/>
-        <property name="password" value="123456"/>
+                  value="jdbc:mysql://rm-bp129kht956qdlh5b125010ym.mysql.rds.aliyuncs.com:3306/xsyx?serverTimezone=UTC&amp;characterEncoding=utf8&amp;useSSL=false"/>
+        <property name="username" value="xiaoli"/>
+        <property name="password" value="abc@123456"/>
         <!-- 关于数据库连接池的基本信息 -->
         <property name="maxActive" value="50"/>
         <property name="initialSize" value="5"/>
@@ -30,84 +28,16 @@
         <property name="maxWait" value="60000"/>
     </bean>
 
-    <!--配置SqlSessionFactory的bean    -->
+    <!-- 配置SqlSessionFactory的bean-->
     <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="druiddataSource"/>
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
     </bean>
 
-    <!--  配置mybatis接口的代理对象bean
-    根据指定的包 把mapper找出来，创建对象
-    -->
+    <!-- 配置mybatis接口的代理对象bean  -->
     <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.guigu.dao"/>
+        <property name="basePackage" value="com.xsyx.dao"/>
     </bean>
 
-
-    <!-- shiro 整合spring 配置 -->
-
-    <!-- 自定义Realm或者 JDBCRealm对象 -->
-    <bean id="myRealm" class="com.xsyx.realm.MyRealm">
-        <!--<property name="credentialsMatcher" ref="credentialsMatcher"/>-->
-    </bean>
-
-    <!-- 安全管理器对象 -->
-    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-        <property name="realm" ref="myRealm"/>
-        <!--注入rememberMe cookie管理器-->
-        <property name="rememberMeManager" ref="rememberMeManager"/>
-    </bean>
-
-    <!-- ShiroFilterFactoryBean -->
-    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
-        <property name="securityManager" ref="securityManager"/>
-        <!--<property name="loginUrl" value="/login.jsp"/>
-        <property name="unauthorizedUrl" value="/unauthorized.jsp"/>-->
-        <!-- md5配置生效-->
-        
-        <property name="filterChainDefinitions">
-            <value>
-                /**=anon
-                <!--/js/**=anon
-                /user/login**=anon
-                /login*=anon-->
-                <!--/**=authc --> <!--根路径下的资源 都需要认证了才能访问-->
-                <!--/**=user--><!--根路径下的资源 都需要认证或者rememberme=true了才能访问-->
-            </value>
-        </property>
-
-
-    </bean>
-
-    <!--LifecycleBeanPostProcessor -->
-    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
-
-    <!-- MD5配置-->
-    <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
-        <property name="hashAlgorithmName" value="md5"/>
-        <property name="hashIterations" value="5"/>
-    </bean>
-
-    <!-- remenberMe功能-->
-    <!--手动指定cookie-->
-    <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
-        <constructor-arg value="rememberMe"/>
-        <property name="httpOnly" value="true"/>
-        <property name="maxAge" value="604800"/><!-- 7天 -->
-    </bean>
-
-    <!-- rememberMe管理器 -->
-    <bean id="rememberMeManager"
-          class="org.apache.shiro.web.mgt.CookieRememberMeManager">
-        <!--注入自定义cookie(主要是设置寿命, 默认的一年太长)-->
-        <property name="cookie" ref="rememberMeCookie"/>
-    </bean>
-
-    <!-- 开启shiro注解支持-->
-    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
-          depends-on="lifecycleBeanPostProcessor" />
-    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-        <property name="securityManager" ref="securityManager"/>
-    </bean>
 
 </beans>

@@ -15,52 +15,38 @@
         http://www.springframework.org/schema/mvc
         https://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
+	<!-- 自动扫描   指定包下面  扫描哪个类上有4个注解中的一个
+	只要有一个 将当前类 管理 创建对象-->
 	<context:component-scan base-package="com.xsyx.controller"/>
 
-	<!-- 注解驱动-->
-	<mvc:annotation-driven/>
+	<!-- 注解驱动   注解提供的功能 需要其他的工具类 （加载这些依赖的工具类）-->
+	<mvc:annotation-driven conversion-service="conversionService"/>
 
-	<!-- 释放静态资源  js  css 图片 -->
+	<!-- 释放静态资源  js  css  图片 -->
 	<mvc:default-servlet-handler/>
 
+
+	<!-- 全局类型转换器 -->
+	<bean id="conversionService" class=" org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<property name="converters">
+			<set>
+				<bean id="dateConverter" class="com.xsyx.utils.DateConverter"/>
+			</set>
+		</property>
+	</bean>
 
 	<!-- 文件上传解析器 -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="maxUploadSize" value="2097152"/>
 		<property name="defaultEncoding" value="utf-8"/>
-
 	</bean>
 
-
-	<!-- 配置异常处理器 ;简单的映射异常解析器 -->
-	<!--<bean id="handlerExceptionResolver"
-		  class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-		&lt;!&ndash; 默认的错误视图页面名称 &ndash;&gt;
-		<property name="defaultErrorView" value="error.jsp"></property>
-
-		&lt;!&ndash; 指定异常对象的属性名称;默认为exception &ndash;&gt;
-		<property name="exceptionAttribute" value="ex"></property>
-
-		&lt;!&ndash; 自定义异常的跳转页面 ;指定自定义异常的跳转页面名称 &ndash;&gt;
-		<property name="exceptionMappings">
-			<props>
-				<prop key="com.yangyang.exception.ControllerException">error-c.jsp</prop>
-			</props>
-		</property>
+	<!--配置视图解析器-->
+	<!--<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/"/>
+		<property name="suffix" value=".jsp"/>
+		<property name="order" value="10"/>
 	</bean>-->
-
-	<!--<bean id="exceptionResolver" class="com.yangyang.exception.MyExceptionResolver"></bean>-->
-
-	<!-- 配置一个视图解析器-->
-	<!--<bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="WEB-INF/jsp/"></property>&lt;!&ndash;前缀&ndash;&gt;
-		<property name="suffix" value=".jsp"></property>
-	</bean>-->
-
-	<!--开启aop，对类代理
- 不加这个配置，后续配置无效
- -->
-	<aop:config proxy-target-class="true"/>
 
 
 </beans>
