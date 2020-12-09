@@ -4,6 +4,8 @@ import FrontHome from '../views/front/FrontHome.vue'
 import BackHome from '../views/back/BackHome.vue'
 import FontRouter from "@/router/front/frontRouter";
 import BackRouter from "@/router/back/backRouter";
+import ShopRouter from "@/router/shop/shopRouter";
+import TestYzm from "@/components/shop/TestYzm.vue";
 
 Vue.use(VueRouter)
 
@@ -26,10 +28,15 @@ const routes: Array<RouteConfig> = [
     component: BackHome,
     children: BackRouter
   },
+  {
+    path: '/shop',
+    component: TestYzm,
+    children: ShopRouter
+  },
   /**
    * 前台路由, 访问地址 /.....
    */
-  ...FontRouter
+  ...FontRouter,
 ];
 
 

@@ -46,68 +46,68 @@
 
     <!-- shiro 整合spring 配置 -->
 
-    <!-- 自定义Realm或者 JDBCRealm对象 -->
+<!--    &lt;!&ndash; 自定义Realm或者 JDBCRealm对象 &ndash;&gt;
     <bean id="myRealm" class="com.xsyx.realm.MyRealm">
-        <!--<property name="credentialsMatcher" ref="credentialsMatcher"/>-->
+        &lt;!&ndash;<property name="credentialsMatcher" ref="credentialsMatcher"/>&ndash;&gt;
     </bean>
 
-    <!-- 安全管理器对象 -->
+    &lt;!&ndash; 安全管理器对象 &ndash;&gt;
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="myRealm"/>
-        <!--注入rememberMe cookie管理器-->
+        &lt;!&ndash;注入rememberMe cookie管理器&ndash;&gt;
         <property name="rememberMeManager" ref="rememberMeManager"/>
     </bean>
 
-    <!-- ShiroFilterFactoryBean -->
+    &lt;!&ndash; ShiroFilterFactoryBean &ndash;&gt;
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
-        <!--<property name="loginUrl" value="/login.jsp"/>
-        <property name="unauthorizedUrl" value="/unauthorized.jsp"/>-->
-        <!-- md5配置生效-->
+        &lt;!&ndash;<property name="loginUrl" value="/login.jsp"/>
+        <property name="unauthorizedUrl" value="/unauthorized.jsp"/>&ndash;&gt;
+        &lt;!&ndash; md5配置生效&ndash;&gt;
         
         <property name="filterChainDefinitions">
             <value>
                 /**=anon
-                <!--/js/**=anon
+                &lt;!&ndash;/js/**=anon
                 /user/login**=anon
-                /login*=anon-->
-                <!--/**=authc --> <!--根路径下的资源 都需要认证了才能访问-->
-                <!--/**=user--><!--根路径下的资源 都需要认证或者rememberme=true了才能访问-->
+                /login*=anon&ndash;&gt;
+                &lt;!&ndash;/**=authc &ndash;&gt; &lt;!&ndash;根路径下的资源 都需要认证了才能访问&ndash;&gt;
+                &lt;!&ndash;/**=user&ndash;&gt;&lt;!&ndash;根路径下的资源 都需要认证或者rememberme=true了才能访问&ndash;&gt;
             </value>
         </property>
 
 
     </bean>
 
-    <!--LifecycleBeanPostProcessor -->
+    &lt;!&ndash;LifecycleBeanPostProcessor &ndash;&gt;
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 
-    <!-- MD5配置-->
+    &lt;!&ndash; MD5配置&ndash;&gt;
     <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
         <property name="hashAlgorithmName" value="md5"/>
         <property name="hashIterations" value="5"/>
     </bean>
 
-    <!-- remenberMe功能-->
-    <!--手动指定cookie-->
+    &lt;!&ndash; remenberMe功能&ndash;&gt;
+    &lt;!&ndash;手动指定cookie&ndash;&gt;
     <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
         <constructor-arg value="rememberMe"/>
         <property name="httpOnly" value="true"/>
-        <property name="maxAge" value="604800"/><!-- 7天 -->
+        <property name="maxAge" value="604800"/>&lt;!&ndash; 7天 &ndash;&gt;
     </bean>
 
-    <!-- rememberMe管理器 -->
+    &lt;!&ndash; rememberMe管理器 &ndash;&gt;
     <bean id="rememberMeManager"
           class="org.apache.shiro.web.mgt.CookieRememberMeManager">
-        <!--注入自定义cookie(主要是设置寿命, 默认的一年太长)-->
+        &lt;!&ndash;注入自定义cookie(主要是设置寿命, 默认的一年太长)&ndash;&gt;
         <property name="cookie" ref="rememberMeCookie"/>
     </bean>
 
-    <!-- 开启shiro注解支持-->
+    &lt;!&ndash; 开启shiro注解支持&ndash;&gt;
     <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
           depends-on="lifecycleBeanPostProcessor" />
     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
         <property name="securityManager" ref="securityManager"/>
-    </bean>
+    </bean>-->
 
 </beans>
