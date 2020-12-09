@@ -25,6 +25,10 @@
 	<!-- 释放静态资源  js  css  图片 -->
 	<mvc:default-servlet-handler/>
 
+	<!-- 全局跨域访问 -->
+	<mvc:cors>
+		<mvc:mapping path="/cross/*"/>
+	</mvc:cors>
 
 	<!-- 全局类型转换器 -->
 	<bean id="conversionService" class=" org.springframework.format.support.FormattingConversionServiceFactoryBean">

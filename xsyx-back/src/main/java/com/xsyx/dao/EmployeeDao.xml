@@ -19,22 +19,23 @@
         <result column="address" property="address"/>
         <result column="email" property="email"/>
         <result column="remark" property="remark"/>
+        <result column="last_login_time" property="lastLoginTime"/>
         <result column="state" property="state"/>
     </resultMap>
 
     <!-- 查询所有方法 -->
     <select id="queryAll" resultMap="EmployeeMap">
-       select image,password,ic_card,address,phone,sex,name,remark,id,state,email from employee;
+       select image,password,ic_card,address,phone,sex,name,remark,id,state,last_login_time,email from employee;
     </select>
 
     <!-- 根据主键id查询数据方法 -->
     <select id="queryById" parameterType="int" resultMap="EmployeeMap">
-       select image,password,ic_card,address,phone,sex,name,remark,id,state,email from employee where id = #{id};
+       select image,password,ic_card,address,phone,sex,name,remark,id,state,last_login_time,email from employee where id = #{id};
     </select>
 
     <!-- 根据Employee条件查询数据方法 -->
     <select id="query" resultMap="EmployeeMap">
-        select image,password,ic_card,address,phone,sex,name,remark,id,state,email 
+        select image,password,ic_card,address,phone,sex,name,remark,id,state,last_login_time,email
         from employee 
         <where>
             <if test="id != null"> and id = #{id}</if>
@@ -47,13 +48,14 @@
             <if test="address != null"> and address = #{address}</if>
             <if test="email != null"> and email = #{email}</if>
             <if test="remark != null"> and remark = #{remark}</if>
-            <if test="state != null"> and state = #{state}</if> 
+            <if test="lastLoginTime != null"> and last_login_time = #{lastLoginTime}</if>
+            <if test="state != null"> and state = #{state}</if>
         </where>
     </select>
 
     <!-- 根据Employee插入数据方法 -->
     <insert id="insert" parameterType="Employee" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        insert into employee (id,name,password,image,sex,phone,ic_card,address,email,remark,state) values 
+        insert into employee (id,name,password,image,sex,phone,ic_card,address,email,remark,last_login_time,state) values
         (
             #{id},
             #{name},
@@ -65,13 +67,14 @@
             #{address},
             #{email},
             #{remark},
+            #{lastLoginTime},
             #{state}
         ); 
     </insert>
 
     <!-- 根据Employee插入多条数据方法 -->
     <insert id="inserts" parameterType="List" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        insert into employee (id,name,password,image,sex,phone,ic_card,address,email,remark,state) values 
+        insert into employee (id,name,password,image,sex,phone,ic_card,address,email,remark,last_login_time,state) values
         <foreach collection="employees" item="item" separator=",">
             (
                 #{item.id},
@@ -84,6 +87,7 @@
                 #{item.address},
                 #{item.email},
                 #{item.remark},
+                #{item.lastLoginTime},
                 #{item.state}
             ) 
         </foreach>
@@ -109,13 +113,13 @@
 
     <!-- 关联查询,调用者:"com.xsyx.dao.PurchaseorderDao" -->
     <select id="a_Employee_By_approvedby" resultMap="EmployeeMap">
-       select image,password,ic_card,address,phone,sex,name,remark,id,state,email from employee where id = #{fk};
+       select image,password,ic_card,address,phone,sex,name,remark,id,state,last_login_time,email from employee where id = #{fk};
     </select>
 
 
     <!-- 关联查询,调用者:"com.xsyx.dao.PurchaseorderDao" -->
     <select id="a_Employee_By_applicant" resultMap="EmployeeMap">
-       select image,password,ic_card,address,phone,sex,name,remark,id,state,email from employee where id = #{fk};
+       select image,password,ic_card,address,phone,sex,name,remark,id,state,last_login_time,email from employee where id = #{fk};
     </select>
 
 
