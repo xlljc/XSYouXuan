@@ -41,4 +41,12 @@ public interface EmpLogDao {
    * 根据EmpLog条件修改单条数据方法,从传入对象获取id 
    */
   int updateById(EmpLog emplog);
+
+  /**
+   * 添加一篇员工操作日志
+   * @param empId 员工id
+   * @param content 内容
+   * @param data 附加数据, 没有就填null
+   */
+  int addLog(@Param("empId") Integer empId,@Param("content") String content,@Param("data") String data);
 }
