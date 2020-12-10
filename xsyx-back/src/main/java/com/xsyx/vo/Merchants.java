@@ -35,8 +35,9 @@ public class Merchants implements Serializable {
 	private Date openTimeTo;
 	/**商户备注*/
 	private String remark;
-	/**商户状态*/
+	/**商户状态, 0 被冻结, 0正常 , -1删除*/
 	private Integer state;
+	private List<PickupMerchants> pickupMerchantss;
 	private List<User> users;
 
 	public Merchants() {
@@ -54,7 +55,7 @@ public class Merchants implements Serializable {
 		this.remark = remark;
 		this.state = state;
 	}
-	public Merchants(Integer id,String name,String address,String phone,Float longitude,Float latitude,Date openTimeFrom,Date openTimeTo,String remark,Integer state,List<User> users) {
+	public Merchants(Integer id,String name,String address,String phone,Float longitude,Float latitude,Date openTimeFrom,Date openTimeTo,String remark,Integer state,List<PickupMerchants> pickupMerchantss,List<User> users) {
 		this.id = id;
 		this.name = name;
 		this.address = address;
@@ -65,6 +66,7 @@ public class Merchants implements Serializable {
 		this.openTimeTo = openTimeTo;
 		this.remark = remark;
 		this.state = state;
+		this.pickupMerchantss = pickupMerchantss;
 		this.users = users;
 	}
 	/**设置"id"*/
@@ -139,13 +141,19 @@ public class Merchants implements Serializable {
 	public String getRemark(){
 		return remark;
 	}
-	/**设置"商户状态"*/
+	/**设置"商户状态, 0 被冻结, 0正常 , -1删除"*/
 	public void setState(Integer state){
 		this.state = state;
 	}
-	/**获取"商户状态"*/
+	/**获取"商户状态, 0 被冻结, 0正常 , -1删除"*/
 	public Integer getState(){
 		return state;
+	}
+	public void setPickupMerchantss(List<PickupMerchants> pickupMerchantss){
+		this.pickupMerchantss = pickupMerchantss;
+	}
+	public List<PickupMerchants> getPickupMerchantss(){
+		return pickupMerchantss;
 	}
 	public void setUsers(List<User> users){
 		this.users = users;
@@ -166,6 +174,7 @@ public class Merchants implements Serializable {
 			", openTimeTo = " + openTimeTo + 
 			", remark = " + remark + 
 			", state = " + state + 
+			", pickupMerchantss = " + pickupMerchantss + 
 			", users = " + users + 
 			"]";
 	}

@@ -2,6 +2,7 @@ package com.xsyx.vo;
 
 import java.sql.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import java.sql.Timestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
@@ -38,17 +39,26 @@ public class User implements Serializable {
 	private String idCard;
 	/**商户id*/
 	private Merchants merid;
-	/**注销状态*/
-	private Integer isdelete;
+	/**最后一次登录时间*/
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+	private Timestamp lastLoginTime;
+	/**注销状态, 0注销, 1正常*/
+	private Integer isDelete;
 	private List<Comments> commentss;
+	private List<Information> informations;
+	private List<LookHistory> lookHistorys;
+	private List<MerLog> merLogs;
 	private List<MerchantsApply> merchantsApplys;
+	private List<PickupMerchants> pickupMerchantss;
+	private List<SearchRecord> searchRecords;
 	private List<Shopcar> shopcars;
 	private List<Star> stars;
+	private List<UserLog> userLogs;
 
 	public User() {
 		super();
 	}
-	public User(Integer id,String username,String password,String headPortrait,String phone,String signature,Date birthday,String uname,String sex,String idCard,Merchants merid,Integer isdelete) {
+	public User(Integer id,String username,String password,String headPortrait,String phone,String signature,Date birthday,String uname,String sex,String idCard,Merchants merid,Timestamp lastLoginTime,Integer isDelete) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
@@ -60,9 +70,10 @@ public class User implements Serializable {
 		this.sex = sex;
 		this.idCard = idCard;
 		this.merid = merid;
-		this.isdelete = isdelete;
+		this.lastLoginTime = lastLoginTime;
+		this.isDelete = isDelete;
 	}
-	public User(Integer id,String username,String password,String headPortrait,String phone,String signature,Date birthday,String uname,String sex,String idCard,Merchants merid,Integer isdelete,List<Comments> commentss,List<MerchantsApply> merchantsApplys,List<Shopcar> shopcars,List<Star> stars) {
+	public User(Integer id,String username,String password,String headPortrait,String phone,String signature,Date birthday,String uname,String sex,String idCard,Merchants merid,Timestamp lastLoginTime,Integer isDelete,List<Comments> commentss,List<Information> informations,List<LookHistory> lookHistorys,List<MerLog> merLogs,List<MerchantsApply> merchantsApplys,List<PickupMerchants> pickupMerchantss,List<SearchRecord> searchRecords,List<Shopcar> shopcars,List<Star> stars,List<UserLog> userLogs) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
@@ -74,11 +85,18 @@ public class User implements Serializable {
 		this.sex = sex;
 		this.idCard = idCard;
 		this.merid = merid;
-		this.isdelete = isdelete;
+		this.lastLoginTime = lastLoginTime;
+		this.isDelete = isDelete;
 		this.commentss = commentss;
+		this.informations = informations;
+		this.lookHistorys = lookHistorys;
+		this.merLogs = merLogs;
 		this.merchantsApplys = merchantsApplys;
+		this.pickupMerchantss = pickupMerchantss;
+		this.searchRecords = searchRecords;
 		this.shopcars = shopcars;
 		this.stars = stars;
+		this.userLogs = userLogs;
 	}
 	/**设置"id"*/
 	public void setId(Integer id){
@@ -166,13 +184,21 @@ public class User implements Serializable {
 	public Merchants getMerid(){
 		return merid;
 	}
-	/**设置"注销状态"*/
-	public void setIsdelete(Integer isdelete){
-		this.isdelete = isdelete;
+	/**设置"最后一次登录时间"*/
+	public void setLastLoginTime(Timestamp lastLoginTime){
+		this.lastLoginTime = lastLoginTime;
 	}
-	/**获取"注销状态"*/
-	public Integer getIsdelete(){
-		return isdelete;
+	/**获取"最后一次登录时间"*/
+	public Timestamp getLastLoginTime(){
+		return lastLoginTime;
+	}
+	/**设置"注销状态, 0注销, 1正常"*/
+	public void setIsDelete(Integer isDelete){
+		this.isDelete = isDelete;
+	}
+	/**获取"注销状态, 0注销, 1正常"*/
+	public Integer getIsDelete(){
+		return isDelete;
 	}
 	public void setCommentss(List<Comments> commentss){
 		this.commentss = commentss;
@@ -180,11 +206,41 @@ public class User implements Serializable {
 	public List<Comments> getCommentss(){
 		return commentss;
 	}
+	public void setInformations(List<Information> informations){
+		this.informations = informations;
+	}
+	public List<Information> getInformations(){
+		return informations;
+	}
+	public void setLookHistorys(List<LookHistory> lookHistorys){
+		this.lookHistorys = lookHistorys;
+	}
+	public List<LookHistory> getLookHistorys(){
+		return lookHistorys;
+	}
+	public void setMerLogs(List<MerLog> merLogs){
+		this.merLogs = merLogs;
+	}
+	public List<MerLog> getMerLogs(){
+		return merLogs;
+	}
 	public void setMerchantsApplys(List<MerchantsApply> merchantsApplys){
 		this.merchantsApplys = merchantsApplys;
 	}
 	public List<MerchantsApply> getMerchantsApplys(){
 		return merchantsApplys;
+	}
+	public void setPickupMerchantss(List<PickupMerchants> pickupMerchantss){
+		this.pickupMerchantss = pickupMerchantss;
+	}
+	public List<PickupMerchants> getPickupMerchantss(){
+		return pickupMerchantss;
+	}
+	public void setSearchRecords(List<SearchRecord> searchRecords){
+		this.searchRecords = searchRecords;
+	}
+	public List<SearchRecord> getSearchRecords(){
+		return searchRecords;
 	}
 	public void setShopcars(List<Shopcar> shopcars){
 		this.shopcars = shopcars;
@@ -197,6 +253,12 @@ public class User implements Serializable {
 	}
 	public List<Star> getStars(){
 		return stars;
+	}
+	public void setUserLogs(List<UserLog> userLogs){
+		this.userLogs = userLogs;
+	}
+	public List<UserLog> getUserLogs(){
+		return userLogs;
 	}
 	@Override
 	public String toString() {
@@ -212,11 +274,18 @@ public class User implements Serializable {
 			", sex = " + sex + 
 			", idCard = " + idCard + 
 			", merid = " + merid + 
-			", isdelete = " + isdelete + 
+			", lastLoginTime = " + lastLoginTime + 
+			", isDelete = " + isDelete + 
 			", commentss = " + commentss + 
+			", informations = " + informations + 
+			", lookHistorys = " + lookHistorys + 
+			", merLogs = " + merLogs + 
 			", merchantsApplys = " + merchantsApplys + 
+			", pickupMerchantss = " + pickupMerchantss + 
+			", searchRecords = " + searchRecords + 
 			", shopcars = " + shopcars + 
 			", stars = " + stars + 
+			", userLogs = " + userLogs + 
 			"]";
 	}
 }

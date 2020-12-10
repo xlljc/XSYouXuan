@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xsyx.dao.MerLogDao">
+
+
+
+
+    <!-- resultMap映射 -->
+    <resultMap id="MerLogMap" type="MerLog">
+        <id column="id" property="id"/>
+        <result column="content" property="content"/>
+        <result column="link" property="link"/>
+        <result column="time" property="time"/>
+        <association property="emp" column="{fk=emp}"
+           select="com.xsyx.dao.UserDao.a_User_By_emp" javaType="User" fetchType="lazy"/>
+    </resultMap>
+
+    <!-- 查询所有方法 -->
+    <select id="queryAll" resultMap="MerLogMap">
+       select link,emp,id,time,content from mer_log;
+    </select>
+
+    <!-- 根据主键id查询数据方法 -->
+    <select id="queryById" parameterType="int" resultMap="MerLogMap">
+       select link,emp,id,time,content from mer_log where id = #{id};
+    </select>
+
+    <!-- 根据MerLog条件查询数据方法 -->
+    <select id="query" resultMap="MerLogMap">
+        select link,emp,id,time,content 
+        from mer_log 
+        <where>
+            <if test="id != null"> and id = #{id}</if>
+            <if test="emp != null">
+                 <if test="emp.id != null"> and emp = #{emp.id}</if>
+            </if>
+            <if test="content != null"> and content = #{content}</if>
+            <if test="link != null"> and link = #{link}</if>
+            <if test="time != null"> and time = #{time}</if> 
+        </where>
+    </select>
+
+    <!-- 根据MerLog插入数据方法 -->
+    <insert id="insert" parameterType="MerLog" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into mer_log (id,emp,content,link,time) values 
+        (
+            #{id},
+            #{emp.id},
+            #{content},
+            #{link},
+            <if test="time != null">#{time}</if><if test="time == null">default</if>
+        ); 
+    </insert>
+
+    <!-- 根据MerLog插入多条数据方法 -->
+    <insert id="inserts" parameterType="List" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into mer_log (id,emp,content,link,time) values 
+        <foreach collection="merlogs" item="item" separator=",">
+            (
+                #{item.id},
+                #{item.emp.id},
+                #{item.content},
+                #{item.link},
+                <if test="item.time != null">#{item.time}</if><if test="item.time == null">default</if>
+            ) 
+        </foreach>
+    </insert>
+
+    <!-- 根据MerLog条件修改单条数据方法,从传入对象获取主键id -->
+    <update id="updateById" parameterType="MerLog">
+        update mer_log 
+        <set>
+            <if test="emp != null">
+                <if test="emp.id != null">emp = #{emp.id},</if>
+            </if>
+            <if test="content != null">content = #{content},</if>
+            <if test="link != null">link = #{link},</if>
+            <if test="time != null">time = #{time},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

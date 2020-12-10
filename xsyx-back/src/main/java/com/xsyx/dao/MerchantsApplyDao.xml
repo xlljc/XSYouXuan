@@ -16,23 +16,24 @@
         <result column="user_message" property="userMessage"/>
         <result column="state" property="state"/>
         <result column="system_message" property="systemMessage"/>
+        <result column="is_read" property="isRead"/>
         <association property="userId" column="{fk=user_id}"
            select="com.xsyx.dao.UserDao.a_User_By_user_id" javaType="User" fetchType="lazy"/>
     </resultMap>
 
     <!-- 查询所有方法 -->
     <select id="queryAll" resultMap="MerchantsApplyMap">
-       select system_message,address,user_id,name,user_message,apply_time,id,state from merchants_apply;
+       select is_read,system_message,address,user_id,name,user_message,apply_time,id,state from merchants_apply;
     </select>
 
     <!-- 根据主键id查询数据方法 -->
     <select id="queryById" parameterType="int" resultMap="MerchantsApplyMap">
-       select system_message,address,user_id,name,user_message,apply_time,id,state from merchants_apply where id = #{id};
+       select is_read,system_message,address,user_id,name,user_message,apply_time,id,state from merchants_apply where id = #{id};
     </select>
 
     <!-- 根据MerchantsApply条件查询数据方法 -->
     <select id="query" resultMap="MerchantsApplyMap">
-        select system_message,address,user_id,name,user_message,apply_time,id,state 
+        select is_read,system_message,address,user_id,name,user_message,apply_time,id,state 
         from merchants_apply 
         <where>
             <if test="id != null"> and id = #{id}</if>
@@ -44,13 +45,14 @@
             <if test="applyTime != null"> and apply_time = #{applyTime}</if>
             <if test="userMessage != null"> and user_message = #{userMessage}</if>
             <if test="state != null"> and state = #{state}</if>
-            <if test="systemMessage != null"> and system_message = #{systemMessage}</if> 
+            <if test="systemMessage != null"> and system_message = #{systemMessage}</if>
+            <if test="isRead != null"> and is_read = #{isRead}</if> 
         </where>
     </select>
 
     <!-- 根据MerchantsApply插入数据方法 -->
     <insert id="insert" parameterType="MerchantsApply" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        insert into merchants_apply (id,user_id,name,address,apply_time,user_message,state,system_message) values 
+        insert into merchants_apply (id,user_id,name,address,apply_time,user_message,state,system_message,is_read) values 
         (
             #{id},
             #{userId.id},
@@ -58,14 +60,15 @@
             #{address},
             <if test="applyTime != null">#{applyTime}</if><if test="applyTime == null">default</if>,
             #{userMessage},
-            #{state},
-            #{systemMessage}
+            <if test="state != null">#{state}</if><if test="state == null">default</if>,
+            #{systemMessage},
+            <if test="isRead != null">#{isRead}</if><if test="isRead == null">default</if>
         ); 
     </insert>
 
     <!-- 根据MerchantsApply插入多条数据方法 -->
     <insert id="inserts" parameterType="List" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        insert into merchants_apply (id,user_id,name,address,apply_time,user_message,state,system_message) values 
+        insert into merchants_apply (id,user_id,name,address,apply_time,user_message,state,system_message,is_read) values 
         <foreach collection="merchantsapplys" item="item" separator=",">
             (
                 #{item.id},
@@ -74,8 +77,9 @@
                 #{item.address},
                 <if test="item.applyTime != null">#{item.applyTime}</if><if test="item.applyTime == null">default</if>,
                 #{item.userMessage},
-                #{item.state},
-                #{item.systemMessage}
+                <if test="item.state != null">#{item.state}</if><if test="item.state == null">default</if>,
+                #{item.systemMessage},
+                <if test="item.isRead != null">#{item.isRead}</if><if test="item.isRead == null">default</if>
             ) 
         </foreach>
     </insert>
@@ -93,6 +97,7 @@
             <if test="userMessage != null">user_message = #{userMessage},</if>
             <if test="state != null">state = #{state},</if>
             <if test="systemMessage != null">system_message = #{systemMessage},</if>
+            <if test="isRead != null">is_read = #{isRead},</if>
         </set>
         where id = #{id}
     </update>

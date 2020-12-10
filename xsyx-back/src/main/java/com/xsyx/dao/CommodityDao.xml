@@ -56,7 +56,7 @@
 
     <!-- 根据Commodity插入数据方法 -->
     <insert id="insert" parameterType="Commodity" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        insert into commodity (id,name,particulars,price,unit,specification,manufacturer,com_type,putaway_date,newest_putaway_date,state) values
+        insert into commodity (id,name,particulars,price,unit,specification,manufacturer,com_type,putaway_date,newest_putaway_date,state) values 
         (
             #{id},
             #{name},
@@ -74,7 +74,7 @@
 
     <!-- 根据Commodity插入多条数据方法 -->
     <insert id="inserts" parameterType="List" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        insert into commodity (id,name,particulars,price,unit,specification,manufacturer,com_type,putaway_date,newest_putaway_date,state) values
+        insert into commodity (id,name,particulars,price,unit,specification,manufacturer,com_type,putaway_date,newest_putaway_date,state) values 
         <foreach collection="commoditys" item="item" separator=",">
             (
                 #{item.id},

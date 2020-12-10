@@ -21,22 +21,25 @@ public class Information implements Serializable {
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
 	private Timestamp sendtime;
 	/**发件人id*/
-	private Integer uid;
+	private User uid;
 	/**收件人id*/
 	private Integer userid;
 	/**消息接收状态*/
 	private Integer infstate;
+	/**是否已读, 1已读, 0未读*/
+	private Integer isRead;
 
 	public Information() {
 		super();
 	}
-	public Information(Integer id,String content,Timestamp sendtime,Integer uid,Integer userid,Integer infstate) {
+	public Information(Integer id,String content,Timestamp sendtime,User uid,Integer userid,Integer infstate,Integer isRead) {
 		this.id = id;
 		this.content = content;
 		this.sendtime = sendtime;
 		this.uid = uid;
 		this.userid = userid;
 		this.infstate = infstate;
+		this.isRead = isRead;
 	}
 	/**设置"id"*/
 	public void setId(Integer id){
@@ -62,12 +65,10 @@ public class Information implements Serializable {
 	public Timestamp getSendtime(){
 		return sendtime;
 	}
-	/**设置"发件人id"*/
-	public void setUid(Integer uid){
+	public void setUid(User uid){
 		this.uid = uid;
 	}
-	/**获取"发件人id"*/
-	public Integer getUid(){
+	public User getUid(){
 		return uid;
 	}
 	/**设置"收件人id"*/
@@ -86,6 +87,14 @@ public class Information implements Serializable {
 	public Integer getInfstate(){
 		return infstate;
 	}
+	/**设置"是否已读, 1已读, 0未读"*/
+	public void setIsRead(Integer isRead){
+		this.isRead = isRead;
+	}
+	/**获取"是否已读, 1已读, 0未读"*/
+	public Integer getIsRead(){
+		return isRead;
+	}
 	@Override
 	public String toString() {
 		return "information[" + 
@@ -95,6 +104,7 @@ public class Information implements Serializable {
 			", uid = " + uid + 
 			", userid = " + userid + 
 			", infstate = " + infstate + 
+			", isRead = " + isRead + 
 			"]";
 	}
 }

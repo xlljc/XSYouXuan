@@ -102,6 +102,12 @@
         where id = #{id}
     </update>
 
+    <!-- 关联查询,调用者:"com.xsyx.dao.PickupMerchantsDao" -->
+    <select id="a_Merchants_By_merchant" resultMap="MerchantsMap">
+       select address,phone,open_time_from,latitude,name,remark,id,state,open_time_to,longitude from merchants where id = #{fk};
+    </select>
+
+
     <!-- 关联查询,调用者:"com.xsyx.dao.UserDao" -->
     <select id="a_Merchants_By_merid" resultMap="MerchantsMap">
        select address,phone,open_time_from,latitude,name,remark,id,state,open_time_to,longitude from merchants where id = #{fk};

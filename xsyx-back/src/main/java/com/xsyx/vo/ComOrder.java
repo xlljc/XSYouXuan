@@ -17,7 +17,7 @@ public class ComOrder implements Serializable {
 	private Integer ordstate;
 	/**订单编号*/
 	private String orderNumber;
-	/**删除状态*/
+	/**删除状态, 0已删除, 1未删除*/
 	private Integer isdelete;
 	/**购物车id*/
 	private Shopcar sid;
@@ -56,11 +56,11 @@ public class ComOrder implements Serializable {
 	public String getOrderNumber(){
 		return orderNumber;
 	}
-	/**设置"删除状态"*/
+	/**设置"删除状态, 0已删除, 1未删除"*/
 	public void setIsdelete(Integer isdelete){
 		this.isdelete = isdelete;
 	}
-	/**获取"删除状态"*/
+	/**获取"删除状态, 0已删除, 1未删除"*/
 	public Integer getIsdelete(){
 		return isdelete;
 	}

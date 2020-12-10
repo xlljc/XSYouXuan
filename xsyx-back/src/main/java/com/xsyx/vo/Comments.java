@@ -24,7 +24,7 @@ public class Comments implements Serializable {
 	private Commodity cid;
 	/**用户id*/
 	private User uid;
-	/**评论删除状态*/
+	/**评论删除状态, 0未删除, 1已删除*/
 	private Integer isdelete;
 
 	public Comments() {
@@ -74,11 +74,11 @@ public class Comments implements Serializable {
 	public User getUid(){
 		return uid;
 	}
-	/**设置"评论删除状态"*/
+	/**设置"评论删除状态, 0未删除, 1已删除"*/
 	public void setIsdelete(Integer isdelete){
 		this.isdelete = isdelete;
 	}
-	/**获取"评论删除状态"*/
+	/**获取"评论删除状态, 0未删除, 1已删除"*/
 	public Integer getIsdelete(){
 		return isdelete;
 	}

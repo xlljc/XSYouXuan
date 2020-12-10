@@ -20,7 +20,7 @@ public class Pickup implements Serializable {
 	/**收货时间*/
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
 	private Timestamp ptime;
-	/**收货状态*/
+	/**收货状态, 0未收货, 1收货*/
 	private String pstate;
 	/**用户id*/
 	private Integer uid;
@@ -59,11 +59,11 @@ public class Pickup implements Serializable {
 	public Timestamp getPtime(){
 		return ptime;
 	}
-	/**设置"收货状态"*/
+	/**设置"收货状态, 0未收货, 1收货"*/
 	public void setPstate(String pstate){
 		this.pstate = pstate;
 	}
-	/**获取"收货状态"*/
+	/**获取"收货状态, 0未收货, 1收货"*/
 	public String getPstate(){
 		return pstate;
 	}
