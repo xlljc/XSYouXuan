@@ -22,15 +22,15 @@ public class Pickup implements Serializable {
 	/**收货时间*/
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
 	private Timestamp ptime;
-	/**收货状态, 0未收货, 1收货*/
-	private String pstate;
+	/**收货状态, 0未发货, 1送货中, 2未领取, 3已领取*/
+	private Integer pstate;
 	/**用户id*/
 	private Integer uid;
 
 	public Pickup() {
 		super();
 	}
-	public Pickup(Integer id, String address, String phone, Timestamp ptime, String pstate, Integer uid) {
+	public Pickup(Integer id,String address,String phone,Timestamp ptime,Integer pstate,Integer uid) {
 		this.id = id;
 		this.address = address;
 		this.phone = phone;
@@ -70,12 +70,12 @@ public class Pickup implements Serializable {
 	public Timestamp getPtime(){
 		return ptime;
 	}
-	/**设置"收货状态, 0未收货, 1收货"*/
-	public void setPstate(String pstate){
+	/**设置"收货状态, 0未发货, 1送货中, 2未领取, 3已领取"*/
+	public void setPstate(Integer pstate){
 		this.pstate = pstate;
 	}
-	/**获取"收货状态, 0未收货, 1收货"*/
-	public String getPstate(){
+	/**获取"收货状态, 0未发货, 1送货中, 2未领取, 3已领取"*/
+	public Integer getPstate(){
 		return pstate;
 	}
 	/**设置"用户id"*/

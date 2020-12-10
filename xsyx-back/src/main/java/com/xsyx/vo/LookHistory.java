@@ -1,10 +1,10 @@
 package com.xsyx.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import java.sql.Timestamp;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * 表名 :  look_history<br/>
@@ -26,7 +26,7 @@ public class LookHistory implements Serializable {
 	public LookHistory() {
 		super();
 	}
-	public LookHistory(Integer id,User user,Commodity cid,Timestamp time) {
+	public LookHistory(Integer id, User user, Commodity cid, Timestamp time) {
 		this.id = id;
 		this.user = user;
 		this.cid = cid;

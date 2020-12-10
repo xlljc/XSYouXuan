@@ -1,10 +1,10 @@
 package com.xsyx.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import java.sql.Timestamp;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * 表名 :  pickup_merchants<br/>
@@ -28,7 +28,7 @@ public class PickupMerchants implements Serializable {
 	public PickupMerchants() {
 		super();
 	}
-	public PickupMerchants(Integer id,User user,Merchants merchant,String remark,Timestamp createTime) {
+	public PickupMerchants(Integer id, User user, Merchants merchant, String remark, Timestamp createTime) {
 		this.id = id;
 		this.user = user;
 		this.merchant = merchant;

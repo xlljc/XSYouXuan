@@ -1,10 +1,10 @@
 package com.xsyx.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import java.sql.Timestamp;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * 表名 :  information<br/>
@@ -32,7 +32,7 @@ public class Information implements Serializable {
 	public Information() {
 		super();
 	}
-	public Information(Integer id,String content,Timestamp sendtime,User uid,Integer userid,Integer infstate,Integer isRead) {
+	public Information(Integer id, String content, Timestamp sendtime, User uid, Integer userid, Integer infstate, Integer isRead) {
 		this.id = id;
 		this.content = content;
 		this.sendtime = sendtime;

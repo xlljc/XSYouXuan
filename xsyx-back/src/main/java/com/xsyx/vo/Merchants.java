@@ -1,11 +1,10 @@
 package com.xsyx.vo;
 
-import java.sql.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.io.Serializable;
 
+import java.io.Serializable;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -35,7 +34,7 @@ public class Merchants implements Serializable {
 	private Date openTimeTo;
 	/**商户备注*/
 	private String remark;
-	/**商户状态, 0 被冻结, 0正常 , -1删除*/
+	/**商户状态, 0 被冻结, 1正常 , -1删除*/
 	private Integer state;
 	private List<PickupMerchants> pickupMerchantss;
 	private List<User> users;
@@ -55,7 +54,7 @@ public class Merchants implements Serializable {
 		this.remark = remark;
 		this.state = state;
 	}
-	public Merchants(Integer id,String name,String address,String phone,Float longitude,Float latitude,Date openTimeFrom,Date openTimeTo,String remark,Integer state,List<PickupMerchants> pickupMerchantss,List<User> users) {
+	public Merchants(Integer id, String name, String address, String phone, Float longitude, Float latitude, Date openTimeFrom, Date openTimeTo, String remark, Integer state, List<PickupMerchants> pickupMerchantss, List<User> users) {
 		this.id = id;
 		this.name = name;
 		this.address = address;
@@ -141,11 +140,11 @@ public class Merchants implements Serializable {
 	public String getRemark(){
 		return remark;
 	}
-	/**设置"商户状态, 0 被冻结, 0正常 , -1删除"*/
+	/**设置"商户状态, 0 被冻结, 1正常 , -1删除"*/
 	public void setState(Integer state){
 		this.state = state;
 	}
-	/**获取"商户状态, 0 被冻结, 0正常 , -1删除"*/
+	/**获取"商户状态, 0 被冻结, 1正常 , -1删除"*/
 	public Integer getState(){
 		return state;
 	}

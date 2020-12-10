@@ -1,10 +1,10 @@
 package com.xsyx.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import java.sql.Timestamp;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * 表名 :  comments<br/>
@@ -30,7 +30,7 @@ public class Comments implements Serializable {
 	public Comments() {
 		super();
 	}
-	public Comments(Integer id,String content,Timestamp comtime,Commodity cid,User uid,Integer isdelete) {
+	public Comments(Integer id, String content, Timestamp comtime, Commodity cid, User uid, Integer isdelete) {
 		this.id = id;
 		this.content = content;
 		this.comtime = comtime;

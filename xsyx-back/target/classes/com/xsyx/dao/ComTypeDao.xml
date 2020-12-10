@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xsyx.dao.ComTypeDao">
+
+
+
+
+    <!-- resultMap映射 -->
+    <resultMap id="ComTypeMap" type="ComType">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+    </resultMap>
+
+    <!-- 查询所有方法 -->
+    <select id="queryAll" resultMap="ComTypeMap">
+       select name,id from com_type;
+    </select>
+
+    <!-- 根据主键id查询数据方法 -->
+    <select id="queryById" parameterType="int" resultMap="ComTypeMap">
+       select name,id from com_type where id = #{id};
+    </select>
+
+    <!-- 根据ComType条件查询数据方法 -->
+    <select id="query" resultMap="ComTypeMap">
+        select name,id 
+        from com_type 
+        <where>
+            <if test="id != null"> and id = #{id}</if>
+            <if test="name != null"> and name = #{name}</if> 
+        </where>
+    </select>
+
+    <!-- 根据ComType插入数据方法 -->
+    <insert id="insert" parameterType="ComType" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into com_type (id,name) values 
+        (
+            #{id},
+            #{name}
+        ); 
+    </insert>
+
+    <!-- 根据ComType插入多条数据方法 -->
+    <insert id="inserts" parameterType="List" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into com_type (id,name) values 
+        <foreach collection="comtypes" item="item" separator=",">
+            (
+                #{item.id},
+                #{item.name}
+            ) 
+        </foreach>
+    </insert>
+
+    <!-- 根据ComType条件修改单条数据方法,从传入对象获取主键id -->
+    <update id="updateById" parameterType="ComType">
+        update com_type 
+        <set>
+            <if test="name != null">name = #{name},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 关联查询,调用者:"com.xsyx.dao.CommodityDao" -->
+    <select id="a_ComType_By_com_type" resultMap="ComTypeMap">
+       select name,id from com_type where id = #{fk};
+    </select>
+
+
+</mapper>

@@ -1,11 +1,10 @@
 package com.xsyx.vo;
 
-import java.sql.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.io.Serializable;
 
+import java.io.Serializable;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -37,7 +36,7 @@ public class Commodity implements Serializable {
 	/**最新上架时间*/
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
 	private Date newestPutawayDate;
-	/**商品状态, 0已经下架, 1已上架, -1已删除*/
+	/**商品状态, 0未上架, 1已上架, -1已删除*/
 	private Integer state;
 	private List<Collect> collects;
 	private List<Comments> commentss;
@@ -49,7 +48,7 @@ public class Commodity implements Serializable {
 	public Commodity() {
 		super();
 	}
-	public Commodity(Integer id,String name,String particulars,Float price,String unit,String specification,String manufacturer,ComType comType,Date putawayDate,Date newestPutawayDate,Integer state) {
+	public Commodity(Integer id, String name, String particulars, Float price, String unit, String specification, String manufacturer, ComType comType, Date putawayDate, Date newestPutawayDate, Integer state) {
 		this.id = id;
 		this.name = name;
 		this.particulars = particulars;
@@ -62,7 +61,7 @@ public class Commodity implements Serializable {
 		this.newestPutawayDate = newestPutawayDate;
 		this.state = state;
 	}
-	public Commodity(Integer id,String name,String particulars,Float price,String unit,String specification,String manufacturer,ComType comType,Date putawayDate,Date newestPutawayDate,Integer state,List<Collect> collects,List<Comments> commentss,List<LookHistory> lookHistorys,List<Purchase> purchases,List<Shopcar> shopcars,List<Star> stars) {
+	public Commodity(Integer id, String name, String particulars, Float price, String unit, String specification, String manufacturer, ComType comType, Date putawayDate, Date newestPutawayDate, Integer state, List<Collect> collects, List<Comments> commentss, List<LookHistory> lookHistorys, List<Purchase> purchases, List<Shopcar> shopcars, List<Star> stars) {
 		this.id = id;
 		this.name = name;
 		this.particulars = particulars;
@@ -159,11 +158,11 @@ public class Commodity implements Serializable {
 	public Date getNewestPutawayDate(){
 		return newestPutawayDate;
 	}
-	/**设置"商品状态, 0已经下架, 1已上架, -1已删除"*/
+	/**设置"商品状态, 0未上架, 1已上架, -1已删除"*/
 	public void setState(Integer state){
 		this.state = state;
 	}
-	/**获取"商品状态, 0已经下架, 1已上架, -1已删除"*/
+	/**获取"商品状态, 0未上架, 1已上架, -1已删除"*/
 	public Integer getState(){
 		return state;
 	}

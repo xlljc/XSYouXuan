@@ -1,10 +1,10 @@
 package com.xsyx.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import java.sql.Timestamp;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * 表名 :  merchants_apply<br/>
@@ -36,7 +36,7 @@ public class MerchantsApply implements Serializable {
 	public MerchantsApply() {
 		super();
 	}
-	public MerchantsApply(Integer id,User userId,String name,String address,Timestamp applyTime,String userMessage,Integer state,String systemMessage,Integer isRead) {
+	public MerchantsApply(Integer id, User userId, String name, String address, Timestamp applyTime, String userMessage, Integer state, String systemMessage, Integer isRead) {
 		this.id = id;
 		this.userId = userId;
 		this.name = name;

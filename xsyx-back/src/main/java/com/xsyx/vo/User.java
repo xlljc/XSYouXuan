@@ -1,12 +1,11 @@
 package com.xsyx.vo;
 
-import java.sql.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import java.sql.Timestamp;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.io.Serializable;
 
+import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -58,7 +57,7 @@ public class User implements Serializable {
 	public User() {
 		super();
 	}
-	public User(Integer id,String username,String password,String headPortrait,String phone,String signature,Date birthday,String uname,String sex,String idCard,Merchants merid,Timestamp lastLoginTime,Integer isDelete) {
+	public User(Integer id, String username, String password, String headPortrait, String phone, String signature, Date birthday, String uname, String sex, String idCard, Merchants merid, Timestamp lastLoginTime, Integer isDelete) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
@@ -73,7 +72,7 @@ public class User implements Serializable {
 		this.lastLoginTime = lastLoginTime;
 		this.isDelete = isDelete;
 	}
-	public User(Integer id,String username,String password,String headPortrait,String phone,String signature,Date birthday,String uname,String sex,String idCard,Merchants merid,Timestamp lastLoginTime,Integer isDelete,List<Comments> commentss,List<Information> informations,List<LookHistory> lookHistorys,List<MerLog> merLogs,List<MerchantsApply> merchantsApplys,List<PickupMerchants> pickupMerchantss,List<SearchRecord> searchRecords,List<Shopcar> shopcars,List<Star> stars,List<UserLog> userLogs) {
+	public User(Integer id, String username, String password, String headPortrait, String phone, String signature, Date birthday, String uname, String sex, String idCard, Merchants merid, Timestamp lastLoginTime, Integer isDelete, List<Comments> commentss, List<Information> informations, List<LookHistory> lookHistorys, List<MerLog> merLogs, List<MerchantsApply> merchantsApplys, List<PickupMerchants> pickupMerchantss, List<SearchRecord> searchRecords, List<Shopcar> shopcars, List<Star> stars, List<UserLog> userLogs) {
 		this.id = id;
 		this.username = username;
 		this.password = password;

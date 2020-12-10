@@ -1,10 +1,10 @@
 package com.xsyx.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import java.sql.Timestamp;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * 表名 :  search_record<br/>
@@ -26,7 +26,7 @@ public class SearchRecord implements Serializable {
 	public SearchRecord() {
 		super();
 	}
-	public SearchRecord(Integer id,User user,String content,Timestamp time) {
+	public SearchRecord(Integer id, User user, String content, Timestamp time) {
 		this.id = id;
 		this.user = user;
 		this.content = content;

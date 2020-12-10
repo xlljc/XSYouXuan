@@ -2,8 +2,8 @@ package com.xsyx.vo;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.io.Serializable;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xsyx.dao.PurchaseDao">
+
+
+
+
+    <!-- resultMap映射 -->
+    <resultMap id="PurchaseMap" type="Purchase">
+        <id column="id" property="id"/>
+        <result column="commodityname" property="commodityname"/>
+        <result column="price" property="price"/>
+        <result column="commoditysum" property="commoditysum"/>
+        <association property="orderid" column="{fk=orderid}"
+           select="com.xsyx.dao.PurchaseorderDao.a_Purchaseorder_By_orderid" javaType="Purchaseorder" fetchType="lazy"/>
+        <association property="commodityid" column="{fk=commodityid}"
+           select="com.xsyx.dao.CommodityDao.a_Commodity_By_commodityid" javaType="Commodity" fetchType="lazy"/>
+    </resultMap>
+
+    <!-- 查询所有方法 -->
+    <select id="queryAll" resultMap="PurchaseMap">
+       select commoditysum,orderid,price,id,commodityid,commodityname from purchase;
+    </select>
+
+    <!-- 根据主键id查询数据方法 -->
+    <select id="queryById" parameterType="int" resultMap="PurchaseMap">
+       select commoditysum,orderid,price,id,commodityid,commodityname from purchase where id = #{id};
+    </select>
+
+    <!-- 根据Purchase条件查询数据方法 -->
+    <select id="query" resultMap="PurchaseMap">
+        select commoditysum,orderid,price,id,commodityid,commodityname 
+        from purchase 
+        <where>
+            <if test="id != null"> and id = #{id}</if>
+            <if test="orderid != null">
+                 <if test="orderid.orderid != null"> and orderid = #{orderid.orderid}</if>
+            </if>
+            <if test="commodityid != null">
+                 <if test="commodityid.id != null"> and commodityid = #{commodityid.id}</if>
+            </if>
+            <if test="commodityname != null"> and commodityname = #{commodityname}</if>
+            <if test="price != null"> and price = #{price}</if>
+            <if test="commoditysum != null"> and commoditysum = #{commoditysum}</if> 
+        </where>
+    </select>
+
+    <!-- 根据Purchase插入数据方法 -->
+    <insert id="insert" parameterType="Purchase" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into purchase (id,orderid,commodityid,commodityname,price,commoditysum) values 
+        (
+            #{id},
+            #{orderid.orderid},
+            #{commodityid.id},
+            #{commodityname},
+            #{price},
+            #{commoditysum}
+        ); 
+    </insert>
+
+    <!-- 根据Purchase插入多条数据方法 -->
+    <insert id="inserts" parameterType="List" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into purchase (id,orderid,commodityid,commodityname,price,commoditysum) values 
+        <foreach collection="purchases" item="item" separator=",">
+            (
+                #{item.id},
+                #{item.orderid.orderid},
+                #{item.commodityid.id},
+                #{item.commodityname},
+                #{item.price},
+                #{item.commoditysum}
+            ) 
+        </foreach>
+    </insert>
+
+    <!-- 根据Purchase条件修改单条数据方法,从传入对象获取主键id -->
+    <update id="updateById" parameterType="Purchase">
+        update purchase 
+        <set>
+            <if test="orderid != null">
+                <if test="orderid.orderid != null">orderid = #{orderid.orderid},</if>
+            </if>
+            <if test="commodityid != null">
+                <if test="commodityid.id != null">commodityid = #{commodityid.id},</if>
+            </if>
+            <if test="commodityname != null">commodityname = #{commodityname},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="commoditysum != null">commoditysum = #{commoditysum},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

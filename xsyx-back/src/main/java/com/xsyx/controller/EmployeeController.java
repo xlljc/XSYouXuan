@@ -1,6 +1,6 @@
 package com.xsyx.controller;
 
-
+import com.xsyx.utils.MyUtils;
 import com.xsyx.vo.Employee;
 import com.xsyx.vo.system.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,6 @@ public class EmployeeController {
      */
     @RequestMapping("/insert")
     public Message insert(Employee employee, HttpSession session) {
-
         return employeeService.insert(employee, session);
     }
 
@@ -44,6 +43,18 @@ public class EmployeeController {
      */
     @RequestMapping("/get/{id}")
     public Employee get(@PathVariable Integer id) {
+        return employeeService.get(id);
+    }
+
+    /**
+     * 返回当前用户信息
+     *
+     * @return 员工信息
+     */
+    @RequestMapping("/get")
+    public Employee get(HttpSession session) {
+        Integer id = MyUtils.getEmpId(session);
+        if (id == null) return null;
         return employeeService.get(id);
     }
 
@@ -104,7 +115,6 @@ public class EmployeeController {
      */
     @RequestMapping("/login")
     public Message login(String name, String password, HttpSession session) {
-
         return employeeService.login(name, password, session);
     }
 }

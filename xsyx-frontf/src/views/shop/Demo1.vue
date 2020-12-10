@@ -5,6 +5,7 @@
         <div style="width: 500px;height: 300px;background-color: #8A8D94">
             <router-view></router-view>
         </div>
+        <div v-html="html"></div>
     </div>
 </template>
 
@@ -13,9 +14,9 @@
 
     @Component
     export default class Demo1 extends Vue {
-
+        html = "<a href='#'>链接</a>";
         created() {
-
+            
         }
 
         mounted() {

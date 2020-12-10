@@ -1,11 +1,10 @@
 package com.xsyx.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import java.sql.Timestamp;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.io.Serializable;
 
+import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -60,7 +59,7 @@ public class Employee implements Serializable {
 		this.lastLoginTime = lastLoginTime;
 		this.state = state;
 	}
-	public Employee(Integer id,String name,String password,String image,String sex,String phone,String icCard,String address,String email,String remark,Timestamp lastLoginTime,Integer state,List<EmpLog> empLogs,List<Purchaseorder> purchaseorders) {
+	public Employee(Integer id, String name, String password, String image, String sex, String phone, String icCard, String address, String email, String remark, Timestamp lastLoginTime, Integer state, List<EmpLog> empLogs, List<Purchaseorder> purchaseorders) {
 		this.id = id;
 		this.name = name;
 		this.password = password;

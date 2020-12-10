@@ -1,5 +1,7 @@
 package com.xsyx.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.xsyx.dao.EmpLogDao;
 import com.xsyx.dao.EmployeeDao;
 import com.xsyx.service.EmployeeService;
 import com.xsyx.utils.MyUtils;
@@ -9,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -17,16 +21,20 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     EmployeeDao employeeDao;
 
+    @Autowired
+    EmpLogDao empLogDao;
+
     @Override
     public Message insert(Employee employee, HttpSession session) {
+        Integer myId = MyUtils.getEmpId(session);
         //是否登录
-        if (MyUtils.getEmpId(session) == null) return new Message(false, "请先登录 !");
+        if (myId == null) return new Message(false, "请先登录 !");
         //先判断该用户名是否存在
-        Employee employee1 = new Employee();
-        employee1.setName(employee.getName());
-        if (employeeDao.query(employee1).size() > 0) return new Message(false, "该员工名已存在!");
+        if (existName(employee.getName())) return new Message(false, "该员工名已存在!");
         //添加
         employeeDao.insert(employee);
+        //写入日志
+        empLogDao.addLog(myId,"添加了一个员工, 新员工id: " + employee.getId(), JSON.toJSONString(employee));
         return new Message(true, employee);
     }
 
@@ -42,29 +50,81 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Message update(Employee employee, HttpSession session) {
+        Integer myId = MyUtils.getEmpId(session);
         //是否登录
-        if (MyUtils.getEmpId(session) == null) return new Message(false, "请先登录 !");
+        if (myId == null) return new Message(false, "请先登录 !");
         //先判断该用户名是否存在
-        Employee employee1 = new Employee();
-        employee1.setName(employee.getName());
-        if (employeeDao.query(employee1).size() > 0) return new Message(false, "该员工名已存在!");
+        if (existName(employee.getName())) return new Message(false, "该员工名已存在!");
         employeeDao.updateById(employee);
+        //写入日志
+        empLogDao.addLog(myId,"修改一个员工的信息, 被修改员工id: " + employee.getId(),JSON.toJSONString(employee));
         return new Message(true,"修改成功!");
     }
 
     @Override
     public Message freeze(Integer id, HttpSession session) {
-
-        return null;
+        Integer myId = MyUtils.getEmpId(session);
+        //是否登录
+        if (myId == null) return new Message(false, "请先登录 !");
+        Employee employee = new Employee();
+        employee.setId(id);
+        employee.setState(0);
+        if (employeeDao.updateById(employee) > 0) {
+            //写入日志
+            empLogDao.addLog(myId,"冻结一个员工, 被冻结员工id: " + id,JSON.toJSONString(employee));
+            return new Message(true,"修改成功!");
+        }
+        return new Message(false,"修改失败!");
     }
 
     @Override
     public Message delete(Integer id, HttpSession session) {
-        return null;
+        Integer myId = MyUtils.getEmpId(session);
+        //是否登录
+        if (myId == null) return new Message(false, "请先登录 !");
+        Employee employee = new Employee();
+        employee.setId(id);
+        employee.setState(-1);
+        if (employeeDao.updateById(employee) > 0) {
+            //写入日志
+            empLogDao.addLog(myId,"删除一个员工, 被删除员工id: " + id,JSON.toJSONString(employee));
+            return new Message(true,"删除成功!");
+        }
+        return new Message(false,"删除失败!");
     }
 
     @Override
     public Message login(String name, String password, HttpSession session) {
-        return null;
+        if (name == null || password == null) return new Message(false,"登录失败! 用户名或密码错误!");
+        Employee employee = new Employee();
+        employee.setName(name);
+        employee.setPassword(password);
+        //登录查询
+        List<Employee> emps = employeeDao.query(employee);
+        if (emps.size() > 0){
+            Employee employee1 = emps.get(0);
+            //修改最后登录日期
+            Employee employee2 = new Employee();
+            employee2.setId(employee1.getId());
+            employee2.setLastLoginTime(new Timestamp(new Date().getTime()));
+            employeeDao.updateById(employee2);
+            //设置session
+            MyUtils.setEmpId(employee1.getId(),session);
+            //写入日志
+            empLogDao.addLog(employee1.getId(),"登录系统",null);
+            return new Message(true,"登录成功! ");
+        }
+        return new Message(false,"登录失败! 用户名或密码错误!");
+    }
+
+    /**
+     * 判断该用户名是否存在
+     * @param name 用户名
+     * @return bool
+     */
+    private boolean existName(String name) {
+        Employee employee = new Employee();
+        employee.setName(name == null ? "" : name);
+        return employeeDao.query(employee).size() > 0;
     }
 }
