@@ -11,6 +11,7 @@
     <resultMap id="PickupMap" type="Pickup">
         <id column="id" property="id"/>
         <result column="address" property="address"/>
+        <result column="phone" property="phone"/>
         <result column="ptime" property="ptime"/>
         <result column="pstate" property="pstate"/>
         <result column="uid" property="uid"/>
@@ -18,21 +19,22 @@
 
     <!-- 查询所有方法 -->
     <select id="queryAll" resultMap="PickupMap">
-       select uid,address,pstate,id,ptime from pickup;
+       select uid,address,phone,pstate,id,ptime from pickup;
     </select>
 
     <!-- 根据主键id查询数据方法 -->
     <select id="queryById" parameterType="int" resultMap="PickupMap">
-       select uid,address,pstate,id,ptime from pickup where id = #{id};
+       select uid,address,phone,pstate,id,ptime from pickup where id = #{id};
     </select>
 
     <!-- 根据Pickup条件查询数据方法 -->
     <select id="query" resultMap="PickupMap">
-        select uid,address,pstate,id,ptime 
+        select uid,address,phone,pstate,id,ptime 
         from pickup 
         <where>
             <if test="id != null"> and id = #{id}</if>
             <if test="address != null"> and address = #{address}</if>
+            <if test="phone != null"> and phone = #{phone}</if>
             <if test="ptime != null"> and ptime = #{ptime}</if>
             <if test="pstate != null"> and pstate = #{pstate}</if>
             <if test="uid != null"> and uid = #{uid}</if> 
@@ -41,10 +43,11 @@
 
     <!-- 根据Pickup插入数据方法 -->
     <insert id="insert" parameterType="Pickup" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        insert into pickup (id,address,ptime,pstate,uid) values 
+        insert into pickup (id,address,phone,ptime,pstate,uid) values 
         (
             #{id},
             #{address},
+            #{phone},
             <if test="ptime != null">#{ptime}</if><if test="ptime == null">default</if>,
             #{pstate},
             #{uid}
@@ -53,11 +56,12 @@
 
     <!-- 根据Pickup插入多条数据方法 -->
     <insert id="inserts" parameterType="List" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        insert into pickup (id,address,ptime,pstate,uid) values 
+        insert into pickup (id,address,phone,ptime,pstate,uid) values 
         <foreach collection="pickups" item="item" separator=",">
             (
                 #{item.id},
                 #{item.address},
+                #{item.phone},
                 <if test="item.ptime != null">#{item.ptime}</if><if test="item.ptime == null">default</if>,
                 #{item.pstate},
                 #{item.uid}
@@ -70,6 +74,7 @@
         update pickup 
         <set>
             <if test="address != null">address = #{address},</if>
+            <if test="phone != null">phone = #{phone},</if>
             <if test="ptime != null">ptime = #{ptime},</if>
             <if test="pstate != null">pstate = #{pstate},</if>
             <if test="uid != null">uid = #{uid},</if>

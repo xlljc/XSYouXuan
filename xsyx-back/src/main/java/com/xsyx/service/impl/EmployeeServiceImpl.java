@@ -20,22 +20,19 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Message insert(Employee employee, HttpSession session) {
         //是否登录
-        if (MyUtils.getEmpId(session) == null) {
-            return new Message(false,"请先登录 !");
-        }
+        if (MyUtils.getEmpId(session) == null) return new Message(false, "请先登录 !");
         //先判断该用户名是否存在
         Employee employee1 = new Employee();
         employee1.setName(employee.getName());
-        if (employeeDao.query(employee1).size() > 0) {
-            return new Message(false,"该员工名已存在!");
-        }
-        //
-        return null;
+        if (employeeDao.query(employee1).size() > 0) return new Message(false, "该员工名已存在!");
+        //添加
+        employeeDao.insert(employee);
+        return new Message(true, employee);
     }
 
     @Override
     public Employee get(Integer id) {
-        return null;
+        return employeeDao.queryById(id);
     }
 
     @Override
@@ -45,11 +42,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Message update(Employee employee, HttpSession session) {
-        return null;
+        //是否登录
+        if (MyUtils.getEmpId(session) == null) return new Message(false, "请先登录 !");
+        //先判断该用户名是否存在
+        Employee employee1 = new Employee();
+        employee1.setName(employee.getName());
+        if (employeeDao.query(employee1).size() > 0) return new Message(false, "该员工名已存在!");
+        employeeDao.updateById(employee);
+        return new Message(true,"修改成功!");
     }
 
     @Override
     public Message freeze(Integer id, HttpSession session) {
+
         return null;
     }
 
