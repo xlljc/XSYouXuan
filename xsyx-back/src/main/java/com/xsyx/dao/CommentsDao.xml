@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xsyx.dao.CommentsDao">
+
+
+
+
+    <!-- resultMap映射 -->
+    <resultMap id="CommentsMap" type="Comments">
+        <id column="id" property="id"/>
+        <result column="content" property="content"/>
+        <result column="comtime" property="comtime"/>
+        <result column="isdelete" property="isdelete"/>
+        <association property="cid" column="{fk=cid}"
+           select="com.xsyx.dao.CommodityDao.a_Commodity_By_cid" javaType="Commodity" fetchType="lazy"/>
+        <association property="uid" column="{fk=uid}"
+           select="com.xsyx.dao.UserDao.a_User_By_uid" javaType="User" fetchType="lazy"/>
+    </resultMap>
+
+    <!-- 查询所有方法 -->
+    <select id="queryAll" resultMap="CommentsMap">
+       select uid,comtime,id,isdelete,content,cid from comments;
+    </select>
+
+    <!-- 根据主键id查询数据方法 -->
+    <select id="queryById" parameterType="int" resultMap="CommentsMap">
+       select uid,comtime,id,isdelete,content,cid from comments where id = #{id};
+    </select>
+
+    <!-- 根据Comments条件查询数据方法 -->
+    <select id="query" resultMap="CommentsMap">
+        select uid,comtime,id,isdelete,content,cid 
+        from comments 
+        <where>
+            <if test="id != null"> and id = #{id}</if>
+            <if test="content != null"> and content = #{content}</if>
+            <if test="comtime != null"> and comtime = #{comtime}</if>
+            <if test="cid != null">
+                 <if test="cid.id != null"> and cid = #{cid.id}</if>
+            </if>
+            <if test="uid != null">
+                 <if test="uid.id != null"> and uid = #{uid.id}</if>
+            </if>
+            <if test="isdelete != null"> and isdelete = #{isdelete}</if> 
+        </where>
+    </select>
+
+    <!-- 根据Comments插入数据方法 -->
+    <insert id="insert" parameterType="Comments" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into comments (id,content,comtime,cid,uid,isdelete) values 
+        (
+            #{id},
+            #{content},
+            <if test="comtime != null">#{comtime}</if><if test="comtime == null">default</if>,
+            #{cid.id},
+            #{uid.id},
+            #{isdelete}
+        ); 
+    </insert>
+
+    <!-- 根据Comments插入多条数据方法 -->
+    <insert id="inserts" parameterType="List" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into comments (id,content,comtime,cid,uid,isdelete) values 
+        <foreach collection="commentss" item="item" separator=",">
+            (
+                #{item.id},
+                #{item.content},
+                <if test="item.comtime != null">#{item.comtime}</if><if test="item.comtime == null">default</if>,
+                #{item.cid.id},
+                #{item.uid.id},
+                #{item.isdelete}
+            ) 
+        </foreach>
+    </insert>
+
+    <!-- 根据Comments条件修改单条数据方法,从传入对象获取主键id -->
+    <update id="updateById" parameterType="Comments">
+        update comments 
+        <set>
+            <if test="content != null">content = #{content},</if>
+            <if test="comtime != null">comtime = #{comtime},</if>
+            <if test="cid != null">
+                <if test="cid.id != null">cid = #{cid.id},</if>
+            </if>
+            <if test="uid != null">
+                <if test="uid.id != null">uid = #{uid.id},</if>
+            </if>
+            <if test="isdelete != null">isdelete = #{isdelete},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

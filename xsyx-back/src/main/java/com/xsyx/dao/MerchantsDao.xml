@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xsyx.dao.MerchantsDao">
+
+
+
+
+    <!-- resultMap映射 -->
+    <resultMap id="MerchantsMap" type="Merchants">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="address" property="address"/>
+        <result column="phone" property="phone"/>
+        <result column="longitude" property="longitude"/>
+        <result column="latitude" property="latitude"/>
+        <result column="open_time_from" property="openTimeFrom"/>
+        <result column="open_time_to" property="openTimeTo"/>
+        <result column="remark" property="remark"/>
+        <result column="state" property="state"/>
+    </resultMap>
+
+    <!-- 查询所有方法 -->
+    <select id="queryAll" resultMap="MerchantsMap">
+       select address,phone,open_time_from,latitude,name,remark,id,state,open_time_to,longitude from merchants;
+    </select>
+
+    <!-- 根据主键id查询数据方法 -->
+    <select id="queryById" parameterType="int" resultMap="MerchantsMap">
+       select address,phone,open_time_from,latitude,name,remark,id,state,open_time_to,longitude from merchants where id = #{id};
+    </select>
+
+    <!-- 根据Merchants条件查询数据方法 -->
+    <select id="query" resultMap="MerchantsMap">
+        select address,phone,open_time_from,latitude,name,remark,id,state,open_time_to,longitude 
+        from merchants 
+        <where>
+            <if test="id != null"> and id = #{id}</if>
+            <if test="name != null"> and name = #{name}</if>
+            <if test="address != null"> and address = #{address}</if>
+            <if test="phone != null"> and phone = #{phone}</if>
+            <if test="longitude != null"> and longitude = #{longitude}</if>
+            <if test="latitude != null"> and latitude = #{latitude}</if>
+            <if test="openTimeFrom != null"> and open_time_from = #{openTimeFrom}</if>
+            <if test="openTimeTo != null"> and open_time_to = #{openTimeTo}</if>
+            <if test="remark != null"> and remark = #{remark}</if>
+            <if test="state != null"> and state = #{state}</if> 
+        </where>
+    </select>
+
+    <!-- 根据Merchants插入数据方法 -->
+    <insert id="insert" parameterType="Merchants" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into merchants (id,name,address,phone,longitude,latitude,open_time_from,open_time_to,remark,state) values 
+        (
+            #{id},
+            #{name},
+            #{address},
+            #{phone},
+            #{longitude},
+            #{latitude},
+            #{openTimeFrom},
+            #{openTimeTo},
+            #{remark},
+            #{state}
+        ); 
+    </insert>
+
+    <!-- 根据Merchants插入多条数据方法 -->
+    <insert id="inserts" parameterType="List" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into merchants (id,name,address,phone,longitude,latitude,open_time_from,open_time_to,remark,state) values 
+        <foreach collection="merchantss" item="item" separator=",">
+            (
+                #{item.id},
+                #{item.name},
+                #{item.address},
+                #{item.phone},
+                #{item.longitude},
+                #{item.latitude},
+                #{item.openTimeFrom},
+                #{item.openTimeTo},
+                #{item.remark},
+                #{item.state}
+            ) 
+        </foreach>
+    </insert>
+
+    <!-- 根据Merchants条件修改单条数据方法,从传入对象获取主键id -->
+    <update id="updateById" parameterType="Merchants">
+        update merchants 
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="longitude != null">longitude = #{longitude},</if>
+            <if test="latitude != null">latitude = #{latitude},</if>
+            <if test="openTimeFrom != null">open_time_from = #{openTimeFrom},</if>
+            <if test="openTimeTo != null">open_time_to = #{openTimeTo},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="state != null">state = #{state},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 关联查询,调用者:"com.xsyx.dao.UserDao" -->
+    <select id="a_Merchants_By_merid" resultMap="MerchantsMap">
+       select address,phone,open_time_from,latitude,name,remark,id,state,open_time_to,longitude from merchants where id = #{fk};
+    </select>
+
+
+</mapper>
