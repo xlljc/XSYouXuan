@@ -1,11 +1,7 @@
 package com.xsyx.utils;
 
-import com.alibaba.fastjson.JSON;
-
 import javax.servlet.http.HttpSession;
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MyUtils {
 
