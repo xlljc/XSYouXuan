@@ -1,10 +1,10 @@
 package com.xsyx.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import java.sql.Timestamp;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * 表名 :  collect<br/>
@@ -24,7 +24,7 @@ public class Collect implements Serializable {
 	public Collect() {
 		super();
 	}
-	public Collect(Integer id,Timestamp coltime,Commodity cid) {
+	public Collect(Integer id, Timestamp coltime, Commodity cid) {
 		this.id = id;
 		this.coltime = coltime;
 		this.cid = cid;

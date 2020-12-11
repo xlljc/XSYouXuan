@@ -1,13 +1,14 @@
 package com.xsyx.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import java.sql.Timestamp;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * 表名 :  merchants_apply<br/>
+ * 表注释 : 商户申请表
  */ 
 @JsonIgnoreProperties(value = "handler")
 public class MerchantsApply implements Serializable {
@@ -25,15 +26,17 @@ public class MerchantsApply implements Serializable {
 	private Timestamp applyTime;
 	/**用户消息*/
 	private String userMessage;
-	/**审核状态*/
+	/**审核状态 , 0未审核*/
 	private Integer state;
 	/**系统消息*/
 	private String systemMessage;
+	/**是否已读*/
+	private Integer isRead;
 
 	public MerchantsApply() {
 		super();
 	}
-	public MerchantsApply(Integer id,User userId,String name,String address,Timestamp applyTime,String userMessage,Integer state,String systemMessage) {
+	public MerchantsApply(Integer id, User userId, String name, String address, Timestamp applyTime, String userMessage, Integer state, String systemMessage, Integer isRead) {
 		this.id = id;
 		this.userId = userId;
 		this.name = name;
@@ -42,6 +45,7 @@ public class MerchantsApply implements Serializable {
 		this.userMessage = userMessage;
 		this.state = state;
 		this.systemMessage = systemMessage;
+		this.isRead = isRead;
 	}
 	/**设置"id"*/
 	public void setId(Integer id){
@@ -89,11 +93,11 @@ public class MerchantsApply implements Serializable {
 	public String getUserMessage(){
 		return userMessage;
 	}
-	/**设置"审核状态"*/
+	/**设置"审核状态 , 0未审核"*/
 	public void setState(Integer state){
 		this.state = state;
 	}
-	/**获取"审核状态"*/
+	/**获取"审核状态 , 0未审核"*/
 	public Integer getState(){
 		return state;
 	}
@@ -104,6 +108,14 @@ public class MerchantsApply implements Serializable {
 	/**获取"系统消息"*/
 	public String getSystemMessage(){
 		return systemMessage;
+	}
+	/**设置"是否已读"*/
+	public void setIsRead(Integer isRead){
+		this.isRead = isRead;
+	}
+	/**获取"是否已读"*/
+	public Integer getIsRead(){
+		return isRead;
 	}
 	@Override
 	public String toString() {
@@ -116,6 +128,7 @@ public class MerchantsApply implements Serializable {
 			", userMessage = " + userMessage + 
 			", state = " + state + 
 			", systemMessage = " + systemMessage + 
+			", isRead = " + isRead + 
 			"]";
 	}
 }

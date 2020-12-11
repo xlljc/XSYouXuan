@@ -1,11 +1,10 @@
 package com.xsyx.vo;
 
-import java.sql.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.io.Serializable;
 
+import java.io.Serializable;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -37,10 +36,11 @@ public class Commodity implements Serializable {
 	/**最新上架时间*/
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
 	private Date newestPutawayDate;
-	/**商品状态, 0已经下架, 1已上架, -1已删除*/
+	/**商品状态, 0未上架, 1已上架, -1已删除*/
 	private Integer state;
 	private List<Collect> collects;
 	private List<Comments> commentss;
+	private List<LookHistory> lookHistorys;
 	private List<Purchase> purchases;
 	private List<Shopcar> shopcars;
 	private List<Star> stars;
@@ -48,7 +48,7 @@ public class Commodity implements Serializable {
 	public Commodity() {
 		super();
 	}
-	public Commodity(Integer id,String name,String particulars,Float price,String unit,String specification,String manufacturer,ComType comType,Date putawayDate,Date newestPutawayDate,Integer state) {
+	public Commodity(Integer id, String name, String particulars, Float price, String unit, String specification, String manufacturer, ComType comType, Date putawayDate, Date newestPutawayDate, Integer state) {
 		this.id = id;
 		this.name = name;
 		this.particulars = particulars;
@@ -61,7 +61,7 @@ public class Commodity implements Serializable {
 		this.newestPutawayDate = newestPutawayDate;
 		this.state = state;
 	}
-	public Commodity(Integer id,String name,String particulars,Float price,String unit,String specification,String manufacturer,ComType comType,Date putawayDate,Date newestPutawayDate,Integer state,List<Collect> collects,List<Comments> commentss,List<Purchase> purchases,List<Shopcar> shopcars,List<Star> stars) {
+	public Commodity(Integer id, String name, String particulars, Float price, String unit, String specification, String manufacturer, ComType comType, Date putawayDate, Date newestPutawayDate, Integer state, List<Collect> collects, List<Comments> commentss, List<LookHistory> lookHistorys, List<Purchase> purchases, List<Shopcar> shopcars, List<Star> stars) {
 		this.id = id;
 		this.name = name;
 		this.particulars = particulars;
@@ -75,6 +75,7 @@ public class Commodity implements Serializable {
 		this.state = state;
 		this.collects = collects;
 		this.commentss = commentss;
+		this.lookHistorys = lookHistorys;
 		this.purchases = purchases;
 		this.shopcars = shopcars;
 		this.stars = stars;
@@ -96,8 +97,8 @@ public class Commodity implements Serializable {
 		return name;
 	}
 	/**设置"商品描述"*/
-	public void setParticulars(String describe){
-		this.particulars = describe;
+	public void setParticulars(String particulars){
+		this.particulars = particulars;
 	}
 	/**获取"商品描述"*/
 	public String getParticulars(){
@@ -157,11 +158,11 @@ public class Commodity implements Serializable {
 	public Date getNewestPutawayDate(){
 		return newestPutawayDate;
 	}
-	/**设置"商品状态, 0已经下架, 1已上架, -1已删除"*/
+	/**设置"商品状态, 0未上架, 1已上架, -1已删除"*/
 	public void setState(Integer state){
 		this.state = state;
 	}
-	/**获取"商品状态, 0已经下架, 1已上架, -1已删除"*/
+	/**获取"商品状态, 0未上架, 1已上架, -1已删除"*/
 	public Integer getState(){
 		return state;
 	}
@@ -176,6 +177,12 @@ public class Commodity implements Serializable {
 	}
 	public List<Comments> getCommentss(){
 		return commentss;
+	}
+	public void setLookHistorys(List<LookHistory> lookHistorys){
+		this.lookHistorys = lookHistorys;
+	}
+	public List<LookHistory> getLookHistorys(){
+		return lookHistorys;
 	}
 	public void setPurchases(List<Purchase> purchases){
 		this.purchases = purchases;
@@ -200,7 +207,7 @@ public class Commodity implements Serializable {
 		return "commodity[" + 
 			"id = " + id + 
 			", name = " + name + 
-			", particulars = " + particulars +
+			", particulars = " + particulars + 
 			", price = " + price + 
 			", unit = " + unit + 
 			", specification = " + specification + 
@@ -211,6 +218,7 @@ public class Commodity implements Serializable {
 			", state = " + state + 
 			", collects = " + collects + 
 			", commentss = " + commentss + 
+			", lookHistorys = " + lookHistorys + 
 			", purchases = " + purchases + 
 			", shopcars = " + shopcars + 
 			", stars = " + stars + 

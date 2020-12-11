@@ -1,10 +1,10 @@
 package com.xsyx.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import java.sql.Timestamp;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * 表名 :  comments<br/>
@@ -24,13 +24,13 @@ public class Comments implements Serializable {
 	private Commodity cid;
 	/**用户id*/
 	private User uid;
-	/**评论删除状态*/
+	/**评论删除状态, 0未删除, 1已删除*/
 	private Integer isdelete;
 
 	public Comments() {
 		super();
 	}
-	public Comments(Integer id,String content,Timestamp comtime,Commodity cid,User uid,Integer isdelete) {
+	public Comments(Integer id, String content, Timestamp comtime, Commodity cid, User uid, Integer isdelete) {
 		this.id = id;
 		this.content = content;
 		this.comtime = comtime;
@@ -74,11 +74,11 @@ public class Comments implements Serializable {
 	public User getUid(){
 		return uid;
 	}
-	/**设置"评论删除状态"*/
+	/**设置"评论删除状态, 0未删除, 1已删除"*/
 	public void setIsdelete(Integer isdelete){
 		this.isdelete = isdelete;
 	}
-	/**获取"评论删除状态"*/
+	/**获取"评论删除状态, 0未删除, 1已删除"*/
 	public Integer getIsdelete(){
 		return isdelete;
 	}

@@ -6,6 +6,7 @@ import FontRouter from "@/router/front/frontRouter";
 import BackRouter from "@/router/back/backRouter";
 import ShopRouter from "@/router/shop/shopRouter";
 import TestYzm from "@/components/shop/TestYzm.vue";
+import Demo1 from "@/views/shop/Demo1.vue";
 
 Vue.use(VueRouter)
 
@@ -30,7 +31,7 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/shop',
-    component: TestYzm,
+    component: Demo1,
     children: ShopRouter
   },
   /**

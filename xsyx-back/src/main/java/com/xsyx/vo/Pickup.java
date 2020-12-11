@@ -1,10 +1,10 @@
 package com.xsyx.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import java.sql.Timestamp;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * 表名 :  pickup<br/>
@@ -17,20 +17,23 @@ public class Pickup implements Serializable {
 	private Integer id;
 	/**收货地址*/
 	private String address;
+	/**收货电话*/
+	private String phone;
 	/**收货时间*/
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
 	private Timestamp ptime;
-	/**收货状态*/
-	private String pstate;
+	/**收货状态, 0未发货, 1送货中, 2未领取, 3已领取*/
+	private Integer pstate;
 	/**用户id*/
 	private Integer uid;
 
 	public Pickup() {
 		super();
 	}
-	public Pickup(Integer id,String address,Timestamp ptime,String pstate,Integer uid) {
+	public Pickup(Integer id,String address,String phone,Timestamp ptime,Integer pstate,Integer uid) {
 		this.id = id;
 		this.address = address;
+		this.phone = phone;
 		this.ptime = ptime;
 		this.pstate = pstate;
 		this.uid = uid;
@@ -51,6 +54,14 @@ public class Pickup implements Serializable {
 	public String getAddress(){
 		return address;
 	}
+	/**设置"收货电话"*/
+	public void setPhone(String phone){
+		this.phone = phone;
+	}
+	/**获取"收货电话"*/
+	public String getPhone(){
+		return phone;
+	}
 	/**设置"收货时间"*/
 	public void setPtime(Timestamp ptime){
 		this.ptime = ptime;
@@ -59,12 +70,12 @@ public class Pickup implements Serializable {
 	public Timestamp getPtime(){
 		return ptime;
 	}
-	/**设置"收货状态"*/
-	public void setPstate(String pstate){
+	/**设置"收货状态, 0未发货, 1送货中, 2未领取, 3已领取"*/
+	public void setPstate(Integer pstate){
 		this.pstate = pstate;
 	}
-	/**获取"收货状态"*/
-	public String getPstate(){
+	/**获取"收货状态, 0未发货, 1送货中, 2未领取, 3已领取"*/
+	public Integer getPstate(){
 		return pstate;
 	}
 	/**设置"用户id"*/
@@ -80,6 +91,7 @@ public class Pickup implements Serializable {
 		return "pickup[" + 
 			"id = " + id + 
 			", address = " + address + 
+			", phone = " + phone + 
 			", ptime = " + ptime + 
 			", pstate = " + pstate + 
 			", uid = " + uid + 

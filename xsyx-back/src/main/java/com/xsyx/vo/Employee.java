@@ -1,9 +1,10 @@
 package com.xsyx.vo;
 
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.io.Serializable;
 
+import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -33,14 +34,18 @@ public class Employee implements Serializable {
 	private String email;
 	/**备注*/
 	private String remark;
-	/**员工状态*/
+	/**最后一次登录日期*/
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+	private Timestamp lastLoginTime;
+	/**员工状态, 0冻结, 1正常, -1删除*/
 	private Integer state;
+	private List<EmpLog> empLogs;
 	private List<Purchaseorder> purchaseorders;
 
 	public Employee() {
 		super();
 	}
-	public Employee(Integer id,String name,String password,String image,String sex,String phone,String icCard,String address,String email,String remark,Integer state) {
+	public Employee(Integer id,String name,String password,String image,String sex,String phone,String icCard,String address,String email,String remark,Timestamp lastLoginTime,Integer state) {
 		this.id = id;
 		this.name = name;
 		this.password = password;
@@ -51,9 +56,10 @@ public class Employee implements Serializable {
 		this.address = address;
 		this.email = email;
 		this.remark = remark;
+		this.lastLoginTime = lastLoginTime;
 		this.state = state;
 	}
-	public Employee(Integer id,String name,String password,String image,String sex,String phone,String icCard,String address,String email,String remark,Integer state,List<Purchaseorder> purchaseorders) {
+	public Employee(Integer id, String name, String password, String image, String sex, String phone, String icCard, String address, String email, String remark, Timestamp lastLoginTime, Integer state, List<EmpLog> empLogs, List<Purchaseorder> purchaseorders) {
 		this.id = id;
 		this.name = name;
 		this.password = password;
@@ -64,7 +70,9 @@ public class Employee implements Serializable {
 		this.address = address;
 		this.email = email;
 		this.remark = remark;
+		this.lastLoginTime = lastLoginTime;
 		this.state = state;
+		this.empLogs = empLogs;
 		this.purchaseorders = purchaseorders;
 	}
 	/**设置"id"*/
@@ -147,13 +155,27 @@ public class Employee implements Serializable {
 	public String getRemark(){
 		return remark;
 	}
-	/**设置"员工状态"*/
+	/**设置"最后一次登录日期"*/
+	public void setLastLoginTime(Timestamp lastLoginTime){
+		this.lastLoginTime = lastLoginTime;
+	}
+	/**获取"最后一次登录日期"*/
+	public Timestamp getLastLoginTime(){
+		return lastLoginTime;
+	}
+	/**设置"员工状态, 0冻结, 1正常, -1删除"*/
 	public void setState(Integer state){
 		this.state = state;
 	}
-	/**获取"员工状态"*/
+	/**获取"员工状态, 0冻结, 1正常, -1删除"*/
 	public Integer getState(){
 		return state;
+	}
+	public void setEmpLogs(List<EmpLog> empLogs){
+		this.empLogs = empLogs;
+	}
+	public List<EmpLog> getEmpLogs(){
+		return empLogs;
 	}
 	public void setPurchaseorders(List<Purchaseorder> purchaseorders){
 		this.purchaseorders = purchaseorders;
@@ -174,7 +196,9 @@ public class Employee implements Serializable {
 			", address = " + address + 
 			", email = " + email + 
 			", remark = " + remark + 
+			", lastLoginTime = " + lastLoginTime + 
 			", state = " + state + 
+			", empLogs = " + empLogs + 
 			", purchaseorders = " + purchaseorders + 
 			"]";
 	}

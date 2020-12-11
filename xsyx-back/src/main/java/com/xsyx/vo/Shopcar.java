@@ -1,11 +1,10 @@
 package com.xsyx.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import java.sql.Timestamp;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.io.Serializable;
 
+import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -33,7 +32,7 @@ public class Shopcar implements Serializable {
 	public Shopcar() {
 		super();
 	}
-	public Shopcar(Integer id,Integer number,Timestamp jointime,Float totalprice,Commodity cid,User uid) {
+	public Shopcar(Integer id, Integer number, Timestamp jointime, Float totalprice, Commodity cid, User uid) {
 		this.id = id;
 		this.number = number;
 		this.jointime = jointime;
@@ -41,7 +40,7 @@ public class Shopcar implements Serializable {
 		this.cid = cid;
 		this.uid = uid;
 	}
-	public Shopcar(Integer id,Integer number,Timestamp jointime,Float totalprice,Commodity cid,User uid,List<ComOrder> comOrders) {
+	public Shopcar(Integer id, Integer number, Timestamp jointime, Float totalprice, Commodity cid, User uid, List<ComOrder> comOrders) {
 		this.id = id;
 		this.number = number;
 		this.jointime = jointime;

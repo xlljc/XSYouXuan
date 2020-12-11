@@ -1,11 +1,10 @@
 package com.xsyx.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import java.sql.Timestamp;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.io.Serializable;
 
+import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -23,8 +22,8 @@ public class Purchaseorder implements Serializable {
 	private String applicantremarks;
 	/**审批人*/
 	private Employee approvedby;
-	/**状态*/
-	private String state;
+	/**状态, 0未审核，1通过，-1拒绝*/
+	private Integer state;
 	/**审核人备注*/
 	private String approvedbyremarks;
 	/**操作时间*/
@@ -35,7 +34,7 @@ public class Purchaseorder implements Serializable {
 	public Purchaseorder() {
 		super();
 	}
-	public Purchaseorder(Integer orderid,Employee applicant,String applicantremarks,Employee approvedby,String state,String approvedbyremarks,Timestamp operationtime) {
+	public Purchaseorder(Integer orderid, Employee applicant, String applicantremarks, Employee approvedby, Integer state, String approvedbyremarks, Timestamp operationtime) {
 		this.orderid = orderid;
 		this.applicant = applicant;
 		this.applicantremarks = applicantremarks;
@@ -44,7 +43,7 @@ public class Purchaseorder implements Serializable {
 		this.approvedbyremarks = approvedbyremarks;
 		this.operationtime = operationtime;
 	}
-	public Purchaseorder(Integer orderid,Employee applicant,String applicantremarks,Employee approvedby,String state,String approvedbyremarks,Timestamp operationtime,List<Purchase> purchases) {
+	public Purchaseorder(Integer orderid, Employee applicant, String applicantremarks, Employee approvedby, Integer state, String approvedbyremarks, Timestamp operationtime, List<Purchase> purchases) {
 		this.orderid = orderid;
 		this.applicant = applicant;
 		this.applicantremarks = applicantremarks;
@@ -82,12 +81,12 @@ public class Purchaseorder implements Serializable {
 	public Employee getApprovedby(){
 		return approvedby;
 	}
-	/**设置"状态"*/
-	public void setState(String state){
+	/**设置"状态, 0未审核，1通过，-1拒绝"*/
+	public void setState(Integer state){
 		this.state = state;
 	}
-	/**获取"状态"*/
-	public String getState(){
+	/**获取"状态, 0未审核，1通过，-1拒绝"*/
+	public Integer getState(){
 		return state;
 	}
 	/**设置"审核人备注"*/
