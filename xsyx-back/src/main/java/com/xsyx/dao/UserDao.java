@@ -41,4 +41,11 @@ public interface UserDao {
    * 根据User条件修改单条数据方法,从传入对象获取id 
    */
   int updateById(User user);
+
+  /**
+   * 登录
+   * @param nameOrPhone 用户名或手机号
+   * @param password 密码
+   */
+  User login(@Param("nameOrPhone") String nameOrPhone,@Param("password") String password);
 }
