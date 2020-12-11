@@ -5,11 +5,11 @@
                 <el-menu :default-active="'1'"
                      mode="horizontal">
                 <el-menu-item>
-                    <el-image style="width: 60px; height: 60px" :src="require('@/mcimg/logos.png')"></el-image>
+                    <el-image style="width: 60px; height: 60px" :src="require('@/assets/mcimg/logos.png')"></el-image>
                 </el-menu-item>
                 <el-menu-item><i class="el-icon-house"/>首页</el-menu-item>
                 <el-menu-item class="right">
-                    <el-image style="width: 55px; height: 50px" :src="require('@/mcimg/hua.png')"></el-image>
+                    <el-image style="width: 55px; height: 50px" :src="require('@/assets/mcimg/hua.png')"></el-image>
                 </el-menu-item>
                 <el-menu-item class="right" index="8">关于我们</el-menu-item>
                 <el-menu-item class="right" index="7">联系客服</el-menu-item>
@@ -26,7 +26,7 @@
             <el-main>
 
                 <el-col :span="24">
-                    <el-image style="width: 1855px; height: 800px" :src="require('@/mcimg/zc.png')"></el-image>
+                    <el-image style="width: 1855px; height: 800px" :src="require('@/assets/mcimg/zc.png')"></el-image>
                 </el-col>
 
 
@@ -45,14 +45,14 @@
                         <br>
                         <br>
                         <div class="login-center clearfix">
-                            <div class="login-center-img"><el-image style="width: 27px; height: 27px" :src="require('@/mcimg/dh.png')"></el-image></div>
+                            <div class="login-center-img"><el-image style="width: 27px; height: 27px" :src="require('@/assets/mcimg/dh.png')"></el-image></div>
                             <div class="login-center-input">
                                 <input type="phone" placeholder="请输入您的电话号码" onfocus="this.placeholder=''" onblur="this.placeholder='请输入您的手机号码'"/>
                                 <div class="login-center-input-text">电话号码</div>
                             </div>
                         </div>
                         <div class="login-center clearfix">
-                            <div class="login-center-img"><el-image style="width: 27px; height: 27px" :src="require('@/mcimg/yzm2.png')"></el-image></div>
+                            <div class="login-center-img"><el-image style="width: 27px; height: 27px" :src="require('@/assets/mcimg/yzm2.png')"></el-image></div>
                             <div class="login-center-input">
                                 <input type="yzm" placeholder="请输入验证码" onfocus="this.placeholder=''" onblur="this.placeholder='请输入验证码'" style="width: 140px"/>
                                 <el-button type="primary" size="small" plain class="fs">点击发送</el-button>
@@ -62,9 +62,10 @@
 
 
                         <br>
-                        <div class="login-button"  @click="next">
-                            确认注册
-                        </div>
+<!--                        <div class="login-button"  @click="next">-->
+<!--                            确认注册-->
+<!--                        </div>-->
+                        <router-link class="login-button" @click="next" to="/Registerds">注册</router-link>
 
 
                     </div>
