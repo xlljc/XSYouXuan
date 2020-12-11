@@ -2,7 +2,6 @@
     <div>
 
         <el-menu style="background: #F3F3F3" mode="horizontal">
-
             <el-menu-item>
                 <el-avatar :src="logo"></el-avatar>
             </el-menu-item>
@@ -24,11 +23,6 @@
                         trigger="click">
                     <div style="margin-left: 10px">
                         <p style="text-align: center;font-weight: bold">Hi,xxx</p>
-                        <!--<ul class="tips-content">
-                            <li><i class="el-icon-user">个人资料</i></li>
-                            <li><i class="el-icon-lock">锁屏</i></li>
-                            <li><i class="el-icon-delete">退出</i></li>
-                        </ul>-->
 
                         <el-menu-item><i style="font-size: 15px" class="el-icon-user">个人资料</i></el-menu-item>
                         <el-menu-item><i style="font-size: 15px" class="el-icon-lock">锁屏</i></el-menu-item>
@@ -54,7 +48,16 @@
             </el-menu-item>
 
         </el-menu>
+        <div>
+            <el-breadcrumb separator="/">
+                <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+                <el-breadcrumb-item><a href="/">活动管理</a></el-breadcrumb-item>
+                <el-breadcrumb-item>活动列表</el-breadcrumb-item>
+                <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+            </el-breadcrumb>
+        </div>
     </div>
+
 </template>
 
 <script lang="ts">
