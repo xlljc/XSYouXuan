@@ -1,10 +1,10 @@
 package com.xsyx.vo;
 
-import java.sql.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
+import java.sql.Date;
 
 /**
  * 表名 :  com_discount<br/>

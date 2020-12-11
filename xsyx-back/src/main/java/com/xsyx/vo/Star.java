@@ -2,6 +2,7 @@ package com.xsyx.vo;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 
 /**
@@ -23,7 +24,7 @@ public class Star implements Serializable {
 	public Star() {
 		super();
 	}
-	public Star(Integer id,User uid,Commodity cid,Float count) {
+	public Star(Integer id, User uid, Commodity cid, Float count) {
 		this.id = id;
 		this.uid = uid;
 		this.cid = cid;

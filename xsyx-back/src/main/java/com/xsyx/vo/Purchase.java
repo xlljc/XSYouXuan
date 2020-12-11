@@ -2,6 +2,7 @@ package com.xsyx.vo;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 
 /**
@@ -27,7 +28,7 @@ public class Purchase implements Serializable {
 	public Purchase() {
 		super();
 	}
-	public Purchase(Integer id,Purchaseorder orderid,Commodity commodityid,String commodityname,Float price,Integer commoditysum) {
+	public Purchase(Integer id, Purchaseorder orderid, Commodity commodityid, String commodityname, Float price, Integer commoditysum) {
 		this.id = id;
 		this.orderid = orderid;
 		this.commodityid = commodityid;

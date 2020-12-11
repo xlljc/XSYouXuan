@@ -2,6 +2,7 @@ package com.xsyx.vo;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 
 /**
@@ -25,13 +26,13 @@ public class Warehouse implements Serializable {
 	private Float longitude;
 	/**纬度*/
 	private Float latitude;
-	/**仓库状态*/
-	private String warstate;
+	/**仓库状态, 0冻结, 1正常*/
+	private Integer warstate;
 
 	public Warehouse() {
 		super();
 	}
-	public Warehouse(Integer warid,String warname,String wartype,Integer warcapacity,String waraddress,Float longitude,Float latitude,String warstate) {
+	public Warehouse(Integer warid,String warname,String wartype,Integer warcapacity,String waraddress,Float longitude,Float latitude,Integer warstate) {
 		this.warid = warid;
 		this.warname = warname;
 		this.wartype = wartype;
@@ -97,12 +98,12 @@ public class Warehouse implements Serializable {
 	public Float getLatitude(){
 		return latitude;
 	}
-	/**设置"仓库状态"*/
-	public void setWarstate(String warstate){
+	/**设置"仓库状态, 0冻结, 1正常"*/
+	public void setWarstate(Integer warstate){
 		this.warstate = warstate;
 	}
-	/**获取"仓库状态"*/
-	public String getWarstate(){
+	/**获取"仓库状态, 0冻结, 1正常"*/
+	public Integer getWarstate(){
 		return warstate;
 	}
 	@Override

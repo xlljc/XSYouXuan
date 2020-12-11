@@ -2,8 +2,8 @@ package com.xsyx.vo;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.io.Serializable;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -30,7 +30,7 @@ public class Menu implements Serializable {
 	public Menu() {
 		super();
 	}
-	public Menu(Integer id,String name,String url,Integer layer,String type,Menu parent) {
+	public Menu(Integer id, String name, String url, Integer layer, String type, Menu parent) {
 		this.id = id;
 		this.name = name;
 		this.url = url;
@@ -38,7 +38,7 @@ public class Menu implements Serializable {
 		this.type = type;
 		this.parent = parent;
 	}
-	public Menu(Integer id,String name,String url,Integer layer,String type,Menu parent,List<Menu> menus) {
+	public Menu(Integer id, String name, String url, Integer layer, String type, Menu parent, List<Menu> menus) {
 		this.id = id;
 		this.name = name;
 		this.url = url;
