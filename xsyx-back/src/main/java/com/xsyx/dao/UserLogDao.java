@@ -41,4 +41,14 @@ public interface UserLogDao {
    * 根据UserLog条件修改单条数据方法,从传入对象获取id 
    */
   int updateById(UserLog userlog);
+
+
+  /**
+   * 添加一篇用户操作日志
+   * @param userId 用户id
+   * @param content 内容
+   * @param data 附加数据, 没有就填null
+   */
+  int addLog(@Param("userId") Integer userId,@Param("content") String content,@Param("data") String data);
+
 }
