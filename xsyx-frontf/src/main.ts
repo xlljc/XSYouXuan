@@ -12,7 +12,7 @@ import Axios from "axios";
 Vue.config.productionTip = false
 Vue.use(ElementUi);
 
-//Axios.defaults.baseURL = '';
+Axios.defaults.baseURL = 'http://localhost:8080/';
 
 new Vue({
   router,
