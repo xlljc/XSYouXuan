@@ -70,7 +70,7 @@
     import {Vue, Component} from "vue-property-decorator";
 
     type menu = {
-        index: number;
+        index: number | string;
         name: string;
         icon?: string;
         children?: menu[];

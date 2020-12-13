@@ -1,6 +1,8 @@
 package com.xsyx.dao;
 
 import com.xsyx.vo.Employee;
+import com.xsyx.vo.Menu;
+import com.xsyx.vo.Role;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -41,4 +43,17 @@ public interface EmployeeDao {
    * 根据Employee条件修改单条数据方法,从传入对象获取id 
    */
   int updateById(Employee employee);
+
+  /**
+   * 根据员工id获取该员工的所有角色
+   * @param id 员工id
+   */
+  List<Role> queryRoles(int id);
+
+  /**
+   * 根据员工id获取该员工的所有菜单按钮
+   * @param id 员工id
+   */
+  List<Menu> queryMenus(int id);
+
 }
