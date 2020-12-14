@@ -82,6 +82,7 @@
   import HotSale from "@/components/front/home/HotSale.vue";
   import SpecialOffer from "@/components/front/home/SpecialOffer.vue";
   import GuessLikes from "@/components/front/home/GuessLikes.vue";
+  import Axios from "axios";
 
   let shoppingCartHelper = new ShoppingCartHelper();
 
@@ -104,6 +105,13 @@
     carData: ShoppingData[] = null;
 
     created() {
+      Axios.get("user/login").then(value => {
+        console.log("成功")
+        console.log(value.data);
+      }).catch(reason => {
+        console.log("error")
+        console.log(reason)
+      })
       shoppingCartHelper.getShoppingData().then(value => {
         this.carData = value;
       })
