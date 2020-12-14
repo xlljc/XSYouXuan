@@ -36,12 +36,13 @@
             </el-menu-item>
 
         </el-menu>
+
+       <!-- 生成面包屑-->
         <div>
-            <el-breadcrumb separator="/">
-                <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-                <el-breadcrumb-item><a href="/">活动管理</a></el-breadcrumb-item>
-                <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-                <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+            <el-breadcrumb separator-class="el-icon-arrow-right" >
+                <el-breadcrumb-item v-for="(item,index) in urls" :key="index">
+                    <a href="/back">{{ item }}</a>
+                </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
     </div>
@@ -61,8 +62,6 @@
         logo = require('@/mcimg/logos.png');
         //头像
         url = require('@/assets/touxiang.jpg');
-        //设置当前地址变量
-        dizhi = "";
 
         menus:menu[] = []
 
@@ -70,13 +69,39 @@
             menuHelper.getMenuData().then(data => {
                 this.menus = data;
             })
-            //加载页面 获取当前地址的值
-            alert(window.location.href)
+
         }
-        @Watch('dizhi')
-        wUrl(newval:any,oldvar:any){
-            console.log(newval,oldvar)
+
+        get urls(): string[] {
+            //截取地址的映射
+            let url = this.$store.getters['back/url'];
+            //获取截取的地址映射
+            let arr=url.substr(url.indexOf("back")).split("/");
+            //将其改成中文的名字 放到面包屑
+            /*console.log(arr[1])*/
+            //循环父级菜单
+            for (let i = 0; i < this.menus.length; i++) {
+                let zi=this.menus[i].menus
+
+
+                //循环子级菜单
+                for(let j = 0; j <zi.length ; j++){
+                    if (this.menus[i].id===zi[j].parent){
+                        console.log(zi[j].name)
+                    }
+
+                }
+               /* console.log(this.menus[i].url,arr[1])
+                //将菜单的url 拿来和截取的地址比对  成功返回中文名
+                if (this.menus[i].url === arr[1]){
+                   /!* console.log(arr[1])
+                    console.log(this.menus[i].name)*!/
+                    /!*url.push(this.menus[i].name)*!/
+                }*/
+            }
+            return arr
         }
+
 
         getChild(menus: menu[]) {
             if (menus === null) return [];

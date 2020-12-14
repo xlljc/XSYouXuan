@@ -2,6 +2,9 @@
  * 全局css样式
  */
 
+.el-breadcrumb__separator{
+    color: black;
+}
 
 /* 默认字体 */
 body {
