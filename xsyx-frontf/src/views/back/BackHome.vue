@@ -15,9 +15,9 @@
                     <back-menu></back-menu>
 
                 </el-aside>
-                <el-main>
-                    <el-header height="100px" >
-                        <back-header></back-header>
+                <el-main >
+                    <el-header height="" style="padding: 0px">
+                        <back-header style="margin-top: -20px"></back-header>
                     </el-header>
 
                     <router-view></router-view>
@@ -44,6 +44,7 @@
         }
     })
     export default class BackHome extends Vue {
+
 
         created() {
 

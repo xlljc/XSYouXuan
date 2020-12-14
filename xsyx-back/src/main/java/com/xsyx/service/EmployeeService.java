@@ -1,6 +1,8 @@
 package com.xsyx.service;
 
 import com.xsyx.vo.Employee;
+import com.xsyx.vo.Menu;
+import com.xsyx.vo.Role;
 import com.xsyx.vo.system.Message;
 
 import javax.servlet.http.HttpSession;
@@ -21,4 +23,8 @@ public interface EmployeeService {
     Message delete(Integer id, HttpSession session);
 
     Message login(String name, String password, HttpSession session);
+
+    List<Role> queryRoles(Integer id);
+
+    List<Menu> queryMenus(Integer id);
 }
