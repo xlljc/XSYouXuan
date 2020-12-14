@@ -1,9 +1,9 @@
 <template>
     <div class="xsyx-block">
         <el-row>
-            <div class="xsyx-flag" style="background-color: #FF7034"></div>
-            <label style="font-size: 20px;color: #FF7034;display: inline">热销商品</label>
-            <el-link style="float: right">更多热销 >></el-link>
+            <div class="xsyx-flag" style="background-color: #FCAE03"></div>
+            <label style="font-size: 20px;color: #FCAE03;display: inline">特价商品</label>
+            <el-link style="float: right">更多特价 >></el-link>
             <div class="xsyx-line"></div><br>
         </el-row>
 
@@ -20,9 +20,11 @@
     import {Vue, Component} from "vue-property-decorator";
     import Commodity from "@/components/front/home/Commodity.vue";
     @Component({
-        components: {Commodity}
+        components: {
+            Commodity
+        }
     })
-    export default class HotSale extends Vue {
+    export default class SpecialOffer extends Vue {
 
         created() {
 
