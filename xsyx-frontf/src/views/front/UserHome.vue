@@ -22,13 +22,31 @@
             </el-header>
 
             <el-container>
-
+                <div style="width: 2000px; height: 800px">
                 <el-col :span="24">
 <!--                <el-aside width="200px" style="background-color: white;margin-left: 5%;margin-top: 50px">-->
                     <el-col :span="6">
-                        <div style="margin-top: 130px;width: 270px;margin-left: 250px">
-                    <el-menu>
-                        <el-menu-item><i class="el-icon-more-outline"/>全部功能</el-menu-item>
+                        <div style="margin-top: 130px;width: 220px;margin-left: 220px">
+
+                    <el-menu  default-active="2"
+                              class="el-menu-vertical-demo"
+                              @open="handleOpen"
+                              @close="handleClose">
+<!--                        <div style="margin-left: -60px">-->
+<!--                            <i class="el-icon-more"></i>-->
+<!--                        </div>-->
+                        <el-menu-item style="font-weight: bolder;font-size: 17px"><i class="el-icon-more"></i>全部功能</el-menu-item>
+
+                        <el-submenu index="1">
+                        <template slot="title">
+                            <i class="el-icon-user"></i>
+                            <span>个人中心</span>
+                        </template>
+                        <el-menu-item-group>
+                            <el-menu-item index="1-1">显示个人信息</el-menu-item>
+                            <el-menu-item index="1-2">修改个人信息</el-menu-item>
+                        </el-menu-item-group>
+                        </el-submenu>
                         <el-menu-item><i class="el-icon-shopping-cart-full"/>我的购物车</el-menu-item>
                         <el-menu-item><i class="el-icon-shopping-bag-2"/>已买到的宝贝</el-menu-item>
                         <el-menu-item><i class="el-icon-star-off"/>我的收藏</el-menu-item>
@@ -38,9 +56,9 @@
                     </el-menu>
                         </div>
                     </el-col>
-                <el-container style="margin-left: 20px">
+                <el-container>
                     <el-col :span="12">
-                        <div style="margin-top: 90px;margin-left: 60px;width: 1200px">
+                        <div style="margin-top: 90px;margin-left: 60px;width: 1200px;margin-left: -5px">
                         <el-menu :default-active="'1'"
                                  mode="horizontal" style="width: 900px;background-color: #92E6EE">
                             <el-menu-item>
@@ -82,6 +100,7 @@
 
             </el-container>
                 </el-col>
+                </div>
             </el-container>
         </el-container>
 
@@ -94,14 +113,14 @@
 
     @Component
     export default class UserHome extends Vue {
-
-        created() {
-
+        handleOpen(value:number) {
+            console.log(value);
+        }
+        handleClose(value:number) {
+            console.log(value);
         }
 
-        mounted() {
 
-        }
     }
 </script>
 
@@ -112,7 +131,7 @@
     .day{
         width: 350px;
         height: 240px;
-        margin-left: 232px;
+        margin-left: 202px;
         margin-top: 130px;
     }
     .day1{

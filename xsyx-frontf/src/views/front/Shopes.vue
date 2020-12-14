@@ -46,10 +46,10 @@
                 水果
             </div>
             <el-main>
-                <el-menu :default-active="activeIndex" style="margin-left: 400px;margin-top: 35px"
+                <el-menu :default-active="activeIndex2" style="margin-left: 400px;margin-top: 45px"
                          text-color="#gray"
                          active-text-color="#F58F8D"
-                         class="el-menu-demo" mode="horizontal" @select="handleSelect">
+                         class="el-menu-demo" mode="horizontal">
                     <el-menu-item index="1" style="font-size: 20px;width: 150px;">说    明</el-menu-item>
                     <el-menu-item index="2" style="font-size: 20px;width: 150px;">附加信息</el-menu-item>
                     <el-menu-item index="3" style="font-size: 20px;width: 150px;">用户评论</el-menu-item>
@@ -77,7 +77,6 @@
                             <el-dropdown-menu slot="dropdown">
                                 <el-dropdown-item>肉类</el-dropdown-item>
                                 <el-dropdown-item>蔬菜</el-dropdown-item>
-
                             </el-dropdown-menu>
                         </el-dropdown>
                     </div>

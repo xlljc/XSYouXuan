@@ -39,5 +39,4 @@
         <property name="basePackage" value="com.xsyx.dao"/>
     </bean>
 
-
 </beans>

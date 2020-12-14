@@ -22,27 +22,28 @@
                     <el-menu-item index="3"><i class="el-icon-scissors"></i>每日特价</el-menu-item>
                 </el-menu>
             </el-header>
-
+<div style="width: 1900px; height: 800px">
             <el-main>
                 <el-col :span="24">
-                    <el-image style="width: 1855px; height: 800px" :src="require('@/assets/mcimg/loginsss.png')"></el-image>
+                    <el-image style="width: 1855px; height: 800px;margin-left:12px" :src="require('@/assets/mcimg/loginsss.png')"></el-image>
                 </el-col>
                 <el-col :span="4">
                     <div class="login">
                         <div class="login-top">
                             用户登录
                         </div>
+                        <el-form></el-form>
                         <div class="login-center clearfix">
-                            <div class="login-center-img"><el-image style="width: 27px; height: 27px" :src="require('@/assets/mcimg/name.png')"></el-image></div>
+                            <div class="login-center-img"><el-image style="width:30px; height: 27px" :src="require('@/assets/mcimg/name.png')"></el-image></div>
                             <div class="login-center-input">
-                                <input type="text" placeholder="请输入您的用户名" onfocus="this.placeholder=''" onblur="this.placeholder='请输入您的用户名'"/>
+                                <input type="type" id="username" name="username" placeholder="请输入您的用户名" onfocus="this.placeholder=''" onblur="this.placeholder='请输入您的用户名'"/>
                                 <div class="login-center-input-text">用户名</div>
                             </div>
                         </div>
                         <div class="login-center clearfix">
                             <div class="login-center-img"><el-image style="width: 27px; height: 27px" :src="require('@/assets/mcimg/password.png')"></el-image></div>
                             <div class="login-center-input">
-                                <input type="password" placeholder="请输入您的密码" onfocus="this.placeholder=''" onblur="this.placeholder='请输入您的密码'"/>
+                                <input type="password" id="password" name="password" placeholder="请输入您的密码" onfocus="this.placeholder=''" onblur="this.placeholder='请输入您的密码'"/>
                                 <div class="login-center-input-text">密码</div>
                             </div>
                         </div>
@@ -50,13 +51,11 @@
                             <div class="login-center-img"><el-image style="width: 27px; height: 27px" :src="require('@/assets/mcimg/yzm1.png')"></el-image></div>
 
                             <div class="login-center-input">
-                                <input type="password" placeholder="请输入验证码" onfocus="this.placeholder=''" onblur="this.placeholder='请输入验证码'"/>
+                                <input type="text" placeholder="请输入验证码" onfocus="this.placeholder=''" onblur="this.placeholder='请输入验证码'"/>
                                 <div class="login-center-input-text">验证码</div>
                                 <br>
                                 <br>
                                 <canvas id="canvas" @click="showNum"></canvas>
-
-
                             </div>
 
                         </div>
@@ -75,7 +74,7 @@
 
 
             </el-footer>
-
+</div>
         </el-container>
     </div>
 </template>
@@ -196,11 +195,3 @@
     }
 
 </style>
-
-<!--                <el-col :span="24">-->
-<!--                    <el-image style="width: 200px; height: 200px" :src="require('@/mcimg/logos.png')"></el-image>-->
-<!--                </el-col>-->
-
-<!--                <el-col :span="24">-->
-<!--                    <el-image style="width: 1800px; height: 800px" :src="require('@/mcimg/logins.png')"></el-image>-->
-<!--                </el-col>-->
