@@ -30,7 +30,6 @@
 <script lang="ts">
     import {Vue, Component} from "vue-property-decorator";
     import {menu, MenuHelper} from "@/helper/back/MenuHelper";
-    import da from "element-ui/src/locale/lang/da";
 
 
     let menuHelper = new MenuHelper();
