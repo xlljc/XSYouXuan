@@ -51,11 +51,12 @@
 
         <!-- 热销商品 : 推荐最近销量最高的商品 5 * 2 条 (不是销量来排序 , 根据最销量最好的30条随机选10条 , 6小时一刷新) , 后面接更多热销商品 -->
         <hot-sale></hot-sale>
-        <!-- 特价区 : 推荐特价商品 5 * 3 条 (随机抽取 , 3小时刷新一次) -->
-
+        <!-- 特价区 : 推荐特价商品 5 * 2 条 (随机抽取 , 3小时刷新一次) -->
+        <special-offer></special-offer>
         <!-- 广告区 : 3 * 1 条广告 -->
 
         <!-- 猜你喜欢 : 根据用户最近浏览推送出相关商品 (显示20条记录 , 最少2个分类) , 推送大概 5 * 2 条 ,后面接更多推荐 -->
+        <guess-likes></guess-likes>
       </el-main>
 
 
@@ -79,11 +80,15 @@
   import NewCommodity from "@/components/front/home/NewCommodity.vue";
   import PraiseCommodity from "@/components/front/home/PraiseCommodity.vue";
   import HotSale from "@/components/front/home/HotSale.vue";
+  import SpecialOffer from "@/components/front/home/SpecialOffer.vue";
+  import GuessLikes from "@/components/front/home/GuessLikes.vue";
 
   let shoppingCartHelper = new ShoppingCartHelper();
 
   @Component({
     components: {
+      GuessLikes,
+        SpecialOffer,
       HotSale,
       PraiseCommodity,
       NewCommodity,
