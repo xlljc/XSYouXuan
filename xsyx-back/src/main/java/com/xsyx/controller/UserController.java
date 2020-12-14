@@ -5,6 +5,7 @@ import com.xsyx.utils.MyUtils;
 import com.xsyx.vo.User;
 import com.xsyx.vo.system.Message;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpSession;
  */
 @RestController
 @RequestMapping("/user")
+@CrossOrigin
 public class UserController {
 
 
@@ -65,6 +67,7 @@ public class UserController {
      * @return 如果登录成功, 就返回true和用户信息, 如果登录失败就返回false和失败信息
      */
     @RequestMapping("/login")
+    @CrossOrigin
     public Message login(String name, String password, HttpSession session) {
         return userService.login(name, password, session);
     }

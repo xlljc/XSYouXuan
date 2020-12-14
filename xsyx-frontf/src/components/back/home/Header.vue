@@ -66,7 +66,7 @@
     @Component
     export default class Header extends Vue {
         //logo
-        logo = require('@/mcimg/logos.png');
+        logo = require('@/assets/mcimg/logos.png');
         //头像
         url = require('@/assets/touxiang.jpg');
 

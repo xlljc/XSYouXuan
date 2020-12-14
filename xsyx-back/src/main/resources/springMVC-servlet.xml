@@ -27,7 +27,7 @@
 
 	<!-- 全局跨域访问 -->
 	<mvc:cors>
-		<mvc:mapping path="/cross/*"/>
+		<mvc:mapping path="/*"/>
 	</mvc:cors>
 
 	<!-- 全局类型转换器 -->
