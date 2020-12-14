@@ -82,4 +82,10 @@
         where id = #{id}
     </update>
 
+    <!-- 根据UserLog插入数据方法 -->
+    <insert id="addLog">
+        insert into user_log (id,user,content,data,time) values
+        (null,#{userId},#{content},#{data},default);
+    </insert>
+
 </mapper>

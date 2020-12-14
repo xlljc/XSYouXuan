@@ -2,6 +2,8 @@ package com.xsyx.controller;
 
 import com.xsyx.utils.MyUtils;
 import com.xsyx.vo.Employee;
+import com.xsyx.vo.Menu;
+import com.xsyx.vo.Role;
 import com.xsyx.vo.system.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -116,6 +118,26 @@ public class EmployeeController {
     @RequestMapping("/login")
     public Message login(String name, String password, HttpSession session) {
         return employeeService.login(name, password, session);
+    }
+
+    /**
+     * 根据员工id获取该员工所有角色, 如果没有传id值, 就从session中获取
+     * @param id 员工id
+     */
+    @RequestMapping("/queryRoles")
+    public List<Role> queryRoles(Integer id,HttpSession session) {
+        if (id==null)id=MyUtils.getEmpId(session);
+        return employeeService.queryRoles(id);
+    }
+
+    /**
+     * 根据员工id获取该员工所有菜单, 如果没有传id值, 就从session中获取
+     * @param id 员工id
+     */
+    @RequestMapping("/queryMenus")
+    public List<Menu> queryMenus(Integer id,HttpSession session) {
+        if (id==null)id=MyUtils.getEmpId(session);
+        return employeeService.queryMenus(id);
     }
 
 }

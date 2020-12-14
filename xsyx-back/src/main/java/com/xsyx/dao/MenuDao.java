@@ -41,4 +41,7 @@ public interface MenuDao {
    * 根据Menu条件修改单条数据方法,从传入对象获取id 
    */
   int updateById(Menu menu);
+
+
+  List<Menu> queryAllAndChild();
 }

@@ -41,7 +41,7 @@ public class User implements Serializable {
 	/**最后一次登录时间*/
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
 	private Timestamp lastLoginTime;
-	/**注销状态, 0注销, 1正常*/
+	/**注销状态, 1注销, 0正常*/
 	private Integer isDelete;
 	private List<Comments> commentss;
 	private List<Information> informations;
@@ -191,11 +191,11 @@ public class User implements Serializable {
 	public Timestamp getLastLoginTime(){
 		return lastLoginTime;
 	}
-	/**设置"注销状态, 0注销, 1正常"*/
+	/**设置"注销状态, 1注销, 0正常"*/
 	public void setIsDelete(Integer isDelete){
 		this.isDelete = isDelete;
 	}
-	/**获取"注销状态, 0注销, 1正常"*/
+	/**获取"注销状态, 1注销, 0正常"*/
 	public Integer getIsDelete(){
 		return isDelete;
 	}

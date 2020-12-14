@@ -130,4 +130,41 @@
     </select>
 
 
+    <resultMap id="MenuMap" type="Menu">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="icon" property="icon"/>
+        <result column="url" property="url"/>
+        <result column="layer" property="layer"/>
+        <result column="type" property="type"/>
+        <association property="parent" column="{fk=parent}"
+                     select="com.xsyx.dao.MenuDao.a_Menu_By_parent" javaType="Menu" fetchType="lazy"/>
+    </resultMap>
+
+    <!-- 根据员工id获取该员工的所有角色 -->
+    <select id="queryRoles" resultType="Role">
+        select distinct ro.* from role ro
+        right join emprole e on ro.id = e.role
+        right join employee e2 on e.employee = e2.id
+        where e2.id=#{id}
+    </select>
+
+    <!-- 根据员工id获取该员工的所有菜单按钮 -->
+    <select id="queryMenus" resultMap="MenuMap">
+        select distinct m.* from menu m
+        left join permission p on m.id = p.menu
+        where m.layer=3 and
+            (1 in (select distinct ro.id from role ro
+            right join emprole e on ro.id = e.role
+            right join employee e2 on e.employee = e2.id
+            where e2.id=#{id}))
+            or
+            (p.role in (
+            select distinct ro.id from role ro
+            right join emprole e on ro.id = e.role
+            right join employee e2 on e.employee = e2.id
+            where e2.id=#{id})
+        );
+    </select>
+
 </mapper>

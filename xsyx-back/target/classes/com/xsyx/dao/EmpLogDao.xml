@@ -84,7 +84,7 @@
 
 
     <!-- 添加一篇日志 -->
-    <insert id="addLog" parameterType="EmpLog">
+    <insert id="addLog">
         insert into emp_log (id,emp,content,data,time) values
             (null,#{empId},#{content},#{data},default);
     </insert>

@@ -6,12 +6,15 @@ import com.xsyx.dao.EmployeeDao;
 import com.xsyx.service.EmployeeService;
 import com.xsyx.utils.MyUtils;
 import com.xsyx.vo.Employee;
+import com.xsyx.vo.Menu;
+import com.xsyx.vo.Role;
 import com.xsyx.vo.system.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -115,6 +118,68 @@ public class EmployeeServiceImpl implements EmployeeService {
             return new Message(true,"登录成功! ");
         }
         return new Message(false,"登录失败! 用户名或密码错误!");
+    }
+
+    @Override
+    public List<Role> queryRoles(Integer id) {
+        return employeeDao.queryRoles(id);
+    }
+
+    @Override
+    public List<Menu> queryMenus(Integer id) {
+        List<Menu> menus = new ArrayList<>();
+        List<Menu> ms = employeeDao.queryMenus(id);
+        for (Menu btn : ms) {
+            //页面级
+            Menu page = btn.getParent();
+            //模块级
+            Menu menu = page.getParent();
+
+            int index = indexOfId(menus,menu);
+            if (index == -1) {
+                menu.setMenus(new ArrayList<Menu>());
+                menus.add(menu);
+            } else menu = menus.get(index);
+
+            List<Menu> menuPages = menu.getMenus();
+            index = indexOfId(menuPages,page);
+            if (index == -1) {
+                page.setMenus(new ArrayList<Menu>());
+                page.setParent(null);
+                menuPages.add(page);
+            } else page = menuPages.get(index);
+            btn.setParent(null);
+            page.getMenus().add(btn);
+        }
+        return menus;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * 查找在集合中查找索引, 比较id值
+     * @param menus 菜单集合
+     * @param menu 菜单对象
+     * @return index or -1
+     */
+    private int indexOfId(List<Menu> menus,Menu menu) {
+        if (menu.getId() == null) return -1;
+        int length = menus.size();
+        for (int i = 0; i < length; i++)
+            if (menu.getId().equals(menus.get(i).getId())) return i;
+        return -1;
     }
 
     /**
