@@ -6,21 +6,9 @@
                 <el-avatar :src="logo"></el-avatar>
             </el-menu-item>
             <el-menu-item>首页</el-menu-item>
-
-            <!--<el-menu-item style="float:right">
-                <el-submenu>
-                <template slot="title"><i class="el-icon-user-solid"></i></template>
-                <el-menu-item index="2-1">选项1</el-menu-item>
-                <el-menu-item index="2-2">选项2</el-menu-item>
-                <el-menu-item index="2-3">选项3</el-menu-item>
-                </el-submenu>
-            </el-menu-item>-->
             <!--头像-->
             <el-menu-item style="float:right;background: #F3F3F3">
-                <el-popover
-                        placement="bottom"
-                        width="150"
-                        trigger="click">
+                <el-popover placement="bottom" width="150" trigger="click">
                     <div style="margin-left: 10px">
                         <p style="text-align: center;font-weight: bold">Hi,xxx</p>
 
@@ -61,7 +49,11 @@
 </template>
 
 <script lang="ts">
-    import {Vue, Component} from "vue-property-decorator";
+    import {Vue, Component, Watch} from "vue-property-decorator";
+    import {menu,MenuHelper} from "@/helper/back/MenuHelper";
+
+
+    let menuHelper = new MenuHelper();
 
     @Component
     export default class Header extends Vue {
@@ -69,38 +61,34 @@
         logo = require('@/mcimg/logos.png');
         //头像
         url = require('@/assets/touxiang.jpg');
+        //设置当前地址变量
+        dizhi = "";
 
-        /*created() {
-            setInterval(() => {
-                this.time()
-            }, 1000);
-        }*/
+        menus:menu[] = []
+
+        created() {
+            menuHelper.getMenuData().then(data => {
+                this.menus = data;
+            })
+            //加载页面 获取当前地址的值
+            alert(window.location.href)
+        }
+        @Watch('dizhi')
+        wUrl(newval:any,oldvar:any){
+            console.log(newval,oldvar)
+        }
+
+        getChild(menus: menu[]) {
+            if (menus === null) return [];
+            return menus;
+        }
+
 
 
     }
 </script>
 
 <style scoped>
-    h1 {
-        text-align: center;
-        position: absolute;
-        margin: 10px 0px 0px 600px;
-        font-size: 50px;
-    }
 
-    #mz, #esc {
-        /* 去除下划线 */
-        text-decoration: none;
-    }
 
-    #yonhu {
-        position: absolute;
-        margin-top: 80px;
-    }
-
-    #timer {
-        position: absolute;
-        margin-top: 80px;
-        margin-left: 200px;
-    }
 </style>
