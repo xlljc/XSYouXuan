@@ -32,10 +32,6 @@ public class CommodityController {
     /**
      *
      */
-    @RequestMapping("/delete")
-    public Message delete(Integer id) {
 
-        return commodityDao
-    }
 
 }
