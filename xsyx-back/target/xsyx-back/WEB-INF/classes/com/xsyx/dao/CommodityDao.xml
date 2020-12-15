@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xsyx.dao.CommodityDao">
+
+
+
+
+    <!-- resultMap映射 -->
+    <resultMap id="CommodityMap" type="Commodity">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="particulars" property="particulars"/>
+        <result column="price" property="price"/>
+        <result column="unit" property="unit"/>
+        <result column="specification" property="specification"/>
+        <result column="manufacturer" property="manufacturer"/>
+        <result column="putaway_date" property="putawayDate"/>
+        <result column="newest_putaway_date" property="newestPutawayDate"/>
+        <result column="state" property="state"/>
+        <association property="comType" column="{fk=com_type}"
+           select="com.xsyx.dao.ComTypeDao.a_ComType_By_com_type" javaType="ComType" fetchType="lazy"/>
+    </resultMap>
+
+    <!-- 查询所有方法 -->
+    <select id="queryAll" resultMap="CommodityMap">
+       select com_type,unit,price,name,specification,id,particulars,state,manufacturer,putaway_date,newest_putaway_date from commodity;
+    </select>
+
+    <!-- 根据主键id查询数据方法 -->
+    <select id="queryById" parameterType="int" resultMap="CommodityMap">
+       select com_type,unit,price,name,specification,id,particulars,state,manufacturer,putaway_date,newest_putaway_date from commodity where id = #{id};
+    </select>
+
+    <!-- 根据Commodity条件查询数据方法 -->
+    <select id="query" resultMap="CommodityMap">
+        select com_type,unit,price,name,specification,id,particulars,state,manufacturer,putaway_date,newest_putaway_date 
+        from commodity 
+        <where>
+            <if test="id != null"> and id = #{id}</if>
+            <if test="name != null"> and name = #{name}</if>
+            <if test="particulars != null"> and particulars = #{particulars}</if>
+            <if test="price != null"> and price = #{price}</if>
+            <if test="unit != null"> and unit = #{unit}</if>
+            <if test="specification != null"> and specification = #{specification}</if>
+            <if test="manufacturer != null"> and manufacturer = #{manufacturer}</if>
+            <if test="comType != null">
+                 <if test="comType.id != null"> and com_type = #{comType.id}</if>
+            </if>
+            <if test="putawayDate != null"> and putaway_date = #{putawayDate}</if>
+            <if test="newestPutawayDate != null"> and newest_putaway_date = #{newestPutawayDate}</if>
+            <if test="state != null"> and state = #{state}</if> 
+        </where>
+    </select>
+
+    <!-- 根据Commodity插入数据方法 -->
+    <insert id="insert" parameterType="Commodity" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into commodity (id,name,particulars,price,unit,specification,manufacturer,com_type,putaway_date,newest_putaway_date,state) values 
+        (
+            #{id},
+            #{name},
+            #{particulars},
+            #{price},
+            #{unit},
+            #{specification},
+            #{manufacturer},
+            #{comType.id},
+            #{putawayDate},
+            #{newestPutawayDate},
+            <if test="state != null">#{state}</if><if test="state == null">default</if>
+        ); 
+    </insert>
+
+    <!-- 根据Commodity插入多条数据方法 -->
+    <insert id="inserts" parameterType="List" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into commodity (id,name,particulars,price,unit,specification,manufacturer,com_type,putaway_date,newest_putaway_date,state) values 
+        <foreach collection="commoditys" item="item" separator=",">
+            (
+                #{item.id},
+                #{item.name},
+                #{item.particulars},
+                #{item.price},
+                #{item.unit},
+                #{item.specification},
+                #{item.manufacturer},
+                #{item.comType.id},
+                #{item.putawayDate},
+                #{item.newestPutawayDate},
+                <if test="item.state != null">#{item.state}</if><if test="item.state == null">default</if>
+            ) 
+        </foreach>
+    </insert>
+
+    <!-- 根据Commodity条件修改单条数据方法,从传入对象获取主键id -->
+    <update id="updateById" parameterType="Commodity">
+        update commodity 
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="particulars != null">particulars = #{particulars},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="unit != null">unit = #{unit},</if>
+            <if test="specification != null">specification = #{specification},</if>
+            <if test="manufacturer != null">manufacturer = #{manufacturer},</if>
+            <if test="comType != null">
+                <if test="comType.id != null">com_type = #{comType.id},</if>
+            </if>
+            <if test="putawayDate != null">putaway_date = #{putawayDate},</if>
+            <if test="newestPutawayDate != null">newest_putaway_date = #{newestPutawayDate},</if>
+            <if test="state != null">state = #{state},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 关联查询,调用者:"com.xsyx.dao.PurchaseDao" -->
+    <select id="a_Commodity_By_commodityid" resultMap="CommodityMap">
+       select com_type,unit,price,name,specification,id,particulars,state,manufacturer,putaway_date,newest_putaway_date from commodity where id = #{fk};
+    </select>
+
+
+    <!-- 关联查询,调用者:"com.xsyx.dao.CollectDao" -->
+    <select id="a_Commodity_By_cid" resultMap="CommodityMap">
+       select com_type,unit,price,name,specification,id,particulars,state,manufacturer,putaway_date,newest_putaway_date from commodity where id = #{fk};
+    </select>
+
+
+</mapper>

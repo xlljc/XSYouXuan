@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xsyx.dao.PurchaseorderDao">
+
+
+
+
+    <!-- resultMap映射 -->
+    <resultMap id="PurchaseorderMap" type="Purchaseorder">
+        <id column="orderid" property="orderid"/>
+        <result column="applicantremarks" property="applicantremarks"/>
+        <result column="state" property="state"/>
+        <result column="approvedbyremarks" property="approvedbyremarks"/>
+        <result column="operationtime" property="operationtime"/>
+        <association property="applicant" column="{fk=applicant}"
+           select="com.xsyx.dao.EmployeeDao.a_Employee_By_applicant" javaType="Employee" fetchType="lazy"/>
+        <association property="approvedby" column="{fk=approvedby}"
+           select="com.xsyx.dao.EmployeeDao.a_Employee_By_approvedby" javaType="Employee" fetchType="lazy"/>
+    </resultMap>
+
+    <!-- 查询所有方法 -->
+    <select id="queryAll" resultMap="PurchaseorderMap">
+       select applicantremarks,orderid,approvedby,state,approvedbyremarks,operationtime,applicant from purchaseorder;
+    </select>
+
+    <!-- 根据主键id查询数据方法 -->
+    <select id="queryById" parameterType="int" resultMap="PurchaseorderMap">
+       select applicantremarks,orderid,approvedby,state,approvedbyremarks,operationtime,applicant from purchaseorder where orderid = #{orderid};
+    </select>
+
+    <!-- 根据Purchaseorder条件查询数据方法 -->
+    <select id="query" resultMap="PurchaseorderMap">
+        select applicantremarks,orderid,approvedby,state,approvedbyremarks,operationtime,applicant 
+        from purchaseorder 
+        <where>
+            <if test="orderid != null"> and orderid = #{orderid}</if>
+            <if test="applicant != null">
+                 <if test="applicant.id != null"> and applicant = #{applicant.id}</if>
+            </if>
+            <if test="approvedby != null">
+                 <if test="approvedby.id != null"> and approvedby = #{approvedby.id}</if>
+            </if>
+            <if test="applicantremarks != null"> and applicantremarks = #{applicantremarks}</if>
+            <if test="state != null"> and state = #{state}</if>
+            <if test="approvedbyremarks != null"> and approvedbyremarks = #{approvedbyremarks}</if>
+            <if test="operationtime != null"> and operationtime = #{operationtime}</if> 
+        </where>
+    </select>
+
+    <!-- 根据Purchaseorder插入数据方法 -->
+    <insert id="insert" parameterType="Purchaseorder" useGeneratedKeys="true" keyColumn="orderid" keyProperty="orderid">
+        insert into purchaseorder (orderid,applicant,approvedby,applicantremarks,state,approvedbyremarks,operationtime) values 
+        (
+            #{orderid},
+            #{applicant.id},
+            #{approvedby.id},
+            #{applicantremarks},
+            <if test="state != null">#{state}</if><if test="state == null">default</if>,
+            #{approvedbyremarks},
+            <if test="operationtime != null">#{operationtime}</if><if test="operationtime == null">default</if>
+        ); 
+    </insert>
+
+    <!-- 根据Purchaseorder插入多条数据方法 -->
+    <insert id="inserts" parameterType="List" useGeneratedKeys="true" keyColumn="orderid" keyProperty="orderid">
+        insert into purchaseorder (orderid,applicant,approvedby,applicantremarks,state,approvedbyremarks,operationtime) values 
+        <foreach collection="purchaseorders" item="item" separator=",">
+            (
+                #{item.orderid},
+                #{item.applicant.id},
+                #{item.approvedby.id},
+                #{item.applicantremarks},
+                <if test="item.state != null">#{item.state}</if><if test="item.state == null">default</if>,
+                #{item.approvedbyremarks},
+                <if test="item.operationtime != null">#{item.operationtime}</if><if test="item.operationtime == null">default</if>
+            ) 
+        </foreach>
+    </insert>
+
+    <!-- 根据Purchaseorder条件修改单条数据方法,从传入对象获取主键id -->
+    <update id="updateById" parameterType="Purchaseorder">
+        update purchaseorder 
+        <set>
+            <if test="applicant != null">
+                <if test="applicant.id != null">applicant = #{applicant.id},</if>
+            </if>
+            <if test="approvedby != null">
+                <if test="approvedby.id != null">approvedby = #{approvedby.id},</if>
+            </if>
+            <if test="applicantremarks != null">applicantremarks = #{applicantremarks},</if>
+            <if test="state != null">state = #{state},</if>
+            <if test="approvedbyremarks != null">approvedbyremarks = #{approvedbyremarks},</if>
+            <if test="operationtime != null">operationtime = #{operationtime},</if>
+        </set>
+        where orderid = #{orderid}
+    </update>
+
+    <!-- 关联查询,调用者:"com.xsyx.dao.PurchaseDao" -->
+    <select id="a_Purchaseorder_By_orderid" resultMap="PurchaseorderMap">
+       select applicantremarks,orderid,approvedby,state,approvedbyremarks,operationtime,applicant from purchaseorder where orderid = #{fk};
+    </select>
+
+
+</mapper>

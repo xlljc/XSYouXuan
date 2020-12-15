@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xsyx.dao.WarehouseDao">
+
+
+
+
+    <!-- resultMap映射 -->
+    <resultMap id="WarehouseMap" type="Warehouse">
+        <id column="warid" property="warid"/>
+        <result column="warname" property="warname"/>
+        <result column="wartype" property="wartype"/>
+        <result column="warcapacity" property="warcapacity"/>
+        <result column="waraddress" property="waraddress"/>
+        <result column="longitude" property="longitude"/>
+        <result column="latitude" property="latitude"/>
+        <result column="warstate" property="warstate"/>
+    </resultMap>
+
+    <!-- 查询所有方法 -->
+    <select id="queryAll" resultMap="WarehouseMap">
+       select warstate,warcapacity,waraddress,warname,latitude,warid,wartype,longitude from warehouse;
+    </select>
+
+    <!-- 根据主键id查询数据方法 -->
+    <select id="queryById" parameterType="int" resultMap="WarehouseMap">
+       select warstate,warcapacity,waraddress,warname,latitude,warid,wartype,longitude from warehouse where warid = #{warid};
+    </select>
+
+    <!-- 根据Warehouse条件查询数据方法 -->
+    <select id="query" resultMap="WarehouseMap">
+        select warstate,warcapacity,waraddress,warname,latitude,warid,wartype,longitude 
+        from warehouse 
+        <where>
+            <if test="warid != null"> and warid = #{warid}</if>
+            <if test="warname != null"> and warname = #{warname}</if>
+            <if test="wartype != null"> and wartype = #{wartype}</if>
+            <if test="warcapacity != null"> and warcapacity = #{warcapacity}</if>
+            <if test="waraddress != null"> and waraddress = #{waraddress}</if>
+            <if test="longitude != null"> and longitude = #{longitude}</if>
+            <if test="latitude != null"> and latitude = #{latitude}</if>
+            <if test="warstate != null"> and warstate = #{warstate}</if> 
+        </where>
+    </select>
+
+    <!-- 根据Warehouse插入数据方法 -->
+    <insert id="insert" parameterType="Warehouse" useGeneratedKeys="true" keyColumn="warid" keyProperty="warid">
+        insert into warehouse (warid,warname,wartype,warcapacity,waraddress,longitude,latitude,warstate) values 
+        (
+            #{warid},
+            #{warname},
+            #{wartype},
+            #{warcapacity},
+            #{waraddress},
+            #{longitude},
+            #{latitude},
+            <if test="warstate != null">#{warstate}</if><if test="warstate == null">default</if>
+        ); 
+    </insert>
+
+    <!-- 根据Warehouse插入多条数据方法 -->
+    <insert id="inserts" parameterType="List" useGeneratedKeys="true" keyColumn="warid" keyProperty="warid">
+        insert into warehouse (warid,warname,wartype,warcapacity,waraddress,longitude,latitude,warstate) values 
+        <foreach collection="warehouses" item="item" separator=",">
+            (
+                #{item.warid},
+                #{item.warname},
+                #{item.wartype},
+                #{item.warcapacity},
+                #{item.waraddress},
+                #{item.longitude},
+                #{item.latitude},
+                <if test="item.warstate != null">#{item.warstate}</if><if test="item.warstate == null">default</if>
+            ) 
+        </foreach>
+    </insert>
+
+    <!-- 根据Warehouse条件修改单条数据方法,从传入对象获取主键id -->
+    <update id="updateById" parameterType="Warehouse">
+        update warehouse 
+        <set>
+            <if test="warname != null">warname = #{warname},</if>
+            <if test="wartype != null">wartype = #{wartype},</if>
+            <if test="warcapacity != null">warcapacity = #{warcapacity},</if>
+            <if test="waraddress != null">waraddress = #{waraddress},</if>
+            <if test="longitude != null">longitude = #{longitude},</if>
+            <if test="latitude != null">latitude = #{latitude},</if>
+            <if test="warstate != null">warstate = #{warstate},</if>
+        </set>
+        where warid = #{warid}
+    </update>
+
+</mapper>

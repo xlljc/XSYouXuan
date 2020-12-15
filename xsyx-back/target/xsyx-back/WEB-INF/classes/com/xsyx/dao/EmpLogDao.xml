@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xsyx.dao.EmpLogDao">
+
+
+
+
+    <!-- resultMap映射 -->
+    <resultMap id="EmpLogMap" type="EmpLog">
+        <id column="id" property="id"/>
+        <result column="content" property="content"/>
+        <result column="data" property="data"/>
+        <result column="time" property="time"/>
+        <association property="emp" column="{fk=emp}"
+           select="com.xsyx.dao.EmployeeDao.a_Employee_By_emp" javaType="Employee" fetchType="lazy"/>
+    </resultMap>
+
+    <!-- 查询所有方法 -->
+    <select id="queryAll" resultMap="EmpLogMap">
+       select data,emp,id,time,content from emp_log;
+    </select>
+
+    <!-- 根据主键id查询数据方法 -->
+    <select id="queryById" parameterType="int" resultMap="EmpLogMap">
+       select data,emp,id,time,content from emp_log where id = #{id};
+    </select>
+
+    <!-- 根据EmpLog条件查询数据方法 -->
+    <select id="query" resultMap="EmpLogMap">
+        select data,emp,id,time,content 
+        from emp_log 
+        <where>
+            <if test="id != null"> and id = #{id}</if>
+            <if test="emp != null">
+                 <if test="emp.id != null"> and emp = #{emp.id}</if>
+            </if>
+            <if test="content != null"> and content = #{content}</if>
+            <if test="data != null"> and data = #{data}</if>
+            <if test="time != null"> and time = #{time}</if> 
+        </where>
+    </select>
+
+    <!-- 根据EmpLog插入数据方法 -->
+    <insert id="insert" parameterType="EmpLog" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into emp_log (id,emp,content,data,time) values 
+        (
+            #{id},
+            #{emp.id},
+            #{content},
+            #{data},
+            <if test="time != null">#{time}</if><if test="time == null">default</if>
+        ); 
+    </insert>
+
+    <!-- 根据EmpLog插入多条数据方法 -->
+    <insert id="inserts" parameterType="List" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into emp_log (id,emp,content,data,time) values 
+        <foreach collection="emplogs" item="item" separator=",">
+            (
+                #{item.id},
+                #{item.emp.id},
+                #{item.content},
+                #{item.data},
+                <if test="item.time != null">#{item.time}</if><if test="item.time == null">default</if>
+            ) 
+        </foreach>
+    </insert>
+
+    <!-- 根据EmpLog条件修改单条数据方法,从传入对象获取主键id -->
+    <update id="updateById" parameterType="EmpLog">
+        update emp_log 
+        <set>
+            <if test="emp != null">
+                <if test="emp.id != null">emp = #{emp.id},</if>
+            </if>
+            <if test="content != null">content = #{content},</if>
+            <if test="data != null">data = #{data},</if>
+            <if test="time != null">time = #{time},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <!-- 添加一篇日志 -->
+    <insert id="addLog">
+        insert into emp_log (id,emp,content,data,time) values
+            (null,#{empId},#{content},#{data},default);
+    </insert>
+
+
+</mapper>
