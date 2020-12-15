@@ -7,6 +7,8 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <bean id="demo" class="com.xsyx.vo.system.Demo"/>
+
     <!-- 自动扫描  需要spring管理的包 -->
     <context:component-scan base-package="com.xsyx">
         <!-- 指定不扫描得注解-->

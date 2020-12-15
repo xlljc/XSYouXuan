@@ -20,6 +20,8 @@ public class Commodity implements Serializable {
 	private String name;
 	/**商品描述*/
 	private String particulars;
+	/**商品图片*/
+	private String image;
 	/**商品价格*/
 	private Float price;
 	/**单位*/
@@ -38,6 +40,8 @@ public class Commodity implements Serializable {
 	private Date newestPutawayDate;
 	/**商品状态, 0未上架, 1已上架, -1已删除*/
 	private Integer state;
+	/**商品折扣表, 扩展列*/
+	private ComDiscount comDiscount;
 	private List<Collect> collects;
 	private List<Comments> commentss;
 	private List<LookHistory> lookHistorys;
@@ -166,6 +170,15 @@ public class Commodity implements Serializable {
 	public Integer getState(){
 		return state;
 	}
+	/**获取"商品折扣表, 扩展列"*/
+	public ComDiscount getComDiscount() {
+		return comDiscount;
+	}
+	/**获取"商品折扣表, 扩展列"*/
+	public void setComDiscount(ComDiscount comDiscount) {
+		this.comDiscount = comDiscount;
+	}
+
 	public void setCollects(List<Collect> collects){
 		this.collects = collects;
 	}
@@ -222,6 +235,7 @@ public class Commodity implements Serializable {
 			", purchases = " + purchases + 
 			", shopcars = " + shopcars + 
 			", stars = " + stars + 
+			", comDiscount = " + comDiscount +
 			"]";
 	}
 }

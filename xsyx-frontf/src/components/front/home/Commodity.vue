@@ -14,7 +14,7 @@
             <el-row>
                 <el-button class="add-to-car" type="success" round plain>加入购物车</el-button>
                 <div class="price">
-                    <span class="discount">￥2.0</span>
+                    <span class="discount"></span>
                     <span class="discount-price"> ￥1.5</span>
                     <span> / 斤</span>
                 </div>
