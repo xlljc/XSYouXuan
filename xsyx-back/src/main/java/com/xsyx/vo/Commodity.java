@@ -178,6 +178,14 @@ public class Commodity implements Serializable {
 	public void setComDiscount(ComDiscount comDiscount) {
 		this.comDiscount = comDiscount;
 	}
+	/**获取"商品图片"*/
+	public String getImage() {
+		return image;
+	}
+	/**设置"商品图片"*/
+	public void setImage(String image) {
+		this.image = image;
+	}
 
 	public void setCollects(List<Collect> collects){
 		this.collects = collects;
@@ -221,7 +229,8 @@ public class Commodity implements Serializable {
 			"id = " + id + 
 			", name = " + name + 
 			", particulars = " + particulars + 
-			", price = " + price + 
+			", image = " + image +
+			", price = " + price +
 			", unit = " + unit + 
 			", specification = " + specification + 
 			", manufacturer = " + manufacturer + 

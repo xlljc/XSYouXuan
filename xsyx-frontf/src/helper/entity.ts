@@ -81,6 +81,8 @@ export interface Commodity {
     name: string;
     /**商品描述*/
     particulars: string;
+    /**商品图片*/
+    image: string;
     /**商品价格*/
     price: number;
     /**单位*/

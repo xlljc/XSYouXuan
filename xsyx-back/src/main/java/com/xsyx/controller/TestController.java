@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -45,18 +46,26 @@ public class TestController {
      * 测试文件上传
      */
     @RequestMapping("/fileUpload")
-    public Message fileUpload(@RequestParam("img") MultipartFile file) {
+    public Message fileUpload(@RequestParam("img") MultipartFile file, HttpServletRequest request) {
+        String filename = file.getContentType();
+        System.out.println(filename);
+        System.out.println(file.getOriginalFilename());
+        System.out.println(request.getServletContext().getRealPath("/src/main/images"));
+        /*filename = java.util.UUID.randomUUID().toString() + filename.substring(filename.lastIndexOf('.'));
+        //获取项目当前运行的路径     上下文对象
+        String path = request.getServletContext().getRealPath("/images");
+        File file = new File(path);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        //将文件保存到该路径下
         try {
-            System.out.println("测试文件上传...");
-            System.out.println(file.getName());
-            System.out.println();
-            InputStream inputStream = file.getInputStream();
-
+            imageFile.transferTo(new File(path, filename));
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
-        return new Message(true,"");
+        return new Message(true,"上传成功!");
     }
 
 }
