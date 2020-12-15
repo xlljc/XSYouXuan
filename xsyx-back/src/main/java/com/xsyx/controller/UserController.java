@@ -31,6 +31,7 @@ public class UserController {
      */
     @RequestMapping("/register")
     public Message register(User user, HttpSession session) {
+
         return userService.register(user,session);
     }
 

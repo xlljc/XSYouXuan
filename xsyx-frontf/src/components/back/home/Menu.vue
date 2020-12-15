@@ -8,7 +8,7 @@
                    :class="isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'"></i>
             </el-menu-item-group>
 
-                <!--判断该变量是否包含子级 生成下拉符号-->
+                <!--判断该变量是否包含子级 生成下拉符号-->            <!--控制台报index错误是因为这个index BUG 还没解决-->
             <el-submenu v-for="menu in menus" :key="menu.id" :index="menu.id"><!--不给index会将页面全部撑开-->
                 <template slot="title">
                     <i class="el-icon-location"></i>

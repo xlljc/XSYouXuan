@@ -493,15 +493,12 @@ export class MenuHelper {
 
     getMenuData(): Promise<menu[]> {
         return new Promise<menu[]>(resolve => {
-            setTimeout(() => {
-                //let data = new URLSearchParams();
-                //data.append("name","111");
-                //后台异步获取菜单
-                Axios.get("menu/queryAll").then(value => {
-                    resolve(value.data);
-                })
-
-            },1000)
+            //let data = new URLSearchParams();
+            //data.append("name","111");
+            //后台异步获取菜单
+            Axios.get("menu/queryAll").then(value => {
+                resolve(value.data);
+            })
         });
     }
 
