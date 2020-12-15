@@ -2,6 +2,9 @@
  * 全局css样式
  */
 
+.el-breadcrumb__separator{
+    color: black;
+}
 
 /* 默认字体 */
 body {
@@ -117,10 +120,10 @@ body {
     border-color: #67C23A;
 }
 .xsyx-commodity-content {
-    cursor: pointer;
+    /*cursor: pointer;*/
     width: 200px;
     height: 280px;
-    background-color: #F5F7FA;
+   /* background-color: #F5F7FA;*/
     border-radius: 4px;
     margin: 0 auto;
 }

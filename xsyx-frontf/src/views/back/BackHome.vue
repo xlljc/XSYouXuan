@@ -34,12 +34,14 @@
     import Commodity from "@/components/back/home/Commodity.vue";
     import Menu from "@/components/back/home/Menu.vue";
     import Header from "@/components/back/home/Header.vue";
+    import CommodityTypeMaintain from "@/components/back/home/CommodityTypeMaintain.vue";
 
     @Component({
         components: {
             backMenu:Menu,
             backHeader:Header,
             Commodity,
+            CommodityTypeMaintain,
 
         }
     })
@@ -58,7 +60,7 @@
 
 <style scoped>
     .el-header, .el-footer {
-        background-color: #B3C0D1;
+        background-color: #F3F3F3;
         color: #333;
 
     }

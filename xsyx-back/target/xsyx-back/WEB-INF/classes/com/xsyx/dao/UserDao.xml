@@ -144,7 +144,7 @@
     <!-- 用户登录 -->
     <select id="login" resultMap="UserMap">
         select birthday,uname,last_login_time,signature,sex,id_card,is_delete,password,phone,merid,id,username,head_portrait from user
-        where (username=#{nameOrPhone} or phone=#{nameOrPhone}) and password=#{password} limit 1;
+        where (username=#{nameOrPhone} or phone=#{nameOrPhone}) and password=#{password} and is_delete!=1 limit 1;
     </select>
 
 </mapper>
