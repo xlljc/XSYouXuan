@@ -1,6 +1,6 @@
 import Axios from "axios";
 
-const menus:menu[] = [
+/*const menus:menu[] = [
     {
         "id": 1,
         "name": "商品管理",
@@ -475,7 +475,7 @@ const menus:menu[] = [
             }
         ]
     }
-]
+]*/
 
 
 export type menu = {
@@ -494,9 +494,13 @@ export class MenuHelper {
     getMenuData(): Promise<menu[]> {
         return new Promise<menu[]>(resolve => {
             setTimeout(() => {
+                //let data = new URLSearchParams();
+                //data.append("name","111");
                 //后台异步获取菜单
+                Axios.get("menu/queryAll").then(value => {
+                    resolve(value.data);
+                })
 
-                resolve(menus);
             },1000)
         });
     }

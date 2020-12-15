@@ -9,7 +9,7 @@
             </el-menu-item-group>
 
                 <!--判断该变量是否包含子级 生成下拉符号-->
-            <el-submenu v-for="menu in menus" :key="menu.id" :index="menu.id" >
+            <el-submenu v-for="menu in menus" :key="menu.id" :index="menu.id"><!--不给index会将页面全部撑开-->
                 <template slot="title">
                     <i class="el-icon-location"></i>
                     <span slot="title">{{menu.name}}</span>
@@ -41,7 +41,6 @@
         created() {
             menuHelper.getMenuData().then(data => {
                 this.menus = data;
-
             })
         }
 

@@ -77,29 +77,34 @@
             let url = this.$store.getters['back/url'];
             //获取截取的地址映射
             let arr=url.substr(url.indexOf("back")).split("/");
-            //将其改成中文的名字 放到面包屑
-            /*console.log(arr[1])*/
+
+            //定义 接收中文面包屑的数组
+            let zhonarr:string[]=[];
+
             //循环父级菜单
             for (let i = 0; i < this.menus.length; i++) {
                 let zi=this.menus[i].menus
-
-
-                //循环子级菜单
+                //循环子级菜单   子菜单没有parent  给子菜单的parent赋值
                 for(let j = 0; j <zi.length ; j++){
-                    if (this.menus[i].id===zi[j].parent){
-                        console.log(zi[j].name)
-                    }
-
+                    zi[j].parent=this.menus[i].id;
                 }
-               /* console.log(this.menus[i].url,arr[1])
-                //将菜单的url 拿来和截取的地址比对  成功返回中文名
-                if (this.menus[i].url === arr[1]){
-                   /!* console.log(arr[1])
-                    console.log(this.menus[i].name)*!/
-                    /!*url.push(this.menus[i].name)*!/
-                }*/
             }
-            return arr
+            for (let i = 0; i < this.menus.length; i++) {
+                let zi=this.menus[i].menus
+                //循环子级菜单   子菜单没有parent  给子菜单的parent赋值
+                for(let j = 0; j <zi.length ; j++){
+                    //判断 面包屑的url 是否与子菜单的url匹配 返回中文
+                    if (zi[j].url === arr[1]){
+                        zhonarr[0]="首页"
+                        zhonarr[1]=this.menus[i].name
+                        zhonarr[2]=zi[j].name
+                       /* console.log(this.menus[i].name)
+                        console.log(zi[j].name)*/
+                    }
+                }
+            }
+
+            return zhonarr
         }
 
 
