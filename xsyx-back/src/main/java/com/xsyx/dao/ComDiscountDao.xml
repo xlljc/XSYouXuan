@@ -82,4 +82,10 @@
         where id = #{id}
     </update>
 
+    <!-- 根据商品id查询商品折扣信息 -->
+    <select id="queryDiscount" resultMap="ComDiscountMap">
+        select id, commodity, start_time, end_time, discount, remark from com_discount
+        where commodity=#{id} and (NOW() between start_time and end_time) order by id desc limit 1;
+    </select>
+
 </mapper>

@@ -81,6 +81,8 @@ export interface Commodity {
     name: string;
     /**商品描述*/
     particulars: string;
+    /**商品图片*/
+    image: string;
     /**商品价格*/
     price: number;
     /**单位*/
@@ -97,6 +99,8 @@ export interface Commodity {
     newestPutawayDate: string;
     /**商品状态, 0未上架, 1已上架, -1已删除*/
     state: number;
+    /**商品折扣表, 扩展列*/
+    comDiscount: ComDiscount;
     collects: Collect[];
     commentss: Comments[];
     lookHistorys: LookHistory[];
@@ -539,4 +543,16 @@ export interface Warehouse {
     latitude: number;
     /**仓库状态, 0冻结, 1正常*/
     warstate: number;
+}
+/**
+ * 后台返回前端的消息,包含一个flag和msg消息
+ * 通常用于前台请求后台操作,后台返回是否成功
+ *
+ * 用于Controller层的返回值
+ */
+export interface Message {
+    /**该操作是执行否成功*/
+    flag: boolean;
+    /**操作返回的消息, 该消息可以是字符串, 对象等*/
+    msg: any;
 }
