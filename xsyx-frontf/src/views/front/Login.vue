@@ -89,6 +89,7 @@
 <script lang="ts">
     import {Vue, Component, Watch} from "vue-property-decorator";
     import Axios from "axios";
+    import {User} from "@/helper/entity";
 
 
     @Component({
@@ -136,12 +137,18 @@
 
             data.append("name",this.ruleForm.username);
             data.append("password",this.ruleForm.password)
+            alert(this.ruleForm.username)
+            Axios({
+                method:"post",
+                url:"/user/login",
+                data:data
+            }).then((result) => {
 
-            Axios.put("/user/login",data).then((msg) => {
-                msg.data
-                alert(data)
+                console.log(result.data )
+                sessionStorage.setItem("username",result.data.msg.username)
             })
         }
+
 
         showNum() {
 
@@ -215,11 +222,6 @@
             let b = Math.floor(Math.random() * 256);
             return "rgb(" + r + "," + g + "," + b + ")";
         }
-
-
-
-
-
         mounted() {
             this.draw(this.num);
         }

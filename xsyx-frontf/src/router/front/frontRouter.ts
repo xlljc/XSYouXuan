@@ -5,7 +5,7 @@ import Registered from "@/views/front/Registered.vue";
 import UserHome from "@/views/front/UserHome.vue";
 import Shopcar from "@/views/front/Shopcar.vue";
 import Shopes from "@/views/front/Shopes.vue";
-
+import Information from "@/views/front/Information.vue";
 
 /**
  * 前台路由
@@ -19,7 +19,11 @@ const FontRouter: Array<RouteConfig> = [
         component:Registered
     },{
         path:'/zc',
-        component:UserHome
+        component:UserHome,
+        children: [{
+            path: "/information",
+            component:Information
+        }]
     },{
     path:'/gwc',
         component:Shopcar

@@ -26,7 +26,7 @@
                 <el-col :span="24">
 <!--                <el-aside width="200px" style="background-color: white;margin-left: 5%;margin-top: 50px">-->
                     <el-col :span="6">
-                        <div style="margin-top: 130px;width: 220px;margin-left: 220px">
+                        <div style="margin-top: 130px;width: 220px;margin-left: 100px">
 
                     <el-menu  default-active="2"
                               class="el-menu-vertical-demo"
@@ -43,8 +43,9 @@
                             <span>个人中心</span>
                         </template>
                         <el-menu-item-group>
-                            <el-menu-item index="1-1">显示个人信息</el-menu-item>
+                            <el-menu-item index="1-1" @click="$router.replace('/zc/information')">显示个人信息</el-menu-item>
                             <el-menu-item index="1-2">修改个人信息</el-menu-item>
+                            <el-menu-item index="1-3">统计</el-menu-item>
                         </el-menu-item-group>
                         </el-submenu>
                         <el-menu-item><i class="el-icon-shopping-cart-full"/>我的购物车</el-menu-item>
@@ -57,10 +58,10 @@
                         </div>
                     </el-col>
                 <el-container>
-                    <el-col :span="12">
-                        <div style="margin-top: 90px;margin-left: 60px;width: 1200px;margin-left: -5px">
-                        <el-menu :default-active="'1'"
-                                 mode="horizontal" style="width: 900px;background-color: #92E6EE">
+                    <el-col :span="12" style="margin-left: -110px">
+                        <div style="margin-top: 90px; width: 1600px;margin-left: -5px">
+                        <el-menu :default-active="'1'" :src="require('@/assets/mcimg/16.png')"
+                                 mode="horizontal"  style="width: 1100px;height: 200px;" class="bjtp">
                             <el-menu-item>
                                 <div class="block"><el-avatar :size="50" :src="require('@/assets/mcimg/16.png')"></el-avatar></div>
                             </el-menu-item>
@@ -82,17 +83,24 @@
                         </el-menu>
 
                         </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div class="day">
-                            <div class="day1">
-                                我的日历
-                            </div>
-                            <div class="day2">
 
-                            </div>
+
+                        <div>
+
+                            <router-view></router-view>
+
                         </div>
                     </el-col>
+<!--                    <el-col :span="6">-->
+<!--                        <div class="day">-->
+<!--                            <div class="day1">-->
+<!--                                我的日历-->
+<!--                            </div>-->
+<!--                            <div class="day2">-->
+
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </el-col>-->
 <!--                        <el-menu>-->
 
 <!--                        </el-menu>-->
@@ -134,6 +142,7 @@
         margin-left: 202px;
         margin-top: 130px;
     }
+
     .day1{
         width:350px;
         height: 40px;

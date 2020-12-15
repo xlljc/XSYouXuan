@@ -16,14 +16,7 @@
                     <el-menu-item index="3"><i class="el-icon-scissors"></i>每日特价</el-menu-item>
                 </el-menu>
             </el-header>
-<!--            <el-main style="margin-top: 30px;">-->
-<!--                <el-menu :default-active="'1'"-->
-<!--                         mode="horizontal">-->
-<!--                <el-menu-item>-->
-<!--                    <el-image style="width: 100px; height: 100px" :src="require('@/mcimg/logos.png')"></el-image>-->
-<!--                </el-menu-item>-->
-<!--                </el-menu>-->
-<!--            </el-main>-->
+
             <el-container>
 
                 <el-row height="" style="margin-top: 50px;">
