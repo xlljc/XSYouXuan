@@ -9,12 +9,12 @@ import './views/logine.css';
 import './views/reset.css'
 import Axios from "axios";
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 Vue.use(ElementUi);
 
 Vue.use({
   install: (Vue1, options) => {
-    /*Vue1.*/
+    Vue1.prototype.$host = "http://localhost:8080/";
   }
 })
 

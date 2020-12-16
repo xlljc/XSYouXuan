@@ -8,7 +8,7 @@
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
                 name="file">
-            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+            <img v-if="imageUrl" :src="$host + imageUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
     </div>
@@ -27,10 +27,9 @@
         };
 
         handleAvatarSuccess(res:Message, file:any) {
-            this.
-            this.$slots
+
             if (res.flag) {
-                this.imageUrl = "http://localhost:8080" + res.msg;
+                this.imageUrl = res.msg;
                 console.log(this.imageUrl);
                 this.$message.success("上传成功!");
             } else {
@@ -51,7 +50,7 @@
         }
 
         created() {
-
+            console.log(this.$host)
         }
 
         mounted() {
