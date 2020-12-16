@@ -41,4 +41,11 @@ public interface CommodityDao {
    * 根据Commodity条件修改单条数据方法,从传入对象获取id 
    */
   int updateById(Commodity commodity);
+  //-----------------------
+  /**
+   *根据商品名 还有上架状态执行模糊查询
+   */
+  List<Commodity> moHuquery( @Param("name") String name,
+                             @Param("state") String state);
+
 }

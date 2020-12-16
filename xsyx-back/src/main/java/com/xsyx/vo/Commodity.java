@@ -42,6 +42,7 @@ public class Commodity implements Serializable {
 	private Integer state;
 	/**商品折扣表, 扩展列*/
 	private ComDiscount comDiscount;
+
 	private List<Collect> collects;
 	private List<Comments> commentss;
 	private List<LookHistory> lookHistorys;

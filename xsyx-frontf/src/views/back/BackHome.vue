@@ -1,9 +1,4 @@
 <template>
-    <!--<div>
-        后台首页
-        <hello></hello>
-        <commodity></commodity>
-    </div>-->
     <div id="app" class="homeWrap">
         <el-container style="height:100%" direction="vertical">
 
