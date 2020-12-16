@@ -12,8 +12,14 @@ import Axios from "axios";
 Vue.config.productionTip = false
 Vue.use(ElementUi);
 
-Axios.defaults.baseURL = 'http://localhost:8080/';
+Vue.use({
+  install: (Vue1, options) => {
+    /*Vue1.*/
+  }
+})
 
+Axios.defaults.baseURL = 'http://localhost:8080/';
+Vue.prototype.host = "";
 new Vue({
   router,
   store,

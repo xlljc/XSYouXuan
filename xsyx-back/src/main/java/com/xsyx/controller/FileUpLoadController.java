@@ -29,7 +29,7 @@ public class FileUpLoadController {
      * @param request 请求对象
      * @return 消息对象, 包含是否成功, 如果成功, 消息中将包含文件访问路径
      */
-    @RequestMapping("/fileUpLoad")
+    @RequestMapping("/fileUpload")
     public Message upload(@RequestParam("file") MultipartFile file,
                           Integer empId,
                           String dir,

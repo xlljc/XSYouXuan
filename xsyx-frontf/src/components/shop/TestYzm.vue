@@ -3,7 +3,7 @@
         <el-upload
                 ref="upload"
                 class="avatar-uploader"
-                action="http://localhost:8080/fileUpLoad?empId=1"
+                action="http://localhost:8080/fileUpload?empId=1"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
@@ -27,6 +27,8 @@
         };
 
         handleAvatarSuccess(res:Message, file:any) {
+            this.
+            this.$slots
             if (res.flag) {
                 this.imageUrl = "http://localhost:8080" + res.msg;
                 console.log(this.imageUrl);
