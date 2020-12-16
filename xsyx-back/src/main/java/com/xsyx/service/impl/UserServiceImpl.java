@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
             MyUtils.setUserId(users.getId(),session);
             //写入日志
             userLogDao.addLog(users.getId(),"登录网站",null);
-            return new Message(true,"登录成功! ");
+            return new Message(true,users);
         }
         return new Message(false,"登录失败! 用户名或手机号或密码错误!");
     }

@@ -36,5 +36,6 @@ module.exports = {
     "eqeqeq": 2,
     //强制使用驼峰命名
     "camelcase": 2,
+    "@typescript-eslint/ban-ts-ignore": 1
   }
 }

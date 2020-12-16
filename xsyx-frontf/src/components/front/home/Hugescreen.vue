@@ -35,16 +35,16 @@
         data: hugescreenData[] = [
             {
                 image: require('@/assets/home-1.jpg'),
-                title: '巨幕标题巨幕标题巨幕标题巨幕',
-                label: '阿巴阿巴'
+                title: '年终究极大特惠',
+                label: '秒杀天天有，今天更刺激。'
             },{
                 image: require('@/assets/slide3.jpg'),
                 title: '巨幕标题巨幕标题巨幕标题巨幕',
-                label: '阿巴阿巴'
+                label: '爆价出击，让你躲无可躲。'
             },{
                 image: require('@/assets/slide-2.jpg'),
                 title: '巨幕标题巨幕标题巨幕标题巨幕',
-                label: '阿巴阿巴'
+                label: '一路惠，一路降，一路有你，就不怕。'
             }
         ];
         created() {
