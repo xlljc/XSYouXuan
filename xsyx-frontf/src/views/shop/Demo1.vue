@@ -1,8 +1,8 @@
 <template>
-    <div style="width: 500px;height: 500px;background-color: #6c6c6c">
+    <div style="width: 500px;height: 500px;">
         <router-link tag="button" to="/shop/y1">页面1</router-link>
         <router-link tag="button" to="/shop/y1">页面2</router-link>
-        <div style="width: 500px;height: 300px;background-color: #8A8D94">
+        <div style="width: 500px;height: 300px;">
             <router-view></router-view>
         </div>
         <div v-html="html"></div>
