@@ -38,12 +38,14 @@
         </el-menu>
 
        <!-- 生成面包屑-->
-        <div>
+        <div style="background: white;padding-top: 20px">
             <el-breadcrumb separator-class="el-icon-arrow-right" >
                 <el-breadcrumb-item v-for="(item,index) in urls" :key="index">
-                    <a href="/back">{{ item }}</a>
+                    <a>{{ item }}</a>
                 </el-breadcrumb-item>
             </el-breadcrumb>
+
+            <el-divider></el-divider>
         </div>
     </div>
 
@@ -59,7 +61,7 @@
     @Component
     export default class Header extends Vue {
         //logo
-        logo = require('@/mcimg/logos.png');
+        logo = require('@/assets/mcimg/logos.png');
         //头像
         url = require('@/assets/touxiang.jpg');
 

@@ -35,6 +35,7 @@
     import Menu from "@/components/back/home/Menu.vue";
     import Header from "@/components/back/home/Header.vue";
     import CommodityTypeMaintain from "@/components/back/home/CommodityTypeMaintain.vue";
+    import Warehousemaintain from "@/components/back/home/Warehousemaintain.vue";
 
     @Component({
         components: {
@@ -42,7 +43,7 @@
             backHeader:Header,
             Commodity,
             CommodityTypeMaintain,
-
+            Warehousemaintain,
         }
     })
     export default class BackHome extends Vue {
@@ -72,7 +73,7 @@
     }
 
     .el-main {
-        background-color: #E9EEF3;
+        background-color: white;
         color: #333;
 
     }

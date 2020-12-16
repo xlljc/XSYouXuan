@@ -6,11 +6,11 @@
                 <el-menu :default-active="'1'"
                          mode="horizontal">
                     <el-menu-item>
-                        <el-image style="width: 60px; height: 60px" :src="require('@/mcimg/logos.png')"></el-image>
+                        <el-image style="width: 60px; height: 60px" :src="require('@/assets/mcimg/logos.png')"></el-image>
                     </el-menu-item>
                     <el-menu-item><i class="el-icon-house"/>首页</el-menu-item>
                     <el-menu-item class="right">
-                        <el-image style="width: 55px; height: 50px" :src="require('@/mcimg/hua.png')"></el-image>
+                        <el-image style="width: 55px; height: 50px" :src="require('@/assets/mcimg/hua.png')"></el-image>
                     </el-menu-item>
                     <el-menu-item class="right" index="8">关于我们</el-menu-item>
                     <el-menu-item class="right" index="7">联系客服</el-menu-item>
@@ -22,47 +22,53 @@
                     <el-menu-item index="3"><i class="el-icon-scissors"></i>每日特价</el-menu-item>
                 </el-menu>
             </el-header>
-
+<div style="width: 1900px; height: 800px">
             <el-main>
                 <el-col :span="24">
-                    <el-image style="width: 1855px; height: 800px" :src="require('@/mcimg/loginsss.png')"></el-image>
+                    <el-image style="width: 1855px; height: 800px;margin-left:12px" :src="require('@/assets/mcimg/loginsss.png')"></el-image>
                 </el-col>
                 <el-col :span="4">
                     <div class="login">
                         <div class="login-top">
                             用户登录
                         </div>
-                        <div class="login-center clearfix">
-                            <div class="login-center-img"><el-image style="width: 27px; height: 27px" :src="require('@/mcimg/name.png')"></el-image></div>
-                            <div class="login-center-input">
-                                <input type="text" placeholder="请输入您的用户名" onfocus="this.placeholder=''" onblur="this.placeholder='请输入您的用户名'"/>
-                                <div class="login-center-input-text">用户名</div>
+                        <div style="margin-top: -20px">
+                        <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm">
+                            <div class="login-center clearfix">
+                                <div class="login-center-img">
+                                    <el-image style="width:30px; height: 27px" :src="require('@/assets/mcimg/name.png')"></el-image>
+                                </div>
+                                    <el-form-item class="login-center-input" prop="username">
+                                        <el-input type="type" placeholder="请输入您的用户名" v-model="ruleForm.username" onfocus="this.placeholder=''"
+                                                  autocomplete="off" onblur="this.placeholder='请输入您的用户名'"/>
+                                    </el-form-item>
                             </div>
-                        </div>
-                        <div class="login-center clearfix">
-                            <div class="login-center-img"><el-image style="width: 27px; height: 27px" :src="require('@/mcimg/password.png')"></el-image></div>
-                            <div class="login-center-input">
-                                <input type="password" placeholder="请输入您的密码" onfocus="this.placeholder=''" onblur="this.placeholder='请输入您的密码'"/>
-                                <div class="login-center-input-text">密码</div>
-                            </div>
-                        </div>
-                        <div class="login-center clearfix">
-                            <div class="login-center-img"><el-image style="width: 27px; height: 27px" :src="require('@/mcimg/yzm1.png')"></el-image></div>
-
-                            <div class="login-center-input">
-                                <input type="password" placeholder="请输入验证码" onfocus="this.placeholder=''" onblur="this.placeholder='请输入验证码'"/>
-                                <div class="login-center-input-text">验证码</div>
-                                <br>
-                                <br>
-                                <canvas id="canvas" @click="showNum"></canvas>
-
-
+                            <div class="login-center clearfix">
+                                <div class="login-center-img">
+                                    <el-image style="width: 27px; height: 27px" :src="require('@/assets/mcimg/password.png')"></el-image>
+                                </div>
+                                    <el-form-item class="login-center-input" prop="password">
+                                    <el-input type="password" placeholder="请输入您的密码" onfocus="this.placeholder=''"
+                                         v-model="ruleForm.password" autocomplete="off" onblur="this.placeholder='请输入您的密码'"/>
+                                    <div class="login-center-input-text">密码</div>
+                                    </el-form-item>
                             </div>
 
-                        </div>
-                        <br>
-                        <div class="login-button">
-                            登陆
+                            <div class="login-center clearfix">
+                                <div class="login-center-img">
+                                    <el-image style="width: 27px; height: 27px" :src="require('@/assets/mcimg/yzm1.png')"></el-image></div>
+                                <div class="login-center-input">
+                                    <input type="text" placeholder="请输入验证码" onfocus="this.placeholder=''" onblur="this.placeholder='请输入验证码'"/>
+                                    <div class="login-center-input-text">验证码</div>
+                                    <br>
+                                    <br>
+                                    <canvas id="canvas" @click="showNum"></canvas>
+                                </div>
+
+                            </div>
+                            <br>
+                            <el-button type="primary" @click="denglu">提交</el-button>
+                        </el-form>
                         </div>
                     </div>
                     <div class="sk-rotating-plane"></div>
@@ -75,13 +81,15 @@
 
 
             </el-footer>
-
+</div>
         </el-container>
     </div>
 </template>
 
 <script lang="ts">
     import {Vue, Component, Watch} from "vue-property-decorator";
+    import Axios from "axios";
+    import {User} from "@/helper/entity";
 
 
     @Component({
@@ -91,15 +99,59 @@
     export default class Login extends Vue {
         /*num: [];
         number: "";*/
+
+        validateusername:any = (rule:any, value:any, callback:any) => {
+            if (value === '') {
+                callback(new Error('请输入您的账号'));
+            }
+            let $ref = this.$refs["ruleForm"];
+        };
+
+        validatePass:any = (rule:any, value:any, callback:any) => {
+            if (value === '') {
+                callback(new Error('请输入您的密码'));
+            }
+            let $ref = this.$refs["ruleForm"];
+        };
+        ruleForm = {
+            username:'',
+            password: '',
+        }
+        rules= {
+            password: [
+                { validator: this.validatePass, trigger: 'blur' }
+            ],
+            username:[
+                { validator: this.validateusername, trigger: 'blur' }
+            ]
+        }
+
+
+
         num:string[] = [];
         number = "";
-        /*data() :{}{
-            return {
-                num: [],
-                number: ""
-            };
-        }*/
+
+        denglu(){
+
+            let data = new URLSearchParams();
+
+            data.append("name",this.ruleForm.username);
+            data.append("password",this.ruleForm.password)
+            alert(this.ruleForm.username)
+            Axios({
+                method:"post",
+                url:"/user/login",
+                data:data
+            }).then((result) => {
+
+                console.log(result.data )
+                sessionStorage.setItem("username",result.data.msg.username)
+            })
+        }
+
+
         showNum() {
+
             this.draw(this.num);
             this.number = this.num.join().replace(/,/g, "");
         }
@@ -170,11 +222,6 @@
             let b = Math.floor(Math.random() * 256);
             return "rgb(" + r + "," + g + "," + b + ")";
         }
-
-
-
-
-
         mounted() {
             this.draw(this.num);
         }
@@ -196,11 +243,3 @@
     }
 
 </style>
-
-<!--                <el-col :span="24">-->
-<!--                    <el-image style="width: 200px; height: 200px" :src="require('@/mcimg/logos.png')"></el-image>-->
-<!--                </el-col>-->
-
-<!--                <el-col :span="24">-->
-<!--                    <el-image style="width: 1800px; height: 800px" :src="require('@/mcimg/logins.png')"></el-image>-->
-<!--                </el-col>-->
