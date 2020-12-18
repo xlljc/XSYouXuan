@@ -27,11 +27,7 @@ public class FileUpLoadUtil {
         filename = java.util.UUID.randomUUID().toString() + filename.substring(filename.lastIndexOf('.'));
         //获取项目当前运行的路径     上下文对象
         String path = request.getServletContext().getRealPath("/resource/" + dir);
-        System.out.println(dir);
-        System.out.println(path);
         String path2 = path.substring(0,path.indexOf("xsyx-back") + 9) + "\\src\\main\\webapp\\resource\\" + dir.replaceAll("/","\\\\");
-        //System.out.println(path);
-        System.out.println(path2);
         File file = new File(path2);
         if (!file.exists()) file.mkdirs();
         //将文件保存到该路径下

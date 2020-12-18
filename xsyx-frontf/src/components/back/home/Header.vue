@@ -53,7 +53,8 @@
 
 <script lang="ts">
     import {Vue, Component, Watch} from "vue-property-decorator";
-    import {menu,MenuHelper} from "@/helper/back/MenuHelper";
+    import {MenuHelper} from "@/helper/back/MenuHelper";
+    import {Menu} from "@/helper/entity";
 
 
     let menuHelper = new MenuHelper();
@@ -65,7 +66,7 @@
         //头像
         url = require('@/assets/touxiang.jpg');
 
-        menus:menu[] = []
+        menus:Menu[] = []
 
         created() {
             menuHelper.getMenuData().then(data => {
@@ -110,7 +111,7 @@
         }
 
 
-        getChild(menus: menu[]) {
+        getChild(menus: Menu[]) {
             if (menus === null) return [];
             return menus;
         }

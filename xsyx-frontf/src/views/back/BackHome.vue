@@ -25,20 +25,13 @@
 
 <script lang="ts">
     import {Vue, Component} from "vue-property-decorator";
-    import Hello from "@/views/back/Hello.vue";
-    import Commodity from "@/components/back/home/Commodity.vue";
     import Menu from "@/components/back/home/Menu.vue";
     import Header from "@/components/back/home/Header.vue";
-    import CommodityTypeMaintain from "@/components/back/home/CommodityTypeMaintain.vue";
-    import Warehousemaintain from "@/components/back/home/Warehousemaintain.vue";
 
     @Component({
         components: {
             backMenu:Menu,
             backHeader:Header,
-            Commodity,
-            CommodityTypeMaintain,
-            Warehousemaintain,
         }
     })
     export default class BackHome extends Vue {

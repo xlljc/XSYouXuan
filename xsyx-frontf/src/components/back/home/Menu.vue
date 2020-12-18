@@ -29,15 +29,16 @@
 
 <script lang="ts">
     import {Vue, Component} from "vue-property-decorator";
-    import {menu, MenuHelper} from "@/helper/back/MenuHelper";
-
+    import {MenuHelper} from "@/helper/back/MenuHelper";
+    import {Menu as MenuInfo} from "@/helper/entity";
 
     let menuHelper = new MenuHelper();
 
     @Component
     export default class Menu extends Vue {
 
-        menus:menu[] = []
+        menus: MenuInfo[] = []
+
         created() {
             menuHelper.getMenuData().then(data => {
                 this.menus = data;
@@ -56,7 +57,7 @@
             }
         }
 
-        getChild(menus: menu[]) {
+        getChild(menus: MenuInfo[]) {
             if (menus === null) return [];
             return menus;
         }

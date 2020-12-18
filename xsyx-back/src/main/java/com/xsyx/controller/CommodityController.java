@@ -1,5 +1,6 @@
 package com.xsyx.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.xsyx.dao.CommodityDao;
 import com.xsyx.service.CommodityService;
 import com.xsyx.vo.Commodity;

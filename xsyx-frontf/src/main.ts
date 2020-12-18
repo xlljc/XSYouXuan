@@ -15,11 +15,12 @@ Vue.use(ElementUi);
 Vue.use({
   install: (Vue1, options) => {
     Vue1.prototype.$host = "http://localhost:8080/";
+    Vue1.prototype.$axios = Axios;
   }
 })
 
 Axios.defaults.baseURL = 'http://localhost:8080/';
-Vue.prototype.host = "";
+
 new Vue({
   router,
   store,

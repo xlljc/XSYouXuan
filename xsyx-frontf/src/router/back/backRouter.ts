@@ -1,6 +1,6 @@
 import {RouteConfig} from "vue-router";
 import BackHome from "@/views/back/BackHome.vue";
-import Commodity from "@/components/back/home/Commodity.vue";
+import Commodity from "@/components/back/home/Commodity/Commodity.vue";
 import CommodityTypeMaintain from "@/components/back/home/CommodityTypeMaintain.vue";
 import Warehousemaintain from "@/components/back/home/Warehousemaintain.vue";
 
