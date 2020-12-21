@@ -36,4 +36,17 @@ export default class Utils {
         return s;
     }
 
+    /**
+     * 拼接 URLSearchParams 对象
+     * @param urlSearchParams
+     * @param obj
+     * @param keys
+     */
+    public static format<T>(urlSearchParams: URLSearchParams,obj: T, ...keys: (keyof T)[]): URLSearchParams {
+        if (keys.length > 0)
+            for (let key of keys) urlSearchParams.append(key.toString(), obj[key].toString());
+        else
+            for (let key in obj) urlSearchParams.append(key, obj[key].toString());
+        return urlSearchParams;
+    }
 }

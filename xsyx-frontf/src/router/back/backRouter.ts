@@ -3,6 +3,7 @@ import BackHome from "@/views/back/BackHome.vue";
 import Commodity from "@/components/back/home/Commodity/Commodity.vue";
 import CommodityTypeMaintain from "@/components/back/home/CommodityTypeMaintain.vue";
 import Warehousemaintain from "@/components/back/home/Warehousemaintain.vue";
+import EmpManagement from "@/components/back/home/system/emp/EmpManagement.vue";
 
 /**
  * 后台路由
@@ -25,6 +26,8 @@ const BackRouter: Array<RouteConfig> = [
             }
         ]
     }*/
+    //员工管理
+    {path:"/empManagement",component:EmpManagement},
 ]
 
 export default BackRouter;

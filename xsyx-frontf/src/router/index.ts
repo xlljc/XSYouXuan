@@ -6,6 +6,7 @@ import FontRouter from "@/router/front/frontRouter";
 import BackRouter from "@/router/back/backRouter";
 import ShopRouter from "@/router/shop/shopRouter";
 import Demo1 from "@/views/shop/Demo1.vue";
+import BackLogin from "@/views/back/BackLogin.vue";
 
 Vue.use(VueRouter)
 
@@ -19,6 +20,13 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     component: FrontHome
+  },
+  /**
+   * 后台登录
+   */
+  {
+    path: "/backLogin",
+    component: BackLogin
   },
   /**
    * 后台路由,访问地址 /back/.....
@@ -46,7 +54,7 @@ function addParentUrl(parentUrl: string,routers: Array<RouteConfig>) {
   for (let i of routers) {
     let temp = i.path;
     i.path = parentUrl + i.path;
-    if (i.children) addParentUrl(parentUrl + temp,i.children);
+    if (i.children) addParentUrl(parentUrl + temp, i.children);
   }
 }
 addParentUrl('',routes);
@@ -56,5 +64,14 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+
+/**
+ * 静态根路由
+ */
+export class RootRouter {
+  static readonly router: VueRouter = router;
+}
+
 
 export default router

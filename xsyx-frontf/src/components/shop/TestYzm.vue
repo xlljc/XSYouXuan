@@ -1,13 +1,11 @@
 <template>
     <div>
         <el-upload
-                ref="upload"
                 class="avatar-uploader"
                 action="http://localhost:8080/fileUpload?empId=1"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
-
                 name="file">
             <img v-if="imageUrl" :src="$host + imageUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>

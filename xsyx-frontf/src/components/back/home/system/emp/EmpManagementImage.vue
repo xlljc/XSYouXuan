@@ -3,7 +3,7 @@
     <div>
         <el-upload
                 class="avatar-uploader"
-                :action="'http://localhost:8080/fileUpload?empId=' + empId"
+                :action="'http://localhost:8080/fileUpload?dir=emp&empId=' + empId"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"

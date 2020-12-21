@@ -66,7 +66,7 @@
         //头像
         url = require('@/assets/touxiang.jpg');
 
-        menus:Menu[] = []
+        menus: Menu[] = []
 
         created() {
             menuHelper.getMenuData().then(data => {
@@ -79,29 +79,29 @@
             //截取地址的映射
             let url = this.$store.getters['back/url'];
             //获取截取的地址映射
-            let arr=url.substr(url.indexOf("back")).split("/");
+            let arr = url.substr(url.indexOf("back")).split("/");
 
             //定义 接收中文面包屑的数组
-            let zhonarr:string[]=[];
+            let zhonarr: string[] = [];
 
             //循环父级菜单
             for (let i = 0; i < this.menus.length; i++) {
-                let zi=this.menus[i].menus
+                let zi = this.menus[i].menus
                 //循环子级菜单   子菜单没有parent  给子菜单的parent赋值
-                for(let j = 0; j <zi.length ; j++){
-                    zi[j].parent=this.menus[i].id;
+                for (let j = 0; j < zi.length; j++) {
+                    zi[j].parent = this.menus[i];
                 }
             }
             for (let i = 0; i < this.menus.length; i++) {
-                let zi=this.menus[i].menus
+                let zi = this.menus[i].menus
                 //循环子级菜单   子菜单没有parent  给子菜单的parent赋值
-                for(let j = 0; j <zi.length ; j++){
+                for (let j = 0; j < zi.length; j++) {
                     //判断 面包屑的url 是否与子菜单的url匹配 返回中文
-                    if (zi[j].url === arr[1]){
-                        zhonarr[0]="首页"
-                        zhonarr[1]=this.menus[i].name
-                        zhonarr[2]=zi[j].name
-                       /* console.log(this.menus[i].name)
+                    if (zi[j].url === arr[1]) {
+                        zhonarr[0] = "首页"
+                        zhonarr[1] = this.menus[i].name
+                        zhonarr[2] = zi[j].name
+                        /* console.log(this.menus[i].name)
                         console.log(zi[j].name)*/
                     }
                 }
@@ -115,7 +115,6 @@
             if (menus === null) return [];
             return menus;
         }
-
 
 
     }
