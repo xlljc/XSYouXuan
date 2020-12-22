@@ -54,14 +54,14 @@ export class EmpHelper {
     /**
      * 根据条件查询员工
      */
-    static query(str: string,sex: string,state: number, page: number, row: number): Promise<PageInfo<Employee>> {
+    static query(str: string,sex: string,state: string, page: number, row: number): Promise<PageInfo<Employee>> {
         return new Promise<PageInfo<Employee>>(resolve => {
             let param = new URLSearchParams();
-            param.set("name",str);
-            if (sex !== null) param.set("sex",sex);
-            if (state !== null) param.set("state",state.toString());
-            param.set("page",page.toString());
-            param.set("row",row.toString());
+            param.append("name",str);
+            if (sex !== null) param.append("sex",sex);
+            if (state !== null) param.append("state",state);
+            param.append("page",page.toString());
+            param.append("row",row.toString());
             Axios.post("/emp/query",param).then(value => {
                 resolve(value.data);
             });
@@ -76,7 +76,7 @@ export class EmpHelper {
         return new Promise<Message>(resolve => {
             console.log(empInfo,EmpHelper.empId);
             let params = Utils.format(new URLSearchParams(),empInfo,"name","image","sex","phone","icCard","email","address","remark");
-            params.set("empId",EmpHelper.empId);
+            params.append("empId",EmpHelper.empId);
             Axios.post("/emp/insert",params).then(value => {
                 resolve(value.data);
             })
@@ -96,6 +96,51 @@ export class EmpHelper {
                 resolve(value.data);
             })
         })
+    }
+
+    /**
+     * 冻结员工员工
+     * @param empId 被冻结员工id
+     */
+    static freezeEmp(empId: number): Promise<Message> {
+        return new Promise<Message>(resolve => {
+            let params = new URLSearchParams();
+            params.append("id",empId.toString());
+            params.append("empId",EmpHelper.empId);
+            Axios.post("/emp/freeze",params).then(value => {
+                resolve(value.data);
+            })
+        })
+    }
+
+    /**
+     * 验证密码
+     * @param password 密码
+     */
+    static validation(password: string): Promise<Message> {
+        return new Promise<Message>(resolve => {
+            let params = new URLSearchParams();
+            params.append("password", password);
+            params.append("empId", EmpHelper.empId);
+            Axios.post("/emp/validation", params).then(value => {
+                resolve(value.data);
+            })
+        })
+    }
+
+    /**
+     * 删除员工
+     * @param id
+     */
+    static deleteEmp(id: number): Promise<Message> {
+        return new Promise<Message>(resolve => {
+            let params = new URLSearchParams();
+            params.append("empId",EmpHelper.empId);
+            params.append("id",id.toString());
+            Axios.post("/emp/delete",).then(value => {
+                resolve(value.data);
+            })
+        });
     }
 
 }

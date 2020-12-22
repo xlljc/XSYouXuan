@@ -52,6 +52,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public Message validation(Integer empId, String password) {
+        if (employeeDao.validation(empId, password) > 0) return new Message(true, "验证成功!");
+        return new Message(false, "验证失败!");
+    }
+
+    @Override
     public Message update(Employee employee, Integer empId) {
         //是否登录
         if (empId == null) return new Message(false, "请先登录 !");
@@ -68,21 +74,25 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Message freeze(Integer id, Integer empId) {
         //是否登录
         if (empId == null) return new Message(false, "请先登录 !");
+        //不能冻结自己
+        if (empId.equals(id)) return new Message(false,"你不能冻结你自己 !");
         Employee employee = new Employee();
         employee.setId(id);
         employee.setState(0);
         if (employeeDao.updateById(employee) > 0) {
             //写入日志
             empLogDao.addLog(empId,"冻结一个员工, 被冻结员工id: " + id,JSON.toJSONString(employee));
-            return new Message(true,"修改成功!");
+            return new Message(true,"冻结成功!");
         }
-        return new Message(false,"修改失败!");
+        return new Message(false,"冻结失败!");
     }
 
     @Override
     public Message delete(Integer id, Integer empId) {
         //是否登录
         if (empId == null) return new Message(false, "请先登录 !");
+        //不能冻结自己
+        if (empId.equals(id)) return new Message(false,"你不能删除你自己 !");
         Employee employee = new Employee();
         employee.setId(id);
         employee.setState(-1);

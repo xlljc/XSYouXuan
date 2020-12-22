@@ -64,4 +64,9 @@ public interface EmployeeDao {
    * @return 员工集合
    */
   List<Employee> search(@Param("str") String str,@Param("sex") String sex,@Param("state") Integer state);
+
+  /**
+   * 验证密码
+   */
+  int validation(@Param("empId") Integer empId,@Param("password") String password);
 }
