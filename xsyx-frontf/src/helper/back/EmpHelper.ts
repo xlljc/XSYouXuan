@@ -74,7 +74,6 @@ export class EmpHelper {
      */
     static addEmp(empInfo: Employee): Promise<Message> {
         return new Promise<Message>(resolve => {
-            console.log(empInfo,EmpHelper.empId);
             let params = Utils.format(new URLSearchParams(),empInfo,"name","image","sex","phone","icCard","email","address","remark");
             params.append("empId",EmpHelper.empId);
             Axios.post("/emp/insert",params).then(value => {
@@ -89,7 +88,6 @@ export class EmpHelper {
      */
     static updateEmp(empInfo: Employee): Promise<Message> {
         return new Promise<Message>(resolve => {
-            console.log(empInfo,EmpHelper.empId);
             let params = Utils.format(new URLSearchParams(),empInfo,"id","name","image","sex","phone","icCard","email","address","remark");
             params.set("empId",EmpHelper.empId);
             Axios.post("/emp/update",params).then(value => {

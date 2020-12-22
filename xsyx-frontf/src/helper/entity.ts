@@ -611,3 +611,37 @@ export interface FileInfo {
     /**文件id*/
     uid?: number;
 }
+
+/**
+ * 表单数据验证对象
+ */
+export interface ValidateRules {
+    [key: string]: {
+        //验证回调函数
+        validator?: (rule: any, value: string, callback: (error?: Error) => void) => void;
+        //是否非空
+        required?: boolean;
+        //验证类型
+        type?: string;
+        //错误消息
+        message?: string;
+        //触发类型
+        trigger?: string | 'change' | 'blur';
+        //正则表达式验证
+        pattern?: RegExp;
+    } [];
+}
+
+/**
+ * 模态框模板数据
+ */
+export interface DialogTemplateData {
+    //模态框标题
+    title: string;
+    //显示状态
+    visible: boolean;
+    //点击确定按钮
+    success?: Function;
+    //点击返回按钮
+    cancel?: Function;
+}

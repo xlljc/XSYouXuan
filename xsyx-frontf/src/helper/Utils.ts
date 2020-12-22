@@ -43,10 +43,16 @@ export default class Utils {
      * @param keys
      */
     public static format<T>(urlSearchParams: URLSearchParams,obj: T, ...keys: (keyof T)[]): URLSearchParams {
-        if (keys.length > 0)
-            for (let key of keys) urlSearchParams.append(key.toString(), obj[key].toString());
-        else
+        if (keys.length > 0) {
+            for (let key of keys) {
+                let temp = obj[key];
+                if (temp !== undefined && temp !== null) {
+                    urlSearchParams.append(key.toString(), temp.toString());
+                }
+            }
+        } else {
             for (let key in obj) urlSearchParams.append(key, obj[key].toString());
+        }
         return urlSearchParams;
     }
 }

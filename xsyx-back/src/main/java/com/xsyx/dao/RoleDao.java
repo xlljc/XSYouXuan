@@ -55,4 +55,8 @@ public interface RoleDao {
    */
   int delete(int id);
 
+  /**
+   * 根据Role条件模糊查询多条数据方法
+   */
+  List<Role> queryLike(Role role);
 }

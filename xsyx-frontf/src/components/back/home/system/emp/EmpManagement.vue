@@ -4,7 +4,7 @@
         <!-- 模糊查询-->
         <el-input
             style="width: 600px"
-            placeholder="请输入用户名或手机号"
+            placeholder="请输入关键字"
             v-model="searchStr"
             clearable>
             <div slot="prepend">
@@ -183,7 +183,7 @@
                    title="员工添加"
                    :visible.sync="addmotaikuang">
             <!-- 商品编辑组件, 传入data值, 传入图片列表 -->
-            <emp-management-edit ref="editBox" :from-data="fromData" :image-file="imageFile"></emp-management-edit>
+            <emp-management-edit ref="editBox" :from-data="formData" :image-file="imageFile"></emp-management-edit>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="addmotaikuang = false">取 消</el-button>
                 <!--点击调用添加方法-->
@@ -196,7 +196,7 @@
                    title="员工修改"
                    :visible.sync="updatemotaikuang">
             <!-- 商品编辑组件, 传入data值, 传入图片列表 -->
-            <emp-management-edit ref="editBox" :from-data="fromData" :image-file="imageFile"></emp-management-edit>
+            <emp-management-edit ref="editBox" :from-data="formData" :image-file="imageFile"></emp-management-edit>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="updatemotaikuang = false">取 消</el-button>
                 <!--点击调用修改方法-->
@@ -207,7 +207,8 @@
         <!-- 冻结员工 -->
         <el-dialog :close-on-click-modal="false"
                    title="身份验证"
-                   :visible.sync="freezeyanzheng">
+                   :visible.sync="freezeyanzheng"
+                   width="300px">
             <div>
                 <p>冻结员工: 你正在操作敏感数据, 请输入你的登录密码以确保是你本人操作 !</p>
                 <el-input v-model="freezeYzPassword" type="password" clearable show-password></el-input>
@@ -223,7 +224,8 @@
         <!-- 激活员工 -->
         <el-dialog :close-on-click-modal="false"
                    title="身份验证"
-                   :visible.sync="unFreezeyanzheng">
+                   :visible.sync="unFreezeyanzheng"
+                   width="300px">
             <div>
                 <p>激活员工: 你正在操作敏感数据, 请输入你的登录密码以确保是你本人操作 !</p>
                 <el-input v-model="unFreezeYzPassword" type="password" clearable show-password></el-input>
@@ -239,7 +241,8 @@
         <!-- 删除员工 -->
         <el-dialog :close-on-click-modal="false"
                    title="身份验证"
-                   :visible.sync="deleteyanzheng">
+                   :visible.sync="deleteyanzheng"
+                    width="300px">
             <div>
                 <p>删除员工: 你正在操作敏感数据, 请输入你的登录密码以确保是你本人操作 !</p>
                 <el-input v-model="deleteYzPassword" type="password" clearable show-password></el-input>
@@ -263,7 +266,16 @@
     import EmpManagementEdit from "@/components/back/home/system/emp/EmpManagementEdit.vue";
 
     function getEmptyEmp(): Employee {
-        return {sex: "男"}
+        return {
+            "name": "",
+            "image": "",
+            "sex": "男",
+            "phone": "",
+            "icCard": "",
+            "email": "",
+            "address": "",
+            "remark": ""
+        }
     }
 
     @Component({
@@ -292,7 +304,7 @@
         //修改员工表单模态框是否打开
         updatemotaikuang: boolean = false;
         //表单数据
-        fromData: Employee = getEmptyEmp();
+        formData: Employee = getEmptyEmp();
         //表单图片
         imageFile: FileInfo = {url: null};
 
@@ -346,7 +358,6 @@
         query() {
             EmpHelper.query(this.searchStr,this.searchSex,this.searchSate,this.page,this.row).then(value => {
                 this.tableData = value;
-                console.log(value);
             })
         }
 
@@ -358,18 +369,17 @@
          * 打开添加员工窗口
          */
         openAdd() {
-            this.fromData = getEmptyEmp();
+            this.formData = getEmptyEmp();
             this.imageFile = {url: null};
             this.addmotaikuang = true;
         }
 
         //提交添加
         async submitAddEmp() {
-            let empInfo = {...this.fromData};
+            let empInfo = {...this.formData};
             empInfo.image = this.imageFile.url;
-            let flag = await this.$refs.editBox.validate();
-            console.log(this.$refs.editBox.validate());
-            /*EmpHelper.addEmp(empInfo).then(value => {
+            if (!await this.$refs.editBox.validate()) return;
+            EmpHelper.addEmp(empInfo).then(value => {
                 if (value.flag) {
                     this.$notify.success({
                         title: "提示",
@@ -383,7 +393,7 @@
                         message: value.msg,
                     });
                 }
-            });*/
+            });
         }
 
         //***********************************************************
@@ -391,14 +401,15 @@
         //***********************************************************
         //打开修改方法
         openUpdate(data: Employee) {
-            this.fromData = {...data};
-            this.imageFile = {url: this.fromData.image};
+            this.formData = {...data};
+            this.imageFile = {url: this.formData.image};
             this.updatemotaikuang = true;
         }
         //提交修改
-        submitUpdateEmp() {
-            let empInfo = {...this.fromData};
+        async submitUpdateEmp() {
+            let empInfo = {...this.formData};
             empInfo.image = this.imageFile.url;
+            if (!await this.$refs.editBox.validate()) return;
             EmpHelper.updateEmp(empInfo).then(value => {
                 if (value.flag) {
                     this.$notify.success({

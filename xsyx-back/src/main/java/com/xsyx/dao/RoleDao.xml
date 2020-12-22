@@ -80,4 +80,16 @@
         delete from role where id = #{id}
     </delete>
 
+
+    <!-- 根据Role条件模糊查询数据方法 -->
+    <select id="queryLike" resultMap="RoleMap">
+        select name,remark,id
+        from role
+        where (
+            <if test="name != null">name like concat('%',#{name},'%')</if>
+            <if test="remark != null">or remark like concat('%',#{remark},'%')</if>
+        ) and id != 1
+        order by id desc
+    </select>
+
 </mapper>

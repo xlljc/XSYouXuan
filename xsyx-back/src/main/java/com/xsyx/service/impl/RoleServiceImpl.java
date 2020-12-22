@@ -35,8 +35,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public PageInfo<Role> query(Role role, int page, int row) {
-        PageHelper.startPage(page,page);
-        return new PageInfo<>(roleDao.query(role));
+        PageHelper.startPage(page,row);
+        return new PageInfo<>(roleDao.queryLike(role));
     }
 
     @Override

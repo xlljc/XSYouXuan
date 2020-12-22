@@ -129,6 +129,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<Employee> emps = employeeDao.query(employee);
         if (emps.size() > 0){
             Employee employee1 = emps.get(0);
+            //判断状态
+            if (employee1.getState().equals(0)) return new Message(false,"登录失败! 您的账户已被冻结!");
+            if (employee1.getState().equals(-1)) return new Message(false,"登录失败! 您的账户已被注销!");
             //修改最后登录日期
             Employee employee2 = new Employee();
             employee2.setId(employee1.getId());
