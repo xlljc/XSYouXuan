@@ -133,7 +133,7 @@
                                 @click="openUpdate(row)"
                         ></el-button>
                     </el-tooltip>
-                    <el-tooltip effect="dark" content="冻结" placement="top-start">
+                    <el-tooltip v-if="row.state === 1" effect="dark" content="冻结" placement="top-start">
                         <!-- el-icon-video-play -->
                         <el-button
                                 type="warning"
@@ -142,15 +142,26 @@
                                 size="medium"
                                 @click="openFreezeValidation(row.id)"
                         ></el-button>
+                    </el-tooltip>
+                    <el-tooltip v-if="row.state === 0" effect="dark" content="激活" placement="top-start">
+                        <!-- el-icon-video-play -->
+                        <el-button
+                                type="success"
+                                circle
+                                icon="el-icon-video-play"
+                                size="medium"
+                                @click="openUnFreezeValidation(row.id)"
+                        ></el-button>
 
                     </el-tooltip>
+
                     <el-tooltip effect="dark" content="删除" placement="top-start">
                         <el-button
                                 type="danger"
                                 circle
                                 icon="el-icon-delete"
                                 size="medium"
-
+                                @click="openDeleteValidation(row.id)"
                         ></el-button>
                     </el-tooltip>
 
@@ -172,7 +183,7 @@
                    title="员工添加"
                    :visible.sync="addmotaikuang">
             <!-- 商品编辑组件, 传入data值, 传入图片列表 -->
-            <emp-management-edit :from-data="fromData" :image-file="imageFile"></emp-management-edit>
+            <emp-management-edit ref="editBox" :from-data="fromData" :image-file="imageFile"></emp-management-edit>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="addmotaikuang = false">取 消</el-button>
                 <!--点击调用添加方法-->
@@ -185,7 +196,7 @@
                    title="员工修改"
                    :visible.sync="updatemotaikuang">
             <!-- 商品编辑组件, 传入data值, 传入图片列表 -->
-            <emp-management-edit :from-data="fromData" :image-file="imageFile"></emp-management-edit>
+            <emp-management-edit ref="editBox" :from-data="fromData" :image-file="imageFile"></emp-management-edit>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="updatemotaikuang = false">取 消</el-button>
                 <!--点击调用修改方法-->
@@ -198,7 +209,7 @@
                    title="身份验证"
                    :visible.sync="freezeyanzheng">
             <div>
-                <p>你正在操作敏感数据, 请输入你的登录密码以确保是你本人操作 !</p>
+                <p>冻结员工: 你正在操作敏感数据, 请输入你的登录密码以确保是你本人操作 !</p>
                 <el-input v-model="freezeYzPassword" type="password" clearable show-password></el-input>
             </div>
 
@@ -209,17 +220,33 @@
             </div>
         </el-dialog>
 
-        <!-- 删除员工 -->
+        <!-- 激活员工 -->
         <el-dialog :close-on-click-modal="false"
                    title="身份验证"
-                   :visible.sync="freezeyanzheng">
+                   :visible.sync="unFreezeyanzheng">
             <div>
-                <p>你正在操作敏感数据, 请输入你的登录密码以确保是你本人操作 !</p>
-                <el-input v-model="freezeYzPassword" type="password" clearable show-password></el-input>
+                <p>激活员工: 你正在操作敏感数据, 请输入你的登录密码以确保是你本人操作 !</p>
+                <el-input v-model="unFreezeYzPassword" type="password" clearable show-password></el-input>
             </div>
 
             <div slot="footer" class="dialog-footer">
-                <el-button @click="freezeyanzheng = false">取 消</el-button>
+                <el-button @click="unFreezeyanzheng = false">取 消</el-button>
+                <!--点击调用修改方法-->
+                <el-button type="primary" @click="unFreezeEmp()">确 定</el-button>
+            </div>
+        </el-dialog>
+
+        <!-- 删除员工 -->
+        <el-dialog :close-on-click-modal="false"
+                   title="身份验证"
+                   :visible.sync="deleteyanzheng">
+            <div>
+                <p>删除员工: 你正在操作敏感数据, 请输入你的登录密码以确保是你本人操作 !</p>
+                <el-input v-model="deleteYzPassword" type="password" clearable show-password></el-input>
+            </div>
+
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="deleteyanzheng = false">取 消</el-button>
                 <!--点击调用修改方法-->
                 <el-button type="primary" @click="deleteEmp()">确 定</el-button>
             </div>
@@ -243,6 +270,10 @@
         components: {EmpManagementEdit, TestYzm}
     })
     export default class EmpManagement extends Vue {
+        $refs: {
+            editBox: any;
+        }
+
         //查询输入框
         searchStr: string = "";
         //性别
@@ -265,15 +296,21 @@
         //表单图片
         imageFile: FileInfo = {url: null};
 
+        //选择的员工Id
+        selectEmpId: number = 0;
+
         //冻结验证模态框
         freezeyanzheng: boolean = false;
-        //冻结的员工Id
-        selectEmpId: number = 0;
         //冻结验证密码
         freezeYzPassword: string = "";
 
+        //激活验证模态框
+        unFreezeyanzheng: boolean = false;
+        //激活验证密码
+        unFreezeYzPassword: string = "";
+
         //删除员工验证模态框
-        deleteyanzheng: boolean = true;
+        deleteyanzheng: boolean = false;
         //删除验证密码
         deleteYzPassword: string = "";
 
@@ -327,10 +364,12 @@
         }
 
         //提交添加
-        submitAddEmp() {
+        async submitAddEmp() {
             let empInfo = {...this.fromData};
             empInfo.image = this.imageFile.url;
-            EmpHelper.addEmp(empInfo).then(value => {
+            let flag = await this.$refs.editBox.validate();
+            console.log(this.$refs.editBox.validate());
+            /*EmpHelper.addEmp(empInfo).then(value => {
                 if (value.flag) {
                     this.$notify.success({
                         title: "提示",
@@ -344,7 +383,7 @@
                         message: value.msg,
                     });
                 }
-            });
+            });*/
         }
 
         //***********************************************************
@@ -384,6 +423,7 @@
         openFreezeValidation(empId: number) {
             this.selectEmpId = empId;
             this.freezeyanzheng = true;
+            this.freezeYzPassword = "";
         }
         //冻结员工
         freezeEmp() {
@@ -415,8 +455,50 @@
                         message: value.msg,
                     });
                 }
-                this.freezeYzPassword = "";
                 this.freezeyanzheng = false;
+            })
+        }
+
+        //***********************************************************
+        //                          激活员工
+        //***********************************************************
+        //打开验证
+        openUnFreezeValidation(empId: number) {
+            this.selectEmpId = empId;
+            this.unFreezeyanzheng = true;
+            this.freezeYzPassword = "";
+        }
+        //激活员工
+        unFreezeEmp() {
+            //先验证操作
+            EmpHelper.validation(this.unFreezeYzPassword).then(value => {
+                if (value.flag) {
+                    this.$notify.success({
+                        title: "提示",
+                        message: value.msg,
+                    });
+                    //再冻结
+                    EmpHelper.unFreezeEmp(this.selectEmpId).then(value => {
+                        if (value.flag) {
+                            this.$notify.success({
+                                title: "提示",
+                                message: "激活成功",
+                            });
+                            this.query();
+                        } else {
+                            this.$notify.error({
+                                title: "提示",
+                                message: value.msg,
+                            });
+                        }
+                    });
+                } else {
+                    this.$notify.error({
+                        title: "提示",
+                        message: value.msg,
+                    });
+                }
+                this.unFreezeyanzheng = false;
             })
         }
 
@@ -426,7 +508,8 @@
         //打开验证
         openDeleteValidation(empId: number) {
             this.selectEmpId = empId;
-            this.freezeyanzheng = true;
+            this.deleteyanzheng = true;
+            this.deleteYzPassword = "";
         }
         //删除员工
         deleteEmp() {
@@ -458,7 +541,6 @@
                         message: value.msg,
                     });
                 }
-                this.deleteYzPassword = "";
                 this.deleteyanzheng = false;
             })
         }

@@ -114,6 +114,20 @@ export class EmpHelper {
     }
 
     /**
+     * 激活被冻结的员工
+     */
+    static unFreezeEmp(empId: number): Promise<Message> {
+        return new Promise<Message>(resolve => {
+            let params = new URLSearchParams();
+            params.append("empId",EmpHelper.empId);
+            params.append("id",empId.toString());
+            Axios.post("/emp/unFreeze",params).then(value => {
+                resolve(value.data);
+            })
+        })
+    }
+
+    /**
      * 验证密码
      * @param password 密码
      */
@@ -137,7 +151,7 @@ export class EmpHelper {
             let params = new URLSearchParams();
             params.append("empId",EmpHelper.empId);
             params.append("id",id.toString());
-            Axios.post("/emp/delete",).then(value => {
+            Axios.post("/emp/delete",params).then(value => {
                 resolve(value.data);
             })
         });

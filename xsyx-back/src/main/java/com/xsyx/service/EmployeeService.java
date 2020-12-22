@@ -30,4 +30,6 @@ public interface EmployeeService {
     PageInfo<Employee> query(String name, String sex, Integer state, Integer page, Integer row);
 
     Message validation(Integer empId, String password);
+
+    Message unFreeze(Integer id, Integer empId);
 }
