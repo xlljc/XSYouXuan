@@ -1,5 +1,6 @@
 package com.xsyx.service;
 
+import com.xsyx.vo.ComType;
 import com.xsyx.vo.Commodity;
 import com.xsyx.vo.system.PageVo;
 import org.apache.ibatis.annotations.Param;
@@ -14,7 +15,9 @@ public interface CommodityService{
     // 根据条件查询商品记录总数量
     public PageVo<Commodity> querycountCommoditybyCond(@Param("name") String name,
                                                        @Param("state") String state, int page, int rows);
-    
+
+    //查询所有商品类型
+    List<ComType> queryAlltype();
 
     /**
      *根据商品名 还有上架状态执行模糊查询

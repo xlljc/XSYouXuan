@@ -49,17 +49,10 @@
         </where>
     </select>
 
-
-    <!-- 根据商品名 还有上架状态执行模糊查询 -->
-<!--    <select id="moHuquery" resultMap="CommodityMap">
-        SELECT co.* FROM commodity co
-        INNER JOIN com_type ty
-        ON ty.id=co.com_type
-        <where>
-            <if test="name!=null"> and co.name like  concat('%',#{name},'%')</if>
-            <if test="state != null"> and co.state like  concat('%',#{state},'%')</if>
-        </where>
-    </select>-->
+    <!--查询所有商品类型-->
+    <select id="queryAlltype" resultType="comtype">
+        select * from  com_type
+    </select>
 
     <!-- 添加商品 -->
     <insert id="addCommodity">

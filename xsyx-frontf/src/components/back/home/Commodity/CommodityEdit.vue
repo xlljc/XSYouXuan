@@ -9,7 +9,7 @@
             </el-form-item>
             <el-form-item label="商品图片">
                 <!-- 商品图片-->
-                <commodity-images :image-file="imageFile"></commodity-images>
+                <commodity-images fit="cover" :image-file="imageFile"></commodity-images>
             </el-form-item>
             <el-form-item label="商品价格">
                 <el-input v-model="fromData.price"></el-input>
@@ -25,9 +25,7 @@
             </el-form-item>
             <el-form-item label="商品类型">
                 <el-select v-model="fromData.comType.id">
-                    <el-option value="1">1</el-option>
-                    <el-option value="2">2</el-option>
-                    <el-option value="3">3</el-option>
+                    <el-option :value="type.id" :label="type.name" v-for="type in comtype" :key="type.id" :index="type.id"></el-option>
                 </el-select>
             </el-form-item>
             <!--<el-form-item label="上架时间">
@@ -41,6 +39,7 @@
     import {Vue, Component, Prop} from "vue-property-decorator";
     import {Commodity, FileInfo, Message} from "@/helper/entity";
     import CommodityImages from "@/components/back/home/Commodity/CommodityImages.vue";
+    import Axios from "axios";
     @Component({
         components: {CommodityImages}
     })
@@ -52,10 +51,24 @@
         @Prop()
         imageFile: FileInfo;
 
+
+        //商品类型数据
+        comtype = {};
+
         created() {
-
+            //加载所有商品类型信息
+            this.getCommodityTypeAll();
         }
-
+        //查询所有商品类型信息
+        getCommodityTypeAll(){
+            Axios({
+                method: "post",
+                url: "/commodity/queryAlltype"
+            }).then(value => {
+                //console.log(value.data)
+                this.comtype=value.data;
+            })
+        }
         mounted() {
 
         }

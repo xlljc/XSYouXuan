@@ -58,7 +58,7 @@
                             <span>{{ props.row.manufacturer }}</span>
                         </el-form-item>
                         <el-form-item label="商品类型：">
-                            <span>{{ props.row.comType.id }}</span>
+                            <span>{{ props.row.comType.name }}</span>
                         </el-form-item>
                         <el-form-item label="商品上架时间(第一次上架时间)：">
                             <span>{{ props.row.putawayDate }}</span>
@@ -66,8 +66,8 @@
                         <el-form-item label="最新上架时间：">
                             <span>{{ props.row.newestPutawayDate }}</span>
                         </el-form-item>
-                        <el-form-item label="商品状态, 0未上架, 1已上架, -1已删除：">
-                            <span>{{ props.row.state }}</span>
+                        <el-form-item label="商品状态:" >
+                            <span>{{ getState(props.row.state) }}</span>
                         </el-form-item>
                     </el-form>
                 </template>
@@ -216,12 +216,23 @@
 
             //加载所有商品信息
             this.getCommodityAll();
+
             //获取登录信息
             /*EmpHelper.getEmp().then(value => {
                 console.log(value);
             })*/
         }
 
+        //获取商品上架状态
+        getState(state: number): string {
+            if (state === -1) return "已下架";
+            if (state === 0) return "未上架";
+            if (state === 1) return "已上架";
+        }
+
+        //***********************************************************
+        //                      分页部分
+        //***********************************************************
         /*点击换条数的按钮*/
         rowsChange(val:number) {
             //修改条数的值
@@ -277,7 +288,7 @@
         //***********************************************************
         //页面打开 查询所有商品信息
         getCommodityAll(){
-            console.log("getCommodityAll")
+            //console.log("getCommodityAll")
             let params = new URLSearchParams();
             params.append("name",this.input)
             params.append("state",this.zhuangtai)
@@ -288,10 +299,9 @@
                 url: "/commodity/queryCommodityAll",
                 data: params
             }).then(value => {
-                console.log(value.data)
+                //console.log(value.data)
                 this.tableData=value.data;
             })
-
         }
 
         //点击查询按钮 模糊查询商品信息
@@ -302,9 +312,10 @@
 
 
         //获取选中的商品的详情
-        queryCommoditydetails(index: number, row: Commodity) {
+        queryCommoditydetails(index: number, row: Com) {
 
-            //打开修改模态框
+            this.fromData = row;
+            this.imageFile = {url: row.image};
             this.updatemotaikuang = true;
 
         }
@@ -344,10 +355,6 @@
 
         }
 
-        //关闭模态框的方法 清除模态框的数据
-        closeMoTaiKuANG(){
-
-        }
 
     }
 </script>

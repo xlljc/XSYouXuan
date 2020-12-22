@@ -34,6 +34,7 @@ public class EmployeeController {
      */
     @RequestMapping("/insert")
     public Message insert(Employee employee, Integer empId) {
+        
         return employeeService.insert(employee, empId);
     }
 

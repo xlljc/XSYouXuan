@@ -17,6 +17,9 @@ public interface CommodityDao {
   // 根据条件查询商品记录总数量
   int querycountCommoditybyCond(@Param("name") String name,
                                 @Param("state") String state);
+  
+  //查询所有商品类型
+  List<ComType> queryAlltype();
 
 
   /**

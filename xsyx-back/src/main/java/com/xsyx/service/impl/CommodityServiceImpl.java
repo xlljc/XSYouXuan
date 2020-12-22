@@ -5,6 +5,7 @@ import com.xsyx.dao.CommodityDao;
 import com.xsyx.dao.MenuDao;
 import com.xsyx.service.CommodityService;
 import com.xsyx.service.MenuService;
+import com.xsyx.vo.ComType;
 import com.xsyx.vo.Commodity;
 import com.xsyx.vo.Menu;
 import com.xsyx.vo.system.PageVo;
@@ -35,6 +36,11 @@ public class CommodityServiceImpl implements CommodityService {
         //获取总的记录数量
         pageVo.setTotal(commodityDao.querycountCommoditybyCond(name,state));
         return pageVo;
+    }
+
+    @Override
+    public List<ComType> queryAlltype() {
+        return commodityDao.queryAlltype();
     }
 
     @Override

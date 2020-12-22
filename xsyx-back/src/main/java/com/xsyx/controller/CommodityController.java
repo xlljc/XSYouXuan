@@ -25,29 +25,24 @@ public class CommodityController {
 
     //分页模糊查询所有
     @RequestMapping("/queryCommodityAll")
-    public PageVo<Commodity> queryCommodityAll (String name,
-                                                String state,
+    public PageVo<Commodity> queryCommodityAll(String name,
+                                               String state,
                                                @RequestParam(value = "page", defaultValue = "1") int page,
-                                               @RequestParam(value = "rows",defaultValue = "5") int rows){
+                                               @RequestParam(value = "rows", defaultValue = "5") int rows) {
 
-        if (state.equals("全部")){
-            state="";
+        if (state.equals("全部")) {
+            state = "";
         }
-        if (state.equals("上架")){
-            state="1";
+        if (state.equals("上架")) {
+            state = "1";
         }
-        if (state.equals("下架")){
-            state="0";
+        if (state.equals("下架")) {
+            state = "0";
         }
 
 
-        PageVo<Commodity> l=commodityService.querycountCommoditybyCond(name,state,page,rows);
-       /* System.out.println(name);
-        System.out.println(state);
-        System.out.println(page);
-        System.out.println(rows);
-        System.out.println(l.getRows());
-        System.out.println(l.getTotal());*/
+        PageVo<Commodity> l = commodityService.querycountCommoditybyCond(name, state, page, rows);
+
         return l;
     }
 
@@ -57,20 +52,29 @@ public class CommodityController {
      * @return 商品数据
      */
     @RequestMapping("/MoHuqueryAll")
-    public List<Commodity> moHuqueryAll(String name,String state) {
-        if (state.equals("全部")){
-            state="";
+    public List<Commodity> moHuqueryAll(String name, String state) {
+        if (state.equals("全部")) {
+            state = "";
         }
-        if (state.equals("上架")){
-            state="1";
+        if (state.equals("上架")) {
+            state = "1";
         }
-        if (state.equals("下架")){
-            state="0";
+        if (state.equals("下架")) {
+            state = "0";
         }
         /*System.out.println(commodityService.MoHuquery(name,state));*/
-        return commodityService.moHuquery(name,state);
+        return commodityService.moHuquery(name, state);
     }
 
+    /**
+     * 查询所有商品类型
+     */
+    @RequestMapping("/queryAlltype")
+    public List<ComType> queryAlltype() {
+
+        /*System.out.println(commodityService.queryAlltype());*/
+        return commodityService.queryAlltype();
+    }
 
 
     /**
@@ -96,15 +100,15 @@ public class CommodityController {
         System.out.println("6:"+specification);
         System.out.println("7:"+manufacturer);
         System.out.println("8:"+comtype);*/
-        Message message= new Message();
-        int row=commodityService.addCommodity(name,particulars,image,price,unit,specification,manufacturer,comtype);
-        if (row>0){
-           message.flag=true;
-           message.msg="添加成功";
+        Message message = new Message();
+        int row = commodityService.addCommodity(name, particulars, image, price, unit, specification, manufacturer, comtype);
+        if (row > 0) {
+            message.flag = true;
+            message.msg = "添加成功";
             return "添加成功";
         }
-        message.flag=false;
-        message.msg="添加失败";
+        message.flag = false;
+        message.msg = "添加失败";
         return "添加失败";
     }
 
