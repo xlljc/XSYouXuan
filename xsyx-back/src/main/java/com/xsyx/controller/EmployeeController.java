@@ -130,4 +130,15 @@ public class EmployeeController {
         return employeeService.queryMenus(id);
     }
 
+
+    /**
+     * 验证密码, 不会录入日志
+     * @param empId 员工id
+     * @param password 密码
+     * @return 验证消息
+     */
+    @RequestMapping("/validation")
+    public Message validation(Integer empId,String password) {
+        return employeeService.validation(empId,password);
+    }
 }

@@ -187,4 +187,9 @@
         order by id desc
     </select>
 
+    <!--验证密码-->
+    <select id="validation" resultType="int">
+        select count(1) from employee where id=#{empId} and password=#{password}
+    </select>
+    
 </mapper>

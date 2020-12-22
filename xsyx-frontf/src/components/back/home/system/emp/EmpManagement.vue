@@ -140,7 +140,9 @@
                                 circle
                                 icon="el-icon-video-pause"
                                 size="medium"
+                                @click="openFreezeValidation(row.id)"
                         ></el-button>
+
                     </el-tooltip>
                     <el-tooltip effect="dark" content="删除" placement="top-start">
                         <el-button
@@ -148,6 +150,7 @@
                                 circle
                                 icon="el-icon-delete"
                                 size="medium"
+
                         ></el-button>
                     </el-tooltip>
 
@@ -158,7 +161,7 @@
                 @size-change="rowChange"
                 @current-change="pageChange"
                 background
-                :page-sizes="[1, 10, 15, 25, 50]"
+                :page-sizes="[10, 15, 25, 50]"
                 :page-size="10"
                 layout="total, sizes, prev, pager, next"
                 :total="tableData.total">
@@ -190,6 +193,38 @@
             </div>
         </el-dialog>
 
+        <!-- 冻结员工 -->
+        <el-dialog :close-on-click-modal="false"
+                   title="身份验证"
+                   :visible.sync="freezeyanzheng">
+            <div>
+                <p>你正在操作敏感数据, 请输入你的登录密码以确保是你本人操作 !</p>
+                <el-input v-model="freezeYzPassword" type="password" clearable show-password></el-input>
+            </div>
+
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="freezeyanzheng = false">取 消</el-button>
+                <!--点击调用修改方法-->
+                <el-button type="primary" @click="freezeEmp()">确 定</el-button>
+            </div>
+        </el-dialog>
+
+        <!-- 删除员工 -->
+        <el-dialog :close-on-click-modal="false"
+                   title="身份验证"
+                   :visible.sync="freezeyanzheng">
+            <div>
+                <p>你正在操作敏感数据, 请输入你的登录密码以确保是你本人操作 !</p>
+                <el-input v-model="freezeYzPassword" type="password" clearable show-password></el-input>
+            </div>
+
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="freezeyanzheng = false">取 消</el-button>
+                <!--点击调用修改方法-->
+                <el-button type="primary" @click="deleteEmp()">确 定</el-button>
+            </div>
+        </el-dialog>
+
     </div>
 </template>
 
@@ -213,7 +248,7 @@
         //性别
         searchSex: string = null;
         //状态
-        searchSate: number = null;
+        searchSate: string = "1";
         //表数据
         tableData: PageInfo<Employee> = {};
         //当前页数
@@ -229,6 +264,18 @@
         fromData: Employee = getEmptyEmp();
         //表单图片
         imageFile: FileInfo = {url: null};
+
+        //冻结验证模态框
+        freezeyanzheng: boolean = false;
+        //冻结的员工Id
+        selectEmpId: number = 0;
+        //冻结验证密码
+        freezeYzPassword: string = "";
+
+        //删除员工验证模态框
+        deleteyanzheng: boolean = true;
+        //删除验证密码
+        deleteYzPassword: string = "";
 
         created() {
             this.$store.commit('back/url', window.location.href);
@@ -285,11 +332,17 @@
             empInfo.image = this.imageFile.url;
             EmpHelper.addEmp(empInfo).then(value => {
                 if (value.flag) {
-                    this.$message.success("添加成功!");
+                    this.$notify.success({
+                        title: "提示",
+                        message: "添加成功!",
+                    });
                     this.query();
                     this.addmotaikuang = false;
                 } else {
-                    this.$message.error(value.msg);
+                    this.$notify.error({
+                        title: "提示",
+                        message: value.msg,
+                    });
                 }
             });
         }
@@ -309,14 +362,107 @@
             empInfo.image = this.imageFile.url;
             EmpHelper.updateEmp(empInfo).then(value => {
                 if (value.flag) {
-                    this.$message.success("修改成功!");
+                    this.$notify.success({
+                        title: "提示",
+                        message: "修改成功!",
+                    });
                     this.query();
                     this.updatemotaikuang = false;
                 } else {
-                    this.$message.error(value.msg);
+                    this.$notify.error({
+                        title: "提示",
+                        message: value.msg,
+                    });
                 }
             });
         }
+
+        //***********************************************************
+        //                          冻结员工
+        //***********************************************************
+        //打开验证
+        openFreezeValidation(empId: number) {
+            this.selectEmpId = empId;
+            this.freezeyanzheng = true;
+        }
+        //冻结员工
+        freezeEmp() {
+            //先验证操作
+            EmpHelper.validation(this.freezeYzPassword).then(value => {
+                if (value.flag) {
+                    this.$notify.success({
+                        title: "提示",
+                        message: value.msg,
+                    });
+                    //再冻结
+                    EmpHelper.freezeEmp(this.selectEmpId).then(value => {
+                        if (value.flag) {
+                            this.$notify.success({
+                                title: "提示",
+                                message: "冻结成功",
+                            });
+                            this.query();
+                        } else {
+                            this.$notify.error({
+                                title: "提示",
+                                message: value.msg,
+                            });
+                        }
+                    });
+                } else {
+                    this.$notify.error({
+                        title: "提示",
+                        message: value.msg,
+                    });
+                }
+                this.freezeYzPassword = "";
+                this.freezeyanzheng = false;
+            })
+        }
+
+        //***********************************************************
+        //                          删除员工
+        //***********************************************************
+        //打开验证
+        openDeleteValidation(empId: number) {
+            this.selectEmpId = empId;
+            this.freezeyanzheng = true;
+        }
+        //删除员工
+        deleteEmp() {
+            //先验证操作
+            EmpHelper.validation(this.deleteYzPassword).then(value => {
+                if (value.flag) {
+                    this.$notify.success({
+                        title: "提示",
+                        message: value.msg,
+                    });
+                    //再冻结
+                    EmpHelper.deleteEmp(this.selectEmpId).then(value => {
+                        if (value.flag) {
+                            this.$notify.success({
+                                title: "提示",
+                                message: "删除成功",
+                            });
+                            this.query();
+                        } else {
+                            this.$notify.error({
+                                title: "提示",
+                                message: value.msg,
+                            });
+                        }
+                    });
+                } else {
+                    this.$notify.error({
+                        title: "提示",
+                        message: value.msg,
+                    });
+                }
+                this.deleteYzPassword = "";
+                this.deleteyanzheng = false;
+            })
+        }
+
     }
 </script>
 
