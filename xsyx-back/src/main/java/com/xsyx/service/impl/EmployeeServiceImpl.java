@@ -58,6 +58,21 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public Message unFreeze(Integer id, Integer empId) {
+        //是否登录
+        if (empId == null) return new Message(false, "请先登录 !");
+        Employee employee = new Employee();
+        employee.setId(id);
+        employee.setState(1);
+        if (employeeDao.updateById(employee) > 0) {
+            //写入日志
+            empLogDao.addLog(empId,"解冻一个员工, 被解冻员工id: " + id,JSON.toJSONString(employee));
+            return new Message(true,"解冻成功!");
+        }
+        return new Message(false,"解冻失败!");
+    }
+
+    @Override
     public Message update(Employee employee, Integer empId) {
         //是否登录
         if (empId == null) return new Message(false, "请先登录 !");

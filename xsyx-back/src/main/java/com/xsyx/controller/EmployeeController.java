@@ -86,6 +86,17 @@ public class EmployeeController {
     }
 
     /**
+     * 根据用户取消id冻结一个员工
+     *
+     * @param id 员工id
+     * @return 返回信息, 包含是否解冻成功
+     */
+    @RequestMapping("/unFreeze")
+    public Message unFreeze(Integer id, Integer empId) {
+        return employeeService.unFreeze(id, empId);
+    }
+
+    /**
      * 根据员工id删除员工
      *
      * @param id 员工id
