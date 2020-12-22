@@ -1,5 +1,6 @@
 package com.xsyx.service;
 
+import com.xsyx.vo.ComLabel;
 import com.xsyx.vo.ComType;
 import com.xsyx.vo.Commodity;
 import com.xsyx.vo.system.PageVo;
@@ -36,5 +37,24 @@ public interface CommodityService{
                      @Param("specification") String specification,
                      @Param("manufacturer") String manufacturer,
                      @Param("type") String type);
+    /**
+     * 修改商品
+     *
+     */
+    int updateCommodity(@Param("name") String name,
+                        @Param("particulars") String particulars,
+                        @Param("image") String image,
+                        @Param("price") String price,
+                        @Param("unit") String unit,
+                        @Param("specification") String specification,
+                        @Param("manufacturer") String manufacturer,
+                        @Param("type") String type,
+                        @Param("id") String id);
+    /**
+     * 根据id下架商品
+     */
+    int deleteCommodity(@Param("id") String id);
+    //查询所有商品标签
+    List<ComLabel> queryAllLabel();
 
 }

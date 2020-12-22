@@ -1,9 +1,10 @@
 import {RouteConfig} from "vue-router";
 import BackHome from "@/views/back/BackHome.vue";
 import Commodity from "@/components/back/home/Commodity/Commodity.vue";
-import CommodityTypeMaintain from "@/components/back/home/CommodityTypeMaintain.vue";
-import Warehousemaintain from "@/components/back/home/Warehousemaintain.vue";
+import CommodityTypeMaintain from "@/components/back/home/Commodity/CommodityTypeMaintain.vue";
+import Warehousemaintain from "@/components/back/home/Warehouse/Warehousemaintain.vue";
 import EmpManagement from "@/components/back/home/system/emp/EmpManagement.vue";
+import CommodityLableMaintain from "@/components/back/home/Commodity/CommodityLableMaintain.vue";
 
 /**
  * 后台路由
@@ -14,6 +15,10 @@ const BackRouter: Array<RouteConfig> = [
     {path:"/commodity",component:Commodity},
     //商品类型维护
     {path:"/typemaintain",component:CommodityTypeMaintain},
+    //商品标签维护
+    {path:"/lablemaintain",component:CommodityLableMaintain},
+
+
     //仓库信息维护
     {path:"/warehousemaintain",component:Warehousemaintain},
     /*{

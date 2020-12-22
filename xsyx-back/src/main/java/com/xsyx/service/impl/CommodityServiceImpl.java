@@ -5,6 +5,7 @@ import com.xsyx.dao.CommodityDao;
 import com.xsyx.dao.MenuDao;
 import com.xsyx.service.CommodityService;
 import com.xsyx.service.MenuService;
+import com.xsyx.vo.ComLabel;
 import com.xsyx.vo.ComType;
 import com.xsyx.vo.Commodity;
 import com.xsyx.vo.Menu;
@@ -51,5 +52,20 @@ public class CommodityServiceImpl implements CommodityService {
     @Override
     public int addCommodity(String name, String particulars, String image, String price, String unit, String specification, String manufacturer, String type) {
         return commodityDao.addCommodity(name,particulars,image,price,unit,specification,manufacturer,type);
+    }
+
+    @Override
+    public int updateCommodity(String name, String particulars, String image, String price, String unit, String specification, String manufacturer, String type, String id) {
+        return commodityDao.updateCommodity(name,particulars,image,price,unit,specification,manufacturer,type,id);
+    }
+
+    @Override
+    public int deleteCommodity(String id) {
+        return commodityDao.deleteCommodity(id);
+    }
+
+    @Override
+    public List<ComLabel> queryAllLabel() {
+        return commodityDao.queryAllLabel();
     }
 }

@@ -49,14 +49,31 @@
         </where>
     </select>
 
+    <!-- 添加商品 -->
+    <insert id="addCommodity">
+        INSERT INTO commodity VALUES (NULL,#{name},#{particulars},#{image},#{price},#{unit},#{specification},#{manufacturer},#{type},DEFAULT,DEFAULT,DEFAULT);
+    </insert>
+
+    <!-- 修改商品 -->
+    <update id="updateCommodity">
+        UPDATE commodity SET name=#{name},particulars=#{particulars},image=#{image},price=#{price},unit=#{unit},specification=#{specification},manufacturer=#{manufacturer},com_type=#{type}
+        WHERE id=#{id}
+    </update>
+
+    <!--根据商品id下架商品  -->
+    <update id="deleteCommodity">
+        UPDATE commodity SET state=2
+        WHERE id=#{id}
+    </update>
+
     <!--查询所有商品类型-->
     <select id="queryAlltype" resultType="comtype">
         select * from  com_type
     </select>
 
-    <!-- 添加商品 -->
-    <insert id="addCommodity">
-        INSERT INTO commodity VALUES (NULL,#{name},#{particulars},#{image},#{price},#{unit},#{specification},#{manufacturer},#{type},DEFAULT,DEFAULT,DEFAULT);
-    </insert>
+    <!--查询所有商品标签-->
+    <select id="queryAllLabel" resultType="ComLabel">
+        select * from  com_label
+    </select>
 
 </mapper>
