@@ -1,5 +1,6 @@
 import Axios from "axios";
 import {Menu} from "@/helper/entity";
+import {EmpHelper} from "@/helper/back/EmpHelper";
 
 export class MenuHelper {
 
@@ -8,7 +9,9 @@ export class MenuHelper {
             //let data = new URLSearchParams();
             //data.append("name","111");
             //后台异步获取菜单
-            Axios.get("menu/queryAll").then(value => {
+            let params = new URLSearchParams();
+            params.set("id",EmpHelper.empId);
+            Axios.post("/emp/queryMenus",params).then(value => {
                 resolve(value.data);
             })
         });

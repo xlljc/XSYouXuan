@@ -41,4 +41,18 @@ public interface RoleDao {
    * 根据Role条件修改单条数据方法,从传入对象获取id 
    */
   int updateById(Role role);
+
+  /**
+   * 根据角色id查询所有拥有该角色的员工姓名
+   * @param roleId 角色id
+   * @return 姓名集合
+   */
+  List<String> queryEmpNames(int roleId);
+
+  /**
+   * 根据id删除角色
+   * @param id 角色id
+   */
+  int delete(int id);
+
 }

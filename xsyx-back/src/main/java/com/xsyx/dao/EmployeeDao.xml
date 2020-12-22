@@ -167,4 +167,24 @@
         );
     </select>
 
+    <!-- 搜索 -->
+    <select id="search" resultMap="EmployeeMap">
+        select image,password,ic_card,address,last_login_time,phone,sex,name,remark,id,state,email
+        from employee
+        where
+            <if test="str != null">
+                (
+                    name like CONCAT('%',#{str},'%')
+                    or phone
+                    like CONCAT('%',#{str},'%')
+                    or ic_card like CONCAT('%',#{str},'%')
+                    or address like CONCAT('%',#{str},'%')
+                    or email like CONCAT('%',#{str},'%')
+                )
+            </if>
+            <if test="sex != null"> and sex = #{sex}</if>
+            <if test="state != null"> and state = #{state}</if>
+        order by id desc
+    </select>
+
 </mapper>

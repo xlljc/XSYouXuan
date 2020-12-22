@@ -1,6 +1,7 @@
 package com.xsyx.controller;
 
-import com.xsyx.utils.MyUtils;
+
+import com.github.pagehelper.PageInfo;
 import com.xsyx.vo.Employee;
 import com.xsyx.vo.Menu;
 import com.xsyx.vo.Role;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 import com.xsyx.service.EmployeeService;
 
@@ -33,8 +33,8 @@ public class EmployeeController {
      * @return 返回消息, 包含是否添加成功, 添加信息
      */
     @RequestMapping("/insert")
-    public Message insert(Employee employee, HttpSession session) {
-        return employeeService.insert(employee, session);
+    public Message insert(Employee employee, Integer empId) {
+        return employeeService.insert(employee, empId);
     }
 
     /**
@@ -49,30 +49,17 @@ public class EmployeeController {
     }
 
     /**
-     * 返回当前用户信息
-     *
-     * @return 员工信息
-     */
-    @RequestMapping("/get")
-    public Employee get(HttpSession session) {
-        Integer id = MyUtils.getEmpId(session);
-        if (id == null) return null;
-        return employeeService.get(id);
-    }
-
-    /**
      * 根据姓名，性别，冻结状态，手机号等查询用户，根据id倒序排序
      *
-     * @param employee  查询员工信息
-     * @param pageIndex 当前分页索引
-     * @param pageCount 每页显示条数
+     * @param page 当前分页索引
+     * @param row 每页显示条数
      * @return 员工集合
      */
     @RequestMapping("/query")
-    public List<Employee> query(Employee employee,
-                                @RequestParam(defaultValue = "0") Integer pageIndex,
-                                @RequestParam(defaultValue = "15") Integer pageCount) {
-        return employeeService.query(employee, pageIndex, pageCount);
+    public PageInfo<Employee> query(String name,String sex,Integer state,
+                                    @RequestParam(value = "page",defaultValue = "0") Integer page,
+                                    @RequestParam(value = "row",defaultValue = "15") Integer row) {
+        return employeeService.query(name,sex,state, page, row);
     }
 
     /**
@@ -82,8 +69,8 @@ public class EmployeeController {
      * @return 返回消息, 包含是否修改成功, 添加信息
      */
     @RequestMapping("/update")
-    public Message update(Employee employee, HttpSession session) {
-        return employeeService.update(employee, session);
+    public Message update(Employee employee, Integer empId) {
+        return employeeService.update(employee, empId);
     }
 
     /**
@@ -93,8 +80,8 @@ public class EmployeeController {
      * @return 返回信息, 包含是否冻结成功
      */
     @RequestMapping("/freeze")
-    public Message freeze(Integer id, HttpSession session) {
-        return employeeService.freeze(id, session);
+    public Message freeze(Integer id, Integer empId) {
+        return employeeService.freeze(id, empId);
     }
 
     /**
@@ -104,40 +91,42 @@ public class EmployeeController {
      * @return 返回信息, 包含是否删除成功
      */
     @RequestMapping("/delete")
-    public Message delete(Integer id, HttpSession session) {
+    public Message delete(Integer id, Integer empId) {
 
-        return employeeService.delete(id, session);
+        return employeeService.delete(id, empId);
     }
 
     /**
-     * 员工登录, 返回登录信息, 登录储存在session中
+     * 员工登录, 返回登录信息, 登录储存在empId中
      *
      * @param name     登录用户名
      * @param password 登录密码
      * @return 如果登录成功, 就返回true和员工信息, 如果登录失败就返回false和失败信息
      */
     @RequestMapping("/login")
-    public Message login(String name, String password, HttpSession session) {
-        return employeeService.login(name, password, session);
+    public Message login(String name, String password) {
+        return employeeService.login(name, password);
     }
 
     /**
-     * 根据员工id获取该员工所有角色, 如果没有传id值, 就从session中获取
+     * 根据员工id获取该员工所有角色, 如果没有传id值, 就从empId中获取
+     *
      * @param id 员工id
      */
     @RequestMapping("/queryRoles")
-    public List<Role> queryRoles(Integer id,HttpSession session) {
-        if (id==null)id=MyUtils.getEmpId(session);
+    public List<Role> queryRoles(Integer id) {
+        if (id == null) return null;
         return employeeService.queryRoles(id);
     }
 
     /**
-     * 根据员工id获取该员工所有菜单, 如果没有传id值, 就从session中获取
+     * 根据员工id获取该员工所有菜单, 如果没有传id值, 就从empId中获取
+     *
      * @param id 员工id
      */
     @RequestMapping("/queryMenus")
-    public List<Menu> queryMenus(Integer id,HttpSession session) {
-        if (id==null)id=MyUtils.getEmpId(session);
+    public List<Menu> queryMenus(Integer id) {
+        if (id == null) return null;
         return employeeService.queryMenus(id);
     }
 

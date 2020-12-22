@@ -67,4 +67,17 @@
         where id = #{id}
     </update>
 
+
+    <!-- 根据角色id查询所有拥有该角色的员工姓名 -->
+    <select id="queryEmpNames" resultType="java.lang.String" parameterType="int">
+        select el.name from employee el
+        right join emprole e on el.id = e.employee
+        where el.id = #{id}
+    </select>
+
+    <!-- 根据id删除角色 -->
+    <delete id="delete" parameterType="int">
+        delete from role where id = #{id}
+    </delete>
+
 </mapper>

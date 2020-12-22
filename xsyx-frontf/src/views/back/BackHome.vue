@@ -14,7 +14,7 @@
                     <el-header height="" style="padding: 0px">
                         <back-header style="margin-top: -20px"></back-header>
                     </el-header>
-
+                    <!--子级路由-->
                     <router-view></router-view>
 
                 </el-main>
@@ -27,6 +27,7 @@
     import {Vue, Component} from "vue-property-decorator";
     import Menu from "@/components/back/home/Menu.vue";
     import Header from "@/components/back/home/Header.vue";
+    import {EmpHelper} from "@/helper/back/EmpHelper";
 
     @Component({
         components: {

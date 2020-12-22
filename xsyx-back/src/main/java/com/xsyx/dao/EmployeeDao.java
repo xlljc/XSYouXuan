@@ -56,4 +56,12 @@ public interface EmployeeDao {
    */
   List<Menu> queryMenus(int id);
 
+  /**
+   * 搜索员工
+   * @param str 搜索条件
+   * @param sex 性别
+   * @param state 状态
+   * @return 员工集合
+   */
+  List<Employee> search(@Param("str") String str,@Param("sex") String sex,@Param("state") Integer state);
 }
