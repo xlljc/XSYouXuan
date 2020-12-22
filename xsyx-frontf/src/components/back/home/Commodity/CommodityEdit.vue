@@ -30,9 +30,9 @@
                     <el-option value="3">3</el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="上架时间">
-                <el-date-picker v-model="fromData.putawayDate" type="date" placeholder="选择日期"></el-date-picker>
-            </el-form-item>
+            <!--<el-form-item label="上架时间">
+                <el-input v-model="fromData.putawayDate" type="date" placeholder="选择日期"></el-input>
+            </el-form-item>-->
 
         </el-form>
 </template>
