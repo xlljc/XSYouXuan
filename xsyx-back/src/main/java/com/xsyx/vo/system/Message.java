@@ -25,6 +25,26 @@ public class Message {
         this.msg = msg;
     }
 
+    public Message() {
+        
+    }
+
+    public Boolean getFlag() {
+        return flag;
+    }
+
+    public void setFlag(Boolean flag) {
+        this.flag = flag;
+    }
+
+    public Object getMsg() {
+        return msg;
+    }
+
+    public void setMsg(Object msg) {
+        this.msg = msg;
+    }
+
     @Override
     public String toString() {
         return "Message{" +

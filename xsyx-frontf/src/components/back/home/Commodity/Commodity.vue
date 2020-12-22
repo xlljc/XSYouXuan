@@ -31,7 +31,7 @@
         <!--strip 双行阴影效果属性-->
         <el-table
                 border
-                :data="tableData"
+                :data="tableData.rows"
                 style="width: 100%;margin-top: 30px">
             <el-table-column type="expand">
                 <template slot-scope="props">
@@ -43,7 +43,7 @@
                             <span>{{ props.row.particulars }}</span>
                         </el-form-item>
                         <el-form-item label="商品图片：">
-                            <el-image fit="cover" :src="require('@/assets/'+props.row.image)" :preview-src-list="[require('@/assets/'+props.row.image)]" style="width: 100px;height: 50px"></el-image>
+                            <el-image fit="cover" :src="$host+props.row.image" :preview-src-list="[$host+props.row.image]" style="width: 100px;height: 50px"></el-image>
                         </el-form-item>
                         <el-form-item label="商品价格：">
                                 <span>{{ props.row.price }}</span>
@@ -58,13 +58,13 @@
                             <span>{{ props.row.manufacturer }}</span>
                         </el-form-item>
                         <el-form-item label="商品类型：">
-                            <span>{{ props.row.comtype }}</span>
+                            <span>{{ props.row.comType.id }}</span>
                         </el-form-item>
                         <el-form-item label="商品上架时间(第一次上架时间)：">
-                            <span>{{ props.row.putawaydate }}</span>
+                            <span>{{ props.row.putawayDate }}</span>
                         </el-form-item>
                         <el-form-item label="最新上架时间：">
-                            <span>{{ props.row.newestputawaydate }}</span>
+                            <span>{{ props.row.newestPutawayDate }}</span>
                         </el-form-item>
                         <el-form-item label="商品状态, 0未上架, 1已上架, -1已删除：">
                             <span>{{ props.row.state }}</span>
@@ -84,7 +84,7 @@
                     label="商品图片"
                     prop="image">
                 <template slot-scope="props">
-                    <el-image fit="cover" :src="require('@/assets/'+props.row.image)" :preview-src-list="[require('@/assets/'+props.row.image)]" style="width: 100px;height: 50px"></el-image>
+                    <el-image fit="cover" :src="$host+props.row.image" :preview-src-list="[$host+props.row.image]" style="width: 100px;height: 50px"></el-image>
                 </template>
             </el-table-column>
             <el-table-column
@@ -109,10 +109,15 @@
                 </template>
             </el-table-column>
         </el-table>
+        <!--分页-->
         <el-pagination
-                background
-                layout="prev, pager, next"
-                :total="1000">
+                @size-change="rowsChange"
+                @current-change="pageChange"
+                :current-page="newpage"
+                :page-sizes="[5, 10, 15, 20]"
+                :page-size="5"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="tableData.total">
         </el-pagination>
 
         <!-- 添加功能模态框-->
@@ -129,9 +134,19 @@
             </div>
         </el-dialog>
 
-
         <!-- 修改功能模态框-->
+        <el-dialog :close-on-click-modal="false"
+                   title="商品修改"
+                   :visible.sync="updatemotaikuang">
+            <!-- 商品编辑组件, 传入data值, 传入图片列表 -->
+            <commodity-edit :from-data="fromData" :image-file="imageFile"></commodity-edit>
 
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="updatemotaikuang = false">取 消</el-button>
+                <!--点击调用添加方法-->
+                <el-button type="primary" @click="updateCommodity">确 定</el-button>
+            </div>
+        </el-dialog>
 
     </div>
 </template>
@@ -158,12 +173,18 @@
         return {url: null};
     }
 
+    //声明 分页类型
+    export interface PageInfo {
+        //这个{}可以换成返回的对象类型
+        rows?: Commodity[];
+        total?: number;
+        //后面自己加
+    }
+
     @Component({
         components: {CommodityEdit}
     })
     export default class Commodity extends Vue {
-
-        /* 添加模态框的图片的变量 ↑*/
 
         //添加模态框的状态
         addmotaikuang =false;
@@ -173,32 +194,47 @@
         input:string="";
         //状态框的变量
         zhuangtai:string="上架";
+        //商品数据(包括图片)
+        tableData: PageInfo = {};
+
+
         //修改 和 添加模态框的变量
         fromData: Com = createEmptyCommodity();
-        //商品数据(包括图片)
-        tableData: Com[] = [];
         //图片信息, 路径在url
         imageFile: FileInfo = createEmptyFileInfo();
+
+
+        //当前页数
+        newpage:number=1;
+        //分页页码的值
+        page:number=1;
+        //分页一页多少行的值
+        rows:number=5;
 
         created() {
             this.$store.commit('back/url', window.location.href);
 
-            let data = new URLSearchParams();
-            data.append("name",this.input);
-            data.append("state",this.zhuangtai);
-            //查询所有商品资料信息
-            Axios({
-                method: "post",
-                url: "/commodity/MoHuqueryAll",
-                data: data
-            }).then(value => {
-                this.tableData=value.data;
-            })
-
-            EmpHelper.getEmp().then(value => {
+            //加载所有商品信息
+            this.getCommodityAll();
+            //获取登录信息
+            /*EmpHelper.getEmp().then(value => {
                 console.log(value);
-            })
+            })*/
         }
+
+        /*点击换条数的按钮*/
+        rowsChange(val:number) {
+            //修改条数的值
+            this.rows=val;
+            this.getCommodityAll();
+        }
+        //点击分页页数按钮
+        pageChange(val:number) {
+            //修改页数的值
+            this.page=val;
+            this.getCommodityAll();
+        }
+
         //***********************************************************
         //                      商品添加部分
         //***********************************************************
@@ -207,6 +243,7 @@
             //打开模态框
             this.addmotaikuang = true;
             //设置fromData的值, 这个就是传到模态框表单里面的值, 这里是添加, 创建一个空的商品对象
+            //清空数据
             this.fromData = createEmptyCommodity();
             //设置图片
             this.imageFile = createEmptyFileInfo();
@@ -215,33 +252,57 @@
         submitAddCommodity() {
             //关闭模态框
             this.addmotaikuang = false;
-            console.log(this.fromData);
-            console.log(this.imageFile);
             //执行提交操作
+            let params = new URLSearchParams();
+            params.append("name",this.fromData.name)
+            params.append("particulars",this.fromData.particulars)
+            params.append("image",this.imageFile.url)
+            params.append("price",this.fromData.price.toString())
+            params.append("unit",this.fromData.unit)
+            params.append("specification",this.fromData.specification)
+            params.append("manufacturer",this.fromData.manufacturer)
+            params.append("comtype",this.fromData.comType.id.toString())
+            this.$axios.post("/commodity/addCommodity",params).then(function (result) {
+                alert(result.data)
 
+                //关闭模态框
+                this.addmotaikuang=false;
+                //刷新页面
+                this.getCommodityAll();
+            })
         }
 
         //***********************************************************
         //                      商品查询部分
         //***********************************************************
-        //点击查询按钮 模糊查询商品信息
-        MohuqueryCommodity(){
-            let data = new URLSearchParams();
-            data.append("name",this.input);
-            data.append("state",this.zhuangtai);
-            //查询所有商品资料信息
+        //页面打开 查询所有商品信息
+        getCommodityAll(){
+            console.log("getCommodityAll")
+            let params = new URLSearchParams();
+            params.append("name",this.input)
+            params.append("state",this.zhuangtai)
+            params.append("page",this.page.toString())
+            params.append("rows",this.rows.toString())
             Axios({
                 method: "post",
-                url: "/commodity/MoHuqueryAll",
-                data: data
+                url: "/commodity/queryCommodityAll",
+                data: params
             }).then(value => {
-                this.tableData=value.data
+                console.log(value.data)
+                this.tableData=value.data;
             })
+
         }
+
+        //点击查询按钮 模糊查询商品信息
+        MohuqueryCommodity(){
+            this.getCommodityAll();
+        }
+
+
 
         //获取选中的商品的详情
         queryCommoditydetails(index: number, row: Commodity) {
-            //设置模态框变量
 
             //打开修改模态框
             this.updatemotaikuang = true;
