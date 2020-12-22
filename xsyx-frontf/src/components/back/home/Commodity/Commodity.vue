@@ -4,7 +4,7 @@
         <!-- 模糊查询-->
         <el-input
                 style="width: 300px"
-                placeholder="请输入内容"
+                placeholder="请输入商品名"
                 v-model="input"
                 clearable>
         </el-input>
@@ -12,6 +12,7 @@
         <el-select v-model="zhuangtai">
             <el-option value="全部">全部</el-option>
             <el-option value="上架">上架</el-option>
+            <el-option value="未上架">未上架</el-option>
             <el-option value="下架">下架</el-option>
         </el-select>
         <el-button
@@ -202,7 +203,8 @@
         fromData: Com = createEmptyCommodity();
         //图片信息, 路径在url
         imageFile: FileInfo = createEmptyFileInfo();
-
+        //修改用 的商品id
+        id:number=0;
 
         //当前页数
         newpage:number=1;
@@ -225,7 +227,7 @@
 
         //获取商品上架状态
         getState(state: number): string {
-            if (state === -1) return "已下架";
+            if (state === 2) return "已下架";
             if (state === 0) return "未上架";
             if (state === 1) return "已上架";
         }
@@ -273,14 +275,23 @@
             params.append("specification",this.fromData.specification)
             params.append("manufacturer",this.fromData.manufacturer)
             params.append("comtype",this.fromData.comType.id.toString())
-            this.$axios.post("/commodity/addCommodity",params).then(function (result) {
-                alert(result.data)
 
-                //关闭模态框
-                this.addmotaikuang=false;
+            this.$axios.post("/commodity/addCommodity",params)
+                .then((result)=> {
+                if (result.data.flag===true){
+                    this.$message({
+                        type: 'success',
+                        message: "添加成功√"
+                    });
+                }
                 //刷新页面
                 this.getCommodityAll();
-            })
+            }).catch((msg) => {
+                this.$message({
+                    type: 'error',
+                    message: "添加失败×"
+                });
+            });
         }
 
         //***********************************************************
@@ -310,9 +321,13 @@
         }
 
 
-
-        //获取选中的商品的详情
+        //***********************************************************
+        //                      商品修改部分
+        //***********************************************************
+        //获取选中的商品的详情 打开修改模态框
         queryCommoditydetails(index: number, row: Com) {
+            //获取商品id
+            this.id=row.id;
 
             this.fromData = row;
             this.imageFile = {url: row.image};
@@ -320,32 +335,73 @@
 
         }
 
-        //点击模态框确定按钮  修改商品信息方法 (未写)
+        //点击模态框确定按钮  修改商品信息方法
         updateCommodity() {
-            Axios.get("/commodity/queryAll").then(value => {
-                alert(value.data);
-            })
-        }
+            //关闭模态框
+            this.updatemotaikuang = false;
+            //执行提交操作
+            let params = new URLSearchParams();
+            params.append("name",this.fromData.name)
+            params.append("particulars",this.fromData.particulars)
+            params.append("image",this.imageFile.url)
+            params.append("price",this.fromData.price.toString())
+            params.append("unit",this.fromData.unit)
+            params.append("specification",this.fromData.specification)
+            params.append("manufacturer",this.fromData.manufacturer)
+            params.append("comtype",this.fromData.comType.id.toString())
+            params.append("id",this.id.toString())
 
-        //删除商品信息方法 （未写）
-        deleteCommodity(index: number, row: {}) {
-            /*alert(index)
-            alert(row.address)*/
+            this.$axios.post("/commodity/updateCommodity",params)
+                .then((result)=> {
+                    if (result.data.flag===true){
+                        this.$message({
+                            type: 'success',
+                            message: "修改成功√"
+                        });
+                    }
+                    //刷新页面
+                    this.getCommodityAll();
+                }).catch((msg) => {
+                this.$message({
+                    type: 'error',
+                    message: "修改失败×"
+                });
+            });
+        }
+        //***********************************************************
+        //                      商品删除(下架)部分
+        //***********************************************************
+        //删除商品信息方法
+        deleteCommodity(index: number, row: Com) {
+
+            /*alert(row.id)*/
             this.$confirm('此操作将下架商品, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning',
                 center: true
             }).then(() => {
+                let params = new URLSearchParams();
+                params.append("id",row.id.toString())
                 //执行删除操作
-                Axios.get("/commodity/delete").then(value => {
-                    console.log(value.data)
-                })
-
-                this.$message({
-                    type: 'success',
-                    message: '下架成功!'
+                this.$axios.post("/commodity/delete",params)
+                    .then((result)=> {
+                        if (result.data.flag===true){
+                            this.$message({
+                                type: 'success',
+                                message: "下架成功√"
+                            });
+                        }
+                        //刷新页面
+                        this.getCommodityAll();
+                    }).catch((msg) => {
+                    this.$message({
+                        type: 'error',
+                        message: "下架失败×"
+                    });
                 });
+
+
             }).catch(() => {
                 this.$message({
                     type: 'error',

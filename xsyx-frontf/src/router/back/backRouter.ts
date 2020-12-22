@@ -5,6 +5,7 @@ import CommodityTypeMaintain from "@/components/back/home/CommodityTypeMaintain.
 import Warehousemaintain from "@/components/back/home/Warehousemaintain.vue";
 import EmpManagement from "@/components/back/home/system/emp/EmpManagement.vue";
 import RoleManagement from "@/components/back/home/system/role/RoleManagement.vue";
+import CommodityLableMaintain from "@/components/back/home/Commodity/CommodityLableMaintain.vue";
 
 /**
  * 后台路由
@@ -15,6 +16,8 @@ const BackRouter: Array<RouteConfig> = [
     {path:"/commodity",component:Commodity},
     //商品类型维护
     {path:"/typemaintain",component:CommodityTypeMaintain},
+    //商品标签维护
+    {path:"/lablemaintain",component:CommodityLableMaintain},
     //仓库信息维护
     {path:"/warehousemaintain",component:Warehousemaintain},
     /*{

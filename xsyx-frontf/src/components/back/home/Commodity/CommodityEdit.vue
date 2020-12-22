@@ -1,3 +1,4 @@
+<!--商品添加修改模态框-->
 <template>
 
         <el-form label-width="80px">
@@ -9,10 +10,10 @@
             </el-form-item>
             <el-form-item label="商品图片">
                 <!-- 商品图片-->
-                <commodity-images fit="cover" :image-file="imageFile"></commodity-images>
+                <commodity-images :image-file="imageFile"></commodity-images>
             </el-form-item>
             <el-form-item label="商品价格">
-                <el-input v-model="fromData.price"></el-input>
+                <el-input  v-model="fromData.price"></el-input >
             </el-form-item>
             <el-form-item label="单位">
                 <el-input v-model="fromData.unit"></el-input>
