@@ -5,8 +5,6 @@
 <mapper namespace="com.xsyx.dao.WarehouseDao">
 
 
-
-
     <!-- resultMap映射 -->
     <resultMap id="WarehouseMap" type="Warehouse">
         <id column="warid" property="warid"/>
@@ -23,7 +21,7 @@
     <select id="queryWarehouseAll" parameterType="String" resultMap="WarehouseMap">
         SELECT * FROM warehouse
         <where>
-            <if test="warname!=null"> and warname like  concat('%',#{warname},'%')</if>
+            <if test="warname!=null">and warname like concat('%',#{warname},'%')</if>
         </where>
     </select>
 
@@ -31,8 +29,46 @@
     <select id="querycountWarehousebyCond" parameterType="String" resultType="int">
         SELECT count(*) FROM warehouse
         <where>
-            <if test="warname!=null"> and warname like  concat('%',#{warname},'%')</if>
+            <if test="warname!=null">and warname like concat('%',#{warname},'%')</if>
         </where>
     </select>
 
+    <!--根据仓库id查询所有仓库存储商品-->
+    <select id="queryWareHouseStorageAll" parameterType="String" resultType="WareHouseStorage">
+        SELECT house.warid,house.warname, com.id, com.name, warest.number,com.specification FROM warehousestorage warest
+        INNER JOIN warehouse house
+         ON warest.warid = house.warid
+        INNER JOIN commodity com
+         ON warest.commodityid = com.id
+        WHERE house.warid = #{id}
+    </select>
+
+    <!--查询所有仓库-->
+    <select id="warehouseAll" resultType="Warehouse">
+        SELECT * FROM warehouse
+    </select>
+
+    <!--根据商品id 和转出仓库id 修改原仓库商品数量-->
+    <update id="updateshopnumber">
+        UPDATE warehousestorage SET number=#{updatenumber}
+        WHERE commodityid=#{commodityid} AND warid=#{chuwarid}
+    </update>
+    <!--根据商品id 和转出仓库id 删除原仓库商品-->
+    <delete id="deleteshop">
+        delete from warehousestorage where commodityid=#{commodityid} AND warid=#{chuwarid}
+    </delete>
+    <!--根据转出仓库id 商品id 查询是否有结果-->
+    <select id="queryshop" resultType="int">
+        SELECT count(*) FROM warehousestorage
+        WHERE commodityid=#{commodityid} AND warid=#{chuwarid}
+    </select>
+    <!--执行添加数量操作  根据商品id和仓库id添加数量-->
+    <update id="addshopnumber">
+        UPDATE warehousestorage SET number=number+#{chunumber}
+        WHERE commodityid=#{commodityid} AND warid=#{ruwarid}
+    </update>
+    <!--给转入仓库添加一条新数据-->
+    <!--<insert id="addshopnumber">
+        INSERT INTO warehousestorage VALUES(NULL,#{commodityid},#{ruwarid},#{chunumber});
+    </insert>-->
 </mapper>
