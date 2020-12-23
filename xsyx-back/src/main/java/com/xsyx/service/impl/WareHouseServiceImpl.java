@@ -5,10 +5,7 @@ import com.xsyx.dao.CommodityDao;
 import com.xsyx.dao.WarehouseDao;
 import com.xsyx.service.CommodityService;
 import com.xsyx.service.WareHouseService;
-import com.xsyx.vo.ComLabel;
-import com.xsyx.vo.ComType;
-import com.xsyx.vo.Commodity;
-import com.xsyx.vo.Warehouse;
+import com.xsyx.vo.*;
 import com.xsyx.vo.system.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +35,41 @@ public class WareHouseServiceImpl implements WareHouseService {
         //获取总的记录数量
         pageVo.setTotal(warehouseDao.querycountWarehousebyCond(warname));
         return pageVo;
+    }
+
+    @Override
+    public List<WareHouseStorage> queryWareHouseStorageAll(String id) {
+        return warehouseDao.queryWareHouseStorageAll(id);
+    }
+
+    @Override
+    public List<Warehouse> warehouseAll() {
+        return warehouseDao.warehouseAll();
+    }
+
+    @Override
+    public int updateshopnumber(String commodityid, String chuwarid, String updatenumber) {
+        return warehouseDao.updateshopnumber(commodityid,chuwarid,updatenumber);
+    }
+
+    @Override
+    public int deleteshop(String commodityid, String chuwarid) {
+        return warehouseDao.deleteshop(commodityid,chuwarid);
+    }
+
+    @Override
+    public int queryshop(String commodityid, String chuwarid) {
+        return warehouseDao.queryshop(commodityid,chuwarid);
+    }
+
+    @Override
+    public int addshopnumber(String commodityid, String ruwarid, String chunumber) {
+        return warehouseDao.addshopnumber(commodityid,ruwarid,chunumber);
+    }
+
+    @Override
+    public int addwarehousestorageshop(String commodityid, String ruwarid, String chunumber) {
+        return warehouseDao.addwarehousestorageshop(commodityid,ruwarid,chunumber);
     }
 
 

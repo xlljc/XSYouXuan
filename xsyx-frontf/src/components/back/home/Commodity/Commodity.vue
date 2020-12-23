@@ -95,18 +95,22 @@
 
             <el-table-column label="操作">
                 <template slot-scope="scope">
+                    <el-tooltip class="item" effect="dark" content="修改商品" placement="top-start">
                     <el-button
                             type="primary"
                             circle
                             icon="el-icon-edit"
                             size="medium"
                             @click="queryCommoditydetails(scope.$index, scope.row)"></el-button>
+                    </el-tooltip>
+                    <el-tooltip class="item" effect="dark" content="下架商品" placement="top-start">
                     <el-button
                             type="danger"
                             circle
                             icon="el-icon-delete"
                             size="medium"
                             @click="deleteCommodity(scope.$index, scope.row)"></el-button>
+                    </el-tooltip>
                 </template>
             </el-table-column>
         </el-table>
