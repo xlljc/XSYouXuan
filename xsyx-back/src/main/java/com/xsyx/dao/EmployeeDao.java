@@ -69,4 +69,10 @@ public interface EmployeeDao {
    * 验证密码
    */
   int validation(@Param("empId") Integer empId,@Param("password") String password);
+
+  /**
+   * 根据角色id查询拥有该角色的角色的员工
+   * @return 员工集合
+   */
+  List<Employee> queryByRoleId(int id);
 }

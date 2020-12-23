@@ -42,7 +42,7 @@ export default class Utils {
      * @param obj
      * @param keys
      */
-    public static format<T>(urlSearchParams: URLSearchParams,obj: T, ...keys: (keyof T)[]): URLSearchParams {
+    public static format<T>(urlSearchParams: URLSearchParams, obj: T, ...keys: (keyof T)[]): URLSearchParams {
         if (keys.length > 0) {
             for (let key of keys) {
                 let temp = obj[key];
@@ -54,5 +54,15 @@ export default class Utils {
             for (let key in obj) urlSearchParams.append(key, obj[key].toString());
         }
         return urlSearchParams;
+    }
+
+    /**
+     * 从数组中移除项
+     * @param list 数组
+     * @param item
+     */
+    public static arrayRemove<T>(list: T[], ...item: any): T[] {
+        for (let i of item) list.splice(list.indexOf(i), 1);
+        return list;
     }
 }

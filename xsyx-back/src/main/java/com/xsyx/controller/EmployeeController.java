@@ -64,6 +64,16 @@ public class EmployeeController {
     }
 
     /**
+     * 根据角色id查询员工
+     * @param id
+     * @return
+     */
+    @RequestMapping("/queryByRoleId")
+    public List<Employee> queryByRoleId(Integer id) {
+        return employeeService.queryByRoleId(id);
+    }
+
+    /**
      * 修改员工, 参数必须包含 id
      *
      * @param employee 员工信息
@@ -152,5 +162,13 @@ public class EmployeeController {
     @RequestMapping("/validation")
     public Message validation(Integer empId,String password) {
         return employeeService.validation(empId,password);
+    }
+
+    /**
+     * 修改员工角色
+     */
+    @RequestMapping("/updateRoles")
+    public Message updateRoles(@RequestParam("ids") List<Integer> list,Integer id,Integer empId) {
+        return employeeService.updateRoles(list,id,empId);
     }
 }

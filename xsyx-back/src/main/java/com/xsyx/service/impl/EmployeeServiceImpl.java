@@ -5,8 +5,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xsyx.dao.EmpLogDao;
 import com.xsyx.dao.EmployeeDao;
+import com.xsyx.dao.EmproleDao;
 import com.xsyx.service.EmployeeService;
 import com.xsyx.vo.Employee;
+import com.xsyx.vo.Emprole;
 import com.xsyx.vo.Menu;
 import com.xsyx.vo.Role;
 import com.xsyx.vo.system.Message;
@@ -26,6 +28,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     EmpLogDao empLogDao;
+
+    @Autowired
+    EmproleDao emproleDao;
 
     @Override
     public Message insert(Employee employee, Integer empId) {
@@ -70,6 +75,31 @@ public class EmployeeServiceImpl implements EmployeeService {
             return new Message(true,"解冻成功!");
         }
         return new Message(false,"解冻失败!");
+    }
+
+    @Override
+    public List<Employee> queryByRoleId(Integer id) {
+        return employeeDao.queryByRoleId(id);
+    }
+
+    @Override
+    public Message updateRoles(List<Integer> list, Integer id, Integer empId) {
+        //是否登录
+        if (empId == null) return new Message(false, "请先登录 !");
+        //不能修改自己
+        if (empId.equals(id)) return new Message(false,"你不能修改你自己 !");
+        //先移除
+        emproleDao.deletes(id);
+        //日志
+        empLogDao.addLog(empId,"修改员工角色: 员工id: " + id,JSON.toJSONString(list));
+        if (list.size() == 0) return new Message(true,"修改成功!");
+        //再添加
+        List<Emprole> emproles = new ArrayList<>();
+        for (Integer i : list) {
+            emproles.add(new Emprole(null,id,i));
+        }
+        emproleDao.inserts(emproles);
+        return new Message(true,"修改成功!");
     }
 
     @Override

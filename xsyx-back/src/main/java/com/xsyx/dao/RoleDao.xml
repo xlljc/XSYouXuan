@@ -12,6 +12,7 @@
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="remark" property="remark"/>
+        <result column="has_emp_count" property="hasEmpCount"/>
     </resultMap>
 
     <!-- 查询所有方法 -->
@@ -80,16 +81,17 @@
         delete from role where id = #{id}
     </delete>
 
-
     <!-- 根据Role条件模糊查询数据方法 -->
     <select id="queryLike" resultMap="RoleMap">
-        select name,remark,id
-        from role
+        select r.*,count(e2.id) has_emp_count from role r
+        left join emprole e on r.id = e.role
+        left join employee e2 on e.employee = e2.id
         where (
-            <if test="name != null">name like concat('%',#{name},'%')</if>
-            <if test="remark != null">or remark like concat('%',#{remark},'%')</if>
-        ) and id != 1
-        order by id desc
+            <if test="name != null">r.name like concat('%',#{name},'%')</if>
+            <if test="remark != null">or r.remark like concat('%',#{remark},'%')</if>
+        ) and r.id!=1
+        group by r.id
+        order by r.id desc
     </select>
 
 </mapper>

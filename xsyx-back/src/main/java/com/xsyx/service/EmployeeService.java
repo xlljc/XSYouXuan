@@ -32,4 +32,8 @@ public interface EmployeeService {
     Message validation(Integer empId, String password);
 
     Message unFreeze(Integer id, Integer empId);
+
+    List<Employee> queryByRoleId(Integer id);
+
+    Message updateRoles(List<Integer> list, Integer id, Integer empId);
 }

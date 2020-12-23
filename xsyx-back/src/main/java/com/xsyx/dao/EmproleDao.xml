@@ -67,4 +67,8 @@
         where id = #{id}
     </update>
 
+    <delete id="deletes" parameterType="int">
+        delete from emprole where employee = ${empId}
+    </delete>
+
 </mapper>

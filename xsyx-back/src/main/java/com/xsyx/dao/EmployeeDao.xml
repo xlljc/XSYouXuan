@@ -145,7 +145,7 @@
     <select id="queryRoles" resultType="Role">
         select distinct ro.* from role ro
         right join emprole e on ro.id = e.role
-        right join employee e2 on e.employee = e2.id
+        left join employee e2 on e.employee = e2.id
         where e2.id=#{id}
     </select>
 
@@ -190,6 +190,14 @@
     <!--验证密码-->
     <select id="validation" resultType="int">
         select count(1) from employee where id=#{empId} and password=#{password}
+    </select>
+
+    <!-- 根据角色id查询拥有该角色的角色的员工 -->
+    <select id="queryByRoleId" resultMap="EmployeeMap">
+        select * from employee emp
+        right join emprole e on emp.id = e.employee
+        right join role r on e.role = r.id
+        where r.id=#{id}
     </select>
     
 </mapper>

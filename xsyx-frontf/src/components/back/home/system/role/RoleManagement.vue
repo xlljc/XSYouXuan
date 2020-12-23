@@ -28,19 +28,44 @@
         </el-button>
 
         <el-table
+                v-loading="isLoading"
                 border
                 :data="tableData.list"
                 style="width: 100%;margin-top: 30px">
             <el-table-column
+                    sortable
                     width="100px"
                     label="角色 ID"
                     prop="id">
             </el-table-column>
             <el-table-column
-                    width="250px"
+                    width="200px"
                     label="角色名称"
                     prop="name">
             </el-table-column>
+
+            <el-table-column
+                    label="拥有人数"
+                    width="180">
+                <template slot-scope="{row}">
+                    <el-popover trigger="hover" ref="" placement="top" @show="row.empData === undefined && loadEmp(row)">
+                        <div v-loading="row.empData === undefined">
+                            <el-table :data="row.empData" height="250">
+                                <el-table-column label="id" prop="id"/>
+                                <el-table-column label="姓名" prop="name"/>
+                                <el-table-column label="头像">
+                                    <template slot-scope="{row}">
+                                        <el-image  style="height: 30px;width: 45px" :src="$host + row.image" fit="cover"
+                                        :preview-src-list="[$host + row.image]"></el-image>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </div>
+                        <el-tag slot="reference" size="medium">人数 : {{ row.hasEmpCount }}</el-tag>
+                    </el-popover>
+                </template>
+            </el-table-column>
+
             <el-table-column
                     label="角色备注"
                     prop="remark">
@@ -57,14 +82,23 @@
                         ></el-button>
                     </el-tooltip>
 
-                    <el-tooltip effect="dark" content="删除" placement="top-start">
-                        <el-button
-                                type="danger"
-                                circle
-                                icon="el-icon-delete"
-                                size="medium"
-                        ></el-button>
-                    </el-tooltip>
+                    <el-popconfirm
+                            @confirm="deleteRole(row.id)"
+                            confirm-button-text='确定'
+                            cancel-button-text='取消'
+                            icon="el-icon-info"
+                            icon-color="red"
+                            title="你确定删除该角色吗？该操作不能取消 !">
+                        <el-tooltip slot="reference" effect="dark" content="删除" placement="top-start">
+                            <el-button
+                                    style="margin-left: 10px"
+                                    type="danger"
+                                    circle
+                                    icon="el-icon-delete"
+                                    size="medium"
+                            ></el-button>
+                        </el-tooltip>
+                    </el-popconfirm>
 
                 </template>
             </el-table-column>
@@ -85,12 +119,11 @@
                    :visible.sync="dialog.visible"
                    width="400px">
             <div>
-                <role-management-edit :form-data="formData"></role-management-edit>
+                <role-management-edit ref="formEdit" :form-data="formData"></role-management-edit>
             </div>
 
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialog.visible = false">取 消</el-button>
-                <!--点击调用修改方法-->
                 <el-button type="primary" @click="dialog.success">确 定</el-button>
             </div>
         </el-dialog>
@@ -108,6 +141,8 @@
     })
     export default class RoleManagement extends Vue {
 
+        //加载状态
+        isLoading = false;
         //搜索框数据
         searchStr: string = "";
         //表数据
@@ -136,28 +171,21 @@
 
         }
 
-        //***********************************************************
-        //                          查询角色
-        //***********************************************************
-        //搜索按钮触发
-        search() {
-            this.page = 1;
-            this.query()
-        }
         //查询角色
         async query() {
+            this.isLoading = true;
             this.tableData = await RoleHelper.query(this.searchStr,this.page,this.row);
+            this.isLoading = false;
         }
 
-        //***********************************************************
-        //                          添加角色
-        //***********************************************************
         //打开添加模态框
         openAdd() {
             this.formData = {};
             this.dialog.title = "添加角色";
             this.dialog.visible = true;
             this.dialog.success = async () => {
+                let formEdit = this.$refs["formEdit"] as any;
+                if(!await formEdit.validate()) return;
                 //提交
                 let message = await RoleHelper.insert(this.formData);
                 if (message.flag) {
@@ -186,6 +214,22 @@
                 }
                 this.dialog.visible = false;
             }
+        }
+
+        async deleteRole(id: number) {
+            console.log(id)
+            let message = await RoleHelper.delete(id);
+            if (message.flag) {
+                this.$notify({type: "success",title: "消息",message: "删除成功 !"});
+                this.query();
+            } else {
+                this.$notify({type: "error",title: "消息",message: message.msg});
+            }
+        }
+
+        async loadEmp(row: Role) {
+            this.$set(row,"empData",await RoleHelper.getEmpsByRoleId(row.id));
+
         }
 
         //***********************************************************
