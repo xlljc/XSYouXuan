@@ -49,14 +49,16 @@ public class WareHouseController {
     }
     //点击转库
     @RequestMapping("/zhuanku")
-    public List<Warehouse> zhuanku(String commodityid,
-                                String yuannumber,
-                                String chuwarid,
-                                String ruwarid,
-                                String chunumber
+    public String zhuanku(String commodityid,
+                                    String yuannumber,
+                                   String shopron,
+                                 String chuwarid,
+                                 String ruwarid,
+                                 String chunumber
                                 ) {
        /* System.out.println("商品id:"+commodityid);
         System.out.println("商品原本数量:"+yuannumber);
+        System.out.println("商品所占容量:"+shopron);
         System.out.println("转出仓库id:"+chuwarid);
         System.out.println("转入仓库id:"+ruwarid);
         System.out.println("商品转出的数量:"+chunumber);*/
@@ -66,16 +68,19 @@ public class WareHouseController {
 
         //根据商品id 和转出仓库id 修改原仓库商品数量
         wareHouseService.updateshopnumber(commodityid,chuwarid,updatenumber.toString());
+        //根据转出仓库id 修改转出仓库的容量
+        wareHouseService.updateWareHouseRon(chuwarid,shopron);
 
 
         //判断要转入的仓库有没有相同的商品 如果有相同的商品就加数量  没有才添加
-        //根据转出仓库id 商品id 查询是否有结果 1是有 0是没有
-        Integer jie=wareHouseService.queryshop(commodityid,chuwarid);
-        /*System.out.println(jie);*/
+        //根据转入仓库id 商品id 查询是否有结果 1是有 0是没有
+        Integer jie=wareHouseService.queryshop(commodityid,ruwarid);
         //如果有
-        //执行添加数量操作  根据商品id和仓库id添加数量
         if (jie>0){
+            //执行添加数量操作  根据商品id和转入仓库id添加数量
             wareHouseService.addshopnumber(commodityid,ruwarid,chunumber);
+            //根据转入仓库id 修改转入仓库的容量
+            wareHouseService.updateWareHouseRon1(ruwarid,shopron);
             //如果转库前的商品数量等于要转的数量 就删除之前的记录
             if (updatenumber==0){
                 //如果updatenumber值为0 表示全部转出 删除这个仓库里的这个商品
@@ -85,10 +90,21 @@ public class WareHouseController {
         }else {
             //如果没有
             //添加一个新的记录 else
-            //如果转库前的商品数量等于要转的数量 就删除之前的记录  根据记录编号删
+            wareHouseService.addwarehousestorageshop(commodityid,ruwarid,chunumber);
+            //修改转出仓库的容量
+            wareHouseService.updateWareHouseRon(chuwarid,shopron);
+            //修改转入仓库的容量
+            wareHouseService.updateWareHouseRon1(ruwarid,shopron);
+
+            //如果转库前的商品数量等于要转的数量 就删除之前的记录
+            if (updatenumber==0){
+                //如果updatenumber值为0 表示全部转出 删除这个仓库里的这个商品
+                //根据商品id 和转出仓库id 删除原仓库商品
+                wareHouseService.deleteshop(commodityid,chuwarid);
+            }
         }
        /* wareHouseService.addshopnumber(commodityid,ruwarid,chunumber);*/
-        return null;
+        return "转库成功";
     }
 
 }

@@ -53,18 +53,28 @@ public class WareHouseServiceImpl implements WareHouseService {
     }
 
     @Override
+    public int updateWareHouseRon(String chuwarid, String shopron) {
+        return warehouseDao.updateWareHouseRon(chuwarid,shopron);
+    }
+
+    @Override
     public int deleteshop(String commodityid, String chuwarid) {
         return warehouseDao.deleteshop(commodityid,chuwarid);
     }
 
     @Override
-    public int queryshop(String commodityid, String chuwarid) {
-        return warehouseDao.queryshop(commodityid,chuwarid);
+    public int queryshop(String commodityid, String ruwarid) {
+        return warehouseDao.queryshop(commodityid,ruwarid);
     }
 
     @Override
     public int addshopnumber(String commodityid, String ruwarid, String chunumber) {
         return warehouseDao.addshopnumber(commodityid,ruwarid,chunumber);
+    }
+
+    @Override
+    public int updateWareHouseRon1(String ruwarid, String shopron) {
+        return warehouseDao.updateWareHouseRon1(ruwarid,shopron);
     }
 
     @Override

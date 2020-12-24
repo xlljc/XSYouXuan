@@ -10,18 +10,18 @@ import java.util.List;
 /**
  * 表名 :  purchaseorder<br/>
  * 表注释 : 采购订单表
- */ 
+ */
 @JsonIgnoreProperties(value = "handler")
 public class Purchaseorder implements Serializable {
 
 	/**订单id*/
 	private Integer orderid;
 	/**申请人*/
-	private Employee applicant;
+	private String applicant;
 	/**申请人备注*/
 	private String applicantremarks;
 	/**审批人*/
-	private Employee approvedby;
+	private String approvedby;
 	/**状态, 0未审核，1通过，-1拒绝*/
 	private Integer state;
 	/**审核人备注*/
@@ -29,12 +29,11 @@ public class Purchaseorder implements Serializable {
 	/**操作时间*/
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
 	private Timestamp operationtime;
-	private List<Purchase> purchases;
 
 	public Purchaseorder() {
-		super();
 	}
-	public Purchaseorder(Integer orderid, Employee applicant, String applicantremarks, Employee approvedby, Integer state, String approvedbyremarks, Timestamp operationtime) {
+
+	public Purchaseorder(Integer orderid, String applicant, String applicantremarks, String approvedby, Integer state, String approvedbyremarks, Timestamp operationtime) {
 		this.orderid = orderid;
 		this.applicant = applicant;
 		this.applicantremarks = applicantremarks;
@@ -43,86 +42,74 @@ public class Purchaseorder implements Serializable {
 		this.approvedbyremarks = approvedbyremarks;
 		this.operationtime = operationtime;
 	}
-	public Purchaseorder(Integer orderid, Employee applicant, String applicantremarks, Employee approvedby, Integer state, String approvedbyremarks, Timestamp operationtime, List<Purchase> purchases) {
-		this.orderid = orderid;
-		this.applicant = applicant;
-		this.applicantremarks = applicantremarks;
-		this.approvedby = approvedby;
-		this.state = state;
-		this.approvedbyremarks = approvedbyremarks;
-		this.operationtime = operationtime;
-		this.purchases = purchases;
-	}
-	/**设置"订单id"*/
-	public void setOrderid(Integer orderid){
-		this.orderid = orderid;
-	}
-	/**获取"订单id"*/
-	public Integer getOrderid(){
+
+	public Integer getOrderid() {
 		return orderid;
 	}
-	public void setApplicant(Employee applicant){
-		this.applicant = applicant;
+
+	public void setOrderid(Integer orderid) {
+		this.orderid = orderid;
 	}
-	public Employee getApplicant(){
+
+	public String getApplicant() {
 		return applicant;
 	}
-	/**设置"申请人备注"*/
-	public void setApplicantremarks(String applicantremarks){
-		this.applicantremarks = applicantremarks;
+
+	public void setApplicant(String applicant) {
+		this.applicant = applicant;
 	}
-	/**获取"申请人备注"*/
-	public String getApplicantremarks(){
+
+	public String getApplicantremarks() {
 		return applicantremarks;
 	}
-	public void setApprovedby(Employee approvedby){
-		this.approvedby = approvedby;
+
+	public void setApplicantremarks(String applicantremarks) {
+		this.applicantremarks = applicantremarks;
 	}
-	public Employee getApprovedby(){
+
+	public String getApprovedby() {
 		return approvedby;
 	}
-	/**设置"状态, 0未审核，1通过，-1拒绝"*/
-	public void setState(Integer state){
-		this.state = state;
+
+	public void setApprovedby(String approvedby) {
+		this.approvedby = approvedby;
 	}
-	/**获取"状态, 0未审核，1通过，-1拒绝"*/
-	public Integer getState(){
+
+	public Integer getState() {
 		return state;
 	}
-	/**设置"审核人备注"*/
-	public void setApprovedbyremarks(String approvedbyremarks){
-		this.approvedbyremarks = approvedbyremarks;
+
+	public void setState(Integer state) {
+		this.state = state;
 	}
-	/**获取"审核人备注"*/
-	public String getApprovedbyremarks(){
+
+	public String getApprovedbyremarks() {
 		return approvedbyremarks;
 	}
-	/**设置"操作时间"*/
-	public void setOperationtime(Timestamp operationtime){
-		this.operationtime = operationtime;
+
+	public void setApprovedbyremarks(String approvedbyremarks) {
+		this.approvedbyremarks = approvedbyremarks;
 	}
-	/**获取"操作时间"*/
-	public Timestamp getOperationtime(){
+
+	public Timestamp getOperationtime() {
 		return operationtime;
 	}
-	public void setPurchases(List<Purchase> purchases){
-		this.purchases = purchases;
+
+	public void setOperationtime(Timestamp operationtime) {
+		this.operationtime = operationtime;
 	}
-	public List<Purchase> getPurchases(){
-		return purchases;
-	}
+
 	@Override
 	public String toString() {
-		return "purchaseorder[" + 
-			"orderid = " + orderid + 
-			", applicant = " + applicant + 
-			", applicantremarks = " + applicantremarks + 
-			", approvedby = " + approvedby + 
-			", state = " + state + 
-			", approvedbyremarks = " + approvedbyremarks + 
-			", operationtime = " + operationtime + 
-			", purchases = " + purchases + 
-			"]";
+		return "Purchaseorder{" +
+				"orderid=" + orderid +
+				", applicant='" + applicant + '\'' +
+				", applicantremarks='" + applicantremarks + '\'' +
+				", approvedby='" + approvedby + '\'' +
+				", state=" + state +
+				", approvedbyremarks='" + approvedbyremarks + '\'' +
+				", operationtime=" + operationtime +
+				'}';
 	}
 }
 

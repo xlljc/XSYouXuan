@@ -97,7 +97,9 @@
             ><i style="font-size: 15px" class="el-icon-lock"></i>查看仓库存储
             </div>
             <div class="menu"><i style="font-size: 15px" class="el-icon-lock"></i>冻结仓库</div>
-            <div class="menu"><i style="font-size: 15px" class="el-icon-lock"></i>采购</div>
+            <div class="menu"
+                 @click="opencaigoumotaikuang"><i style="font-size: 15px" class="el-icon-lock"></i>采购
+            </div>
             <div class="menu"
                  @click="openzhuankumotaikuang"
             ><i style="font-size: 15px" class="el-icon-lock"></i>转库
@@ -208,13 +210,14 @@
         <el-dialog
                 :close-on-click-modal="false"
                 :show-close="false"
-                   title="选择仓库"
-                   :visible.sync="selectwarehousemotaikuang">
+                title="选择仓库"
+                :visible.sync="selectwarehousemotaikuang">
             <el-form label-width="80px">
                 <el-form-item label="仓库名:">
                     <el-select v-model="warehouseid" @change="warehousechange">
                         <el-option value="0" label="---请选择---"></el-option>
-                        <el-option :value="ck.warid" :label="ck.warname" v-for="ck in warehouseAll" :key="ck.warid" :index="ck.warid"></el-option>
+                        <el-option :value="ck.warid" :label="ck.warname" v-for="ck in warehouseAll" :key="ck.warid"
+                                   :index="ck.warid"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="商品数量:">
@@ -237,13 +240,144 @@
                 <el-button type="primary" @click="zhuanku">确 定</el-button>
             </div>
         </el-dialog>
+        <!--采购模态框-->
+        <el-dialog :close-on-click-modal="false"
+                   :show-close="false"
+                   title="采购"
+                   :visible.sync="caigoumotaikuang">
+            <span>采购商品：</span>
+            <el-table
+                    border
+                    :data="shoptableData.rows"
+                    style="width: 100%;margin-top: 30px">
+                <el-table-column type="expand">
+                    <template slot-scope="props">
+                        <el-form label-position="left" inline class="demo-table-expand">
+                            <el-form-item label="商品价格：">
+                                <span>{{ props.row.price }}</span>
+                            </el-form-item>
+                            <el-form-item label="单位：">
+                                <span>{{ props.row.unit }}</span>
+                            </el-form-item>
+                            <el-form-item label="规格：">
+                                <span>{{ props.row.specification }}</span>
+                            </el-form-item>
+                            <el-form-item label="生产厂商：">
+                                <span>{{ props.row.manufacturer }}</span>
+                            </el-form-item>
+                            <el-form-item label="商品类型：">
+                                <span>{{ props.row.comType.name }}</span>
+                            </el-form-item>
+                            <el-form-item label="商品状态:">
+                                <span>{{ getState(props.row.state) }}</span>
+                            </el-form-item>
+                        </el-form>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        label="商品 ID"
+                        prop="id">
+                </el-table-column>
+                <el-table-column
+                        label="商品名称"
+                        prop="name">
+                </el-table-column>
+                <el-table-column
+                        label="商品图片"
+                        prop="image">
+                    <template slot-scope="props">
+                        <el-image fit="cover" :src="$host+props.row.image" :preview-src-list="[$host+props.row.image]"
+                                  style="width: 100px;height: 50px"></el-image>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        label="描述"
+                        prop="particulars">
+                </el-table-column>
+                <el-table-column label="操作">
+                    <template slot-scope="scope">
+                        <el-button
+                                type="primary"
+                                size="medium"
+                                @click="opencaigousummotaikuang(scope.$index, scope.row)">采购
+                        </el-button>
+                    </template>
+                </el-table-column>
+
+            </el-table>
+            <!--分页-->
+            <el-pagination
+                    @size-change="rowsChange1"
+                    @current-change="pageChange1"
+                    :current-page="newpage1"
+                    :page-sizes="[5, 10, 15, 20]"
+                    :page-size="5"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="shoptableData.total">
+            </el-pagination>
+            <span>采购单：</span>
+            <!--采购添加的表-->
+            <el-table
+                    border
+                    v-model="PurchaseLinShiData"
+                    :data="PurchaseLinShiData"
+                    style="width: 100%;margin-top: 30px">
+                <el-table-column type="expand">
+                    <template slot-scope="props">
+                        <el-form label-position="left" inline class="demo-table-expand">
+                            <el-form-item label="商品价格：">
+                                <span>{{ props.row.price }}</span>
+                            </el-form-item>
+                            <el-form-item label="商品规格：">
+                                <span>{{ props.row.specification }}</span>
+                            </el-form-item>
+                        </el-form>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        label="商品id"
+                        prop="id">
+                </el-table-column>
+                <el-table-column
+                        label="商品名称"
+                        prop="name">
+                </el-table-column>
+                <el-table-column
+                        label="采购数量"
+                        prop="caigousum">
+                </el-table-column>
+            </el-table>
+            <div style="float: right">
+            <span>总价：<a style="color:red;">{{this.PurchaseLinShiShopZon}}</a></span>
+            </div>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="cleanPurchaseLinShi">取 消</el-button>
+                <el-button type="primary" @click="caigoumotaikuang = false">确 定</el-button>
+            </div>
+        </el-dialog>
+
+        <!--点击采购弹出输入数量的模态框-->
+        <el-dialog :close-on-click-modal="false"
+                   title="输入采购数量"
+                   :visible.sync="caigousummotaikuang">
+                <el-input
+                        style="width: 300px"
+                        placeholder="---请输入---"
+                        v-model="caigousum"
+                        clearable>
+                </el-input>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary"  @click="tianjiacaigou">确 定</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
 <script lang="ts">
     import {Vue, Component} from "vue-property-decorator";
     import Axios from "axios";
-    import {Commodity as Com, Warehouse} from "@/helper/entity";
+    import {Commodity as Com, Employee, Warehouse} from "@/helper/entity";
+    import {EmpHelper} from "@/helper/back/EmpHelper";
 
     //声明 分页类型
     export interface PageInfo {
@@ -255,6 +389,9 @@
 
     @Component
     export default class Warehousemaintain extends Vue {
+        /*延迟表格加载*/
+        loading: boolean = true;
+
         //添加模态框的状态
         addmotaikuang = false;
         //修改模态框的状态
@@ -265,6 +402,11 @@
         zhuankumotaikuang = false;
         //选择仓库的模态框状态
         selectwarehousemotaikuang = false;
+        //采购模态框
+        caigoumotaikuang = false;
+        //采购数量模态框
+        caigousummotaikuang=false;
+
         //搜索框的变量
         input: string = "";
 
@@ -275,43 +417,64 @@
         //所有仓库数据
         warehouseAll = []
 
+        //商品数据(包括图片)
+        shoptableData: PageInfo = {};
 
+        //仓库分页------
         //当前页数
         newpage: number = 1;
         //分页页码的值
         page: number = 1;
         //分页一页多少行的值
         rows: number = 5;
-
-
-        /*延迟表格加载*/
-        loading: boolean = true;
+        //采购商品分页-----
+        newpage1: number = 1;
+        //分页页码的值
+        page1: number = 1;
+        //分页一页多少行的值
+        rows1: number = 5;
 
         // 获取当前右键点击的仓库id
         currentRowIndex: number = 0;
 
         //点击转库 选择仓库界面的变量
         //仓库名（id）
-        warehouseid : string="0";
+        warehouseid: string = "0";
         //商品数量
-        shopsum :number=0;
+        shopsum: number = 0;
         //商品总占位
-        shopron:number=0;
+        shopron: number = 0;
         //仓库容量
-        warehouseron :number=0;
+        warehouseron: number = 0;
         //拿到的商品信息 用来做判断
-        warehousestorage:any={}
+        warehousestorage: any = {};
 
-        created() {
+        //采购------
+        //采购数量的变量
+        caigousum :number =0;
+        //点击采购 弹出采购数量框 获取这个商品的值
+        caigoushop : any = [];
+        //所有临时采购表的数据
+        PurchaseLinShiData = [];
+        //所有临时采购表的商品总价
+        PurchaseLinShiShopZon : number =0
+
+
+        //登录用户实体
+        empInfo: Employee = {};
+
+        async created() {
             this.$store.commit('back/url', window.location.href);
-
+            //获取登录信息
+            this.empInfo = await EmpHelper.getEmp();
             //加载所有仓库信息
             this.getWarehouseAll();
+            //加载采购框的所有商品信息
+            this.getCommodityAll();
+            //加载临时采购表的数据
+            this.getPurchaseLinShiAll()
+            /*EmpHelper.empId*/
 
-            //获取登录信息
-            /*EmpHelper.getEmp().then(value => {
-                console.log(value);
-            })*/
             //延迟表格加载
             setTimeout(() => {
                 this.loading = false;
@@ -324,9 +487,39 @@
             if (state === 1) return "正常";
             if (state === 0) return "冻结";
         }
+
         //获取商品总容量
-        getshopron(){
-            this.shopron= this.warehousestorage.specification*this.shopsum;
+        getshopron() {
+            this.shopron = this.warehousestorage.specification * this.shopsum;
+        }
+
+        //获取采购模态框 里的所有商品数据
+        getCommodityAll() {
+            //console.log("getCommodityAll")
+            let params = new URLSearchParams();
+            params.append("name", "")
+            params.append("state", "全部")
+            params.append("page", this.page1.toString())
+            params.append("rows", this.rows1.toString())
+            Axios({
+                method: "post",
+                url: "/commodity/queryCommodityAll",
+                data: params
+            }).then(value => {
+                //console.log(value.data)
+                this.shoptableData = value.data;
+            })
+        }
+
+        //获取所有临时采购表里的数据
+        getPurchaseLinShiAll(){
+            Axios({
+                method: "post",
+                url: "/purchase/queryPurchaseLinShiAll",
+            }).then(value => {
+                //console.log(value.data)
+                this.PurchaseLinShiData = value.data;
+            })
         }
 
         //***********************************************************
@@ -378,6 +571,22 @@
             //修改页数的值
             this.page = val;
             this.getWarehouseAll();
+        }
+
+        //*********************采购商品分页*******************************
+        /*点击换条数的按钮*/
+        rowsChange1(val: number) {
+            //修改条数的值
+            this.rows1 = val;
+            this.getCommodityAll();
+
+        }
+
+        //点击分页页数按钮
+        pageChange1(val: number) {
+            //修改页数的值
+            this.page1 = val;
+            this.getCommodityAll();
         }
 
         //***********************************************************
@@ -433,6 +642,7 @@
             this.zhuankumotaikuang = true;
             this.querywarehousestorage();
         }
+
         /* 点击转库 打开选择仓库的模态框*/
         openselectwarehouse(index: number, row: any) {
             this.selectwarehousemotaikuang = true;
@@ -444,65 +654,77 @@
                 this.warehouseAll = value.data;
             })
             //获取当前商品的信息 （用来做判断）
-            this.warehousestorage =row;
+            this.warehousestorage = row;
 
         }
+
         //转库下拉框值改变触发事件
-        warehousechange(){
-          /*  console.log(this.warehousestorage.warid)
-            console.log(this.warehouseid)
-            console.log(typeof this.warehousestorage.warid,typeof this.warehouseid)
-            console.log(this.warehousestorage.warid===this.warehouseid)*/
+        warehousechange() {
+            /*  console.log(this.warehousestorage.warid)
+              console.log(this.warehouseid)
+              console.log(typeof this.warehousestorage.warid,typeof this.warehouseid)
+              console.log(this.warehousestorage.warid===this.warehouseid)*/
             //判断不能选择原本仓库
-            if (this.warehousestorage.warid.toString()===this.warehouseid.toString()){
+            if (this.warehousestorage.warid.toString() === this.warehouseid.toString()) {
                 alert("不能选择原本仓库,请重新选择")
-                this.warehouseid="0";
-                this.warehouseron=0;
+                this.warehouseid = "0";
+                this.warehouseron = 0;
             }
             //让容量 随着仓库更改而更改
-            for (let i=0;i<this.warehouseAll.length;i++){
-                if (this.warehouseAll[i].warid.toString()===this.warehouseid.toString()){
-                    this.warehouseron=this.warehouseAll[i].warcapacity
+            for (let i = 0; i < this.warehouseAll.length; i++) {
+                if (this.warehouseAll[i].warid.toString() === this.warehouseid.toString()) {
+                    this.warehouseron = this.warehouseAll[i].warcapacity
                 }
             }
         }
+
         //选择仓库模态框关闭时 清除数据
-        cleanselectwarehouse(){
+        cleanselectwarehouse() {
             this.selectwarehousemotaikuang = false;
             //仓库名（id）
-           this.warehouseid ="0";
+            this.warehouseid = "0";
             //商品数量
-            this.shopsum=0;
+            this.shopsum = 0;
             //商品总占位
-            this.shopron=0;
+            this.shopron = 0;
             //仓库容量
-            this.warehouseron=0;
+            this.warehouseron = 0;
         }
 
         //点击确定转库按钮
-        zhuanku(){
+        zhuanku() {
             //拿到点击转库的商品的数据
             //console.log(this.warehousestorage)
             /*//判断变量
             let a=0;*/
+            //判断是否选择仓库
+            if (this.warehouseid === "0") {
+                alert("请选择仓库")
+                return;
+            }
+
             //判断输入的商品数量是否超过拥有的量
-            if (this.shopsum>this.warehousestorage.number){
+            if (this.shopsum > this.warehousestorage.number) {
                 alert("所选商品数量不足，已为您选择最大值")
-                this.shopsum=this.warehousestorage.number;
+                this.shopsum = this.warehousestorage.number;
                 //计算商品总容量
                 this.getshopron();
+                return;
             }
             //判断商品总量是否超过仓库容量
-            if (this.shopron>this.warehouseron){
+            if (this.shopron > this.warehouseron) {
                 alert("仓库容量不足，请重新选择")
-            }else {
+                return;
+            } else {
                 let params = new URLSearchParams();
                 //商品id
-                params.append("commodityid",this.warehousestorage.id);
+                params.append("commodityid", this.warehousestorage.id);
                 //商品原本数量
-                params.append("yuannumber",this.warehousestorage.number);
+                params.append("yuannumber", this.warehousestorage.number);
+                //商品占位量
+                params.append("shopron", this.shopron.toString());
                 //转出仓库id
-                params.append("chuwarid",this.warehousestorage.warid);
+                params.append("chuwarid", this.warehousestorage.warid);
                 //转入仓库id
                 params.append("ruwarid", this.warehouseid.toString());
                 //商品转出的数量
@@ -513,14 +735,94 @@
                     url: "/warehouse/zhuanku",
                     data: params
                 }).then(value => {
-
-                    alert(1)
+                    //关闭选择仓库页面
+                    this.cleanselectwarehouse()
+                    //刷新仓库存储信息
+                    this.querywarehousestorage();
+                    //刷新显示仓库信息页面
+                    this.getWarehouseAll();
+                    alert("转库成功")
                     /*this.warehousestoragetableData = value.data;*/
                 })
             }
 
 
         }
+
+        //***********************************************************
+        //                      采购部分
+        //***********************************************************
+        //右键采购 打开采购模态框
+        opencaigoumotaikuang() {
+            //console.log(this.empInfo)
+            //alert(EmpHelper.empId)
+            this.caigoumotaikuang = true;
+        }
+
+        //点击商品旁边的采购按钮 弹出输入采购数量模态框
+        opencaigousummotaikuang(index: number, row: any){
+            //拿到商品数据
+            this.caigoushop=row;
+
+            this.caigousummotaikuang=true;
+        }
+
+        //给临时订单表加数据
+        tianjiacaigou(){
+            //获取这个商品的数据
+            //alert(this.caigoushop.id)
+            //获取采购多少数量
+            //alert(this.caigousum);
+            let params = new URLSearchParams();
+            params.append("commodityid", this.caigoushop.id);
+            params.append("caigousum", this.caigousum.toString());
+            //添加
+            Axios({
+                method: "post",
+                url: "/purchase/addLinShiPurchase",
+                data: params
+            }).then(value => {
+                //console.log(value)
+                alert(value.data.msg)
+                //计算所有临时采购表里的商品的总价
+                this.getPurchaseLinShiShopZon();
+                //刷新临时订单表
+                this.getPurchaseLinShiAll();
+            })
+            //关闭选择数量模态框
+            this.caigousummotaikuang=false;
+        }
+
+        //计算所有临时采购表里的商品的总价
+        getPurchaseLinShiShopZon(){
+            Axios({
+                method: "post",
+                url: "/purchase/getLinShiPurchaseShopZon",
+            }).then(value => {
+                //alert(value.data)
+                //console.log("value : ",value.data)
+                this.PurchaseLinShiShopZon=value.data
+            })
+        }
+
+        //点击取消采购模态框 清除采购临时表的数据
+        cleanPurchaseLinShi(){
+            //关闭模态框
+            this.caigoumotaikuang = false
+            //清除表格数据
+            Axios({
+                method: "post",
+                url: "/purchase/cleanPurchaseLinShi"
+            }).then(value => {
+                //console.log(value)
+                //alert(value.data.msg)
+                //刷新临时采购表数据
+                this.getPurchaseLinShiAll();
+                //刷新临时采购表总价的值
+                this.PurchaseLinShiShopZon=0;
+            })
+        }
+
 
 
 

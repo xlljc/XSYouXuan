@@ -6,6 +6,7 @@ import Warehousemaintain from "@/components/back/home/Warehouse/Warehousemaintai
 import EmpManagement from "@/components/back/home/system/emp/EmpManagement.vue";
 import RoleManagement from "@/components/back/home/system/role/RoleManagement.vue";
 import CommodityLableMaintain from "@/components/back/home/Commodity/CommodityLableMaintain.vue";
+import PurchaseOrder from "@/components/back/home/Purchase/PurchaseOrder.vue";
 
 /**
  * 后台路由
@@ -20,6 +21,8 @@ const BackRouter: Array<RouteConfig> = [
     {path:"/lablemaintain",component:CommodityLableMaintain},
     //仓库信息维护
     {path:"/warehousemaintain",component:Warehousemaintain},
+    //商品采购申请
+    {path:"/purchaseorderapply",component:PurchaseOrder},
     /*{
         path: '/aaa',
         component: BackHome,
