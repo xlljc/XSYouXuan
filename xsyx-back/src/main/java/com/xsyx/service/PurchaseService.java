@@ -1,21 +1,18 @@
-package com.xsyx.dao;
+package com.xsyx.service;
 
-import com.xsyx.vo.Purchase;
+
+
 import com.xsyx.vo.PurchaseLinShi;
 import com.xsyx.vo.Purchaseorder;
-import com.xsyx.vo.Warehouse;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
-
-//采购Dao
-@Repository
-public interface PurchaseDao {
+public interface PurchaseService {
 
     //查询所有临时采购表的数据
     List<PurchaseLinShi> PurchaseLinShiAll();
-
     //根据商品id 和 采购数量 向临时采购表添加数据
     int addLinShiPurchase(@Param("commodityid") String commodityid,
                           @Param("caigousum") String caigousum);
@@ -27,8 +24,8 @@ public interface PurchaseDao {
     //清除所有临时采购表的数据
     int deletePurchaseLinShi();
 
-    
+
     //查询所有未审核订单信息
     List<Purchaseorder> querypurchaseorderAll();
-
+   
 }

@@ -53,22 +53,33 @@
         UPDATE warehousestorage SET number=#{updatenumber}
         WHERE commodityid=#{commodityid} AND warid=#{chuwarid}
     </update>
+    <!--根据转出仓库id 修改转出仓库的容量-->
+    <update id="updateWareHouseRon">
+        UPDATE warehouse SET warcapacity=warcapacity+#{shopron}
+        WHERE warid=#{chuwarid}
+    </update>
+
     <!--根据商品id 和转出仓库id 删除原仓库商品-->
     <delete id="deleteshop">
         delete from warehousestorage where commodityid=#{commodityid} AND warid=#{chuwarid}
     </delete>
-    <!--根据转出仓库id 商品id 查询是否有结果-->
+    <!--根据转入仓库id 商品id 查询是否有结果-->
     <select id="queryshop" resultType="int">
         SELECT count(*) FROM warehousestorage
-        WHERE commodityid=#{commodityid} AND warid=#{chuwarid}
+        WHERE commodityid=#{commodityid} AND warid=#{ruwarid}
     </select>
     <!--执行添加数量操作  根据商品id和仓库id添加数量-->
     <update id="addshopnumber">
         UPDATE warehousestorage SET number=number+#{chunumber}
         WHERE commodityid=#{commodityid} AND warid=#{ruwarid}
     </update>
+    <!--根据转出仓库id 修改转出仓库的容量-->
+    <update id="updateWareHouseRon1">
+        UPDATE warehouse SET warcapacity=warcapacity-#{shopron}
+        WHERE warid=#{ruwarid}
+    </update>
     <!--给转入仓库添加一条新数据-->
-    <!--<insert id="addshopnumber">
+    <insert id="addwarehousestorageshop">
         INSERT INTO warehousestorage VALUES(NULL,#{commodityid},#{ruwarid},#{chunumber});
-    </insert>-->
+    </insert>
 </mapper>
