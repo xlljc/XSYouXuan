@@ -44,25 +44,34 @@ export class EmpHelper {
      */
     static login(employee: Employee): Promise<Message> {
         return new Promise<Message>(resolve => {
-            let params = Utils.format(new URLSearchParams(),employee,"password","name");
-            Axios.post("/emp/login",params).then(value => {
+            let params = Utils.format(new URLSearchParams(), employee, "password", "name");
+            Axios.post("/emp/login", params).then(value => {
                 resolve(value.data);
             })
         });
     }
 
     /**
+     * 退出登录
+     */
+    static loginOut() {
+        sessionStorage.setItem("empId",null);
+        RootRouter.router.replace("/backLogin");
+    }
+
+    /**
      * 根据条件查询员工
      */
-    static query(str: string,sex: string,state: string, page: number, row: number): Promise<PageInfo<Employee>> {
+    static query(str: string, sex: string, state: string, page: number, row: number): Promise<PageInfo<Employee>> {
         return new Promise<PageInfo<Employee>>(resolve => {
             let param = new URLSearchParams();
-            param.append("name",str);
-            if (sex !== null) param.append("sex",sex);
-            if (state !== null) param.append("state",state);
-            param.append("page",page.toString());
-            param.append("row",row.toString());
-            Axios.post("/emp/query",param).then(value => {
+            param.append("name", str);
+            if (sex !== null) param.append("sex", sex);
+            if (state !== null) param.append("state", state);
+            param.append("page", page.toString());
+            param.append("row", row.toString());
+            param.append("empId", EmpHelper.empId);
+            Axios.post("/emp/query", param).then(value => {
                 resolve(value.data);
             });
         });
@@ -74,9 +83,9 @@ export class EmpHelper {
      */
     static addEmp(empInfo: Employee): Promise<Message> {
         return new Promise<Message>(resolve => {
-            let params = Utils.format(new URLSearchParams(),empInfo,"name","image","sex","phone","icCard","email","address","remark");
-            params.append("empId",EmpHelper.empId);
-            Axios.post("/emp/insert",params).then(value => {
+            let params = Utils.format(new URLSearchParams(), empInfo, "name", "image", "sex", "phone", "icCard", "email", "address", "remark");
+            params.append("empId", EmpHelper.empId);
+            Axios.post("/emp/insert", params).then(value => {
                 resolve(value.data);
             })
         })
@@ -88,9 +97,9 @@ export class EmpHelper {
      */
     static updateEmp(empInfo: Employee): Promise<Message> {
         return new Promise<Message>(resolve => {
-            let params = Utils.format(new URLSearchParams(),empInfo,"id","name","image","sex","phone","icCard","email","address","remark");
-            params.set("empId",EmpHelper.empId);
-            Axios.post("/emp/update",params).then(value => {
+            let params = Utils.format(new URLSearchParams(), empInfo, "id", "name", "image", "sex", "phone", "icCard", "email", "address", "remark");
+            params.set("empId", EmpHelper.empId);
+            Axios.post("/emp/update", params).then(value => {
                 resolve(value.data);
             })
         })
@@ -103,9 +112,9 @@ export class EmpHelper {
     static freezeEmp(empId: number): Promise<Message> {
         return new Promise<Message>(resolve => {
             let params = new URLSearchParams();
-            params.append("id",empId.toString());
-            params.append("empId",EmpHelper.empId);
-            Axios.post("/emp/freeze",params).then(value => {
+            params.append("id", empId.toString());
+            params.append("empId", EmpHelper.empId);
+            Axios.post("/emp/freeze", params).then(value => {
                 resolve(value.data);
             })
         })
@@ -117,9 +126,9 @@ export class EmpHelper {
     static unFreezeEmp(empId: number): Promise<Message> {
         return new Promise<Message>(resolve => {
             let params = new URLSearchParams();
-            params.append("empId",EmpHelper.empId);
-            params.append("id",empId.toString());
-            Axios.post("/emp/unFreeze",params).then(value => {
+            params.append("empId", EmpHelper.empId);
+            params.append("id", empId.toString());
+            Axios.post("/emp/unFreeze", params).then(value => {
                 resolve(value.data);
             })
         })
@@ -147,9 +156,9 @@ export class EmpHelper {
     static deleteEmp(id: number): Promise<Message> {
         return new Promise<Message>(resolve => {
             let params = new URLSearchParams();
-            params.append("empId",EmpHelper.empId);
-            params.append("id",id.toString());
-            Axios.post("/emp/delete",params).then(value => {
+            params.append("empId", EmpHelper.empId);
+            params.append("id", id.toString());
+            Axios.post("/emp/delete", params).then(value => {
                 resolve(value.data);
             })
         });
@@ -161,8 +170,8 @@ export class EmpHelper {
      */
     static async getRolesByEmpId(id: number) {
         let params = new URLSearchParams();
-        params.append("id",id.toString());
-        return (await Axios.post<Role[]>("/emp/queryRoles",params)).data;
+        params.append("id", id.toString());
+        return (await Axios.post<Role[]>("/emp/queryRoles", params)).data;
     }
 
     /**
@@ -170,12 +179,12 @@ export class EmpHelper {
      * @param id 员工id
      * @param ids 角色id
      */
-    static async updateRoles(id: number,ids: number[]) {
+    static async updateRoles(id: number, ids: number[]) {
         let params = new URLSearchParams();
-        params.append("id",id.toString());
-        params.append("ids",ids.toString());
-        params.append("empId",EmpHelper.empId);
-        return (await Axios.post<Message>("/emp/updateRoles",params)).data;
+        params.append("id", id.toString());
+        params.append("ids", ids.toString());
+        params.append("empId", EmpHelper.empId);
+        return (await Axios.post<Message>("/emp/updateRoles", params)).data;
     }
 
 }

@@ -170,7 +170,7 @@
     <!-- 搜索 -->
     <select id="search" resultMap="EmployeeMap">
         select image,password,ic_card,address,last_login_time,phone,sex,name,remark,id,state,email
-        from employee
+        from employee emp
         where
             <if test="str != null">
                 (
@@ -184,6 +184,12 @@
             </if>
             <if test="sex != null"> and sex = #{sex}</if>
             <if test="state != null"> and state = #{state}</if>
+            <if test="!hasSuperAdmin">
+                and not id in (
+                    select distinct emprole.employee from emprole
+                    where emprole.role = 1
+                )
+            </if>
         order by id desc
     </select>
 

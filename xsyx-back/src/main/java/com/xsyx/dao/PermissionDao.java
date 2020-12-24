@@ -41,4 +41,12 @@ public interface PermissionDao {
    * 根据Permission条件修改单条数据方法,从传入对象获取id 
    */
   int updateById(Permission permission);
+
+  /**
+   * 删除权限
+   * @param permission
+   * @return
+   */
+  int deleteBy(Permission permission);
+
 }

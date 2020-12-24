@@ -36,6 +36,7 @@
         </el-input>
 
         <el-button
+                v-if="$btnPermissions('添加员工')"
                 plain
                 type="success"
                 slot="append"

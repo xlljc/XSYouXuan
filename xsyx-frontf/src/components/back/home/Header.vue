@@ -10,15 +10,16 @@
             <el-menu-item style="float:right;background: #F3F3F3">
                 <el-popover placement="bottom" width="150" trigger="click">
                     <div style="margin-left: 10px">
-                        <p style="text-align: center;font-weight: bold">Hi,xxx</p>
+                        <p style="text-align: center;font-weight: bold">Hi ! {{ empInfo.name }}</p>
 
                         <el-menu-item><i style="font-size: 15px" class="el-icon-user">个人资料</i></el-menu-item>
                         <el-menu-item><i style="font-size: 15px" class="el-icon-lock">锁屏</i></el-menu-item>
-                        <el-menu-item><i style="font-size: 15px" class="el-icon-delete">退出</i></el-menu-item>
+                        <el-menu-item @click="loginOut"><i style="font-size: 15px" class="el-icon-delete">退出</i></el-menu-item>
 
                     </div>
-                    <el-button style="border: 0px;margin-top: -15px;background: #F3F3F3" slot="reference">
-                        <el-avatar :src="url"></el-avatar>
+                    <el-button style="border: 0;margin-top: -15px;background: #F3F3F3" slot="reference">
+                        <el-avatar :src="$host + empInfo.image" alt></el-avatar>
+                        <!--<el-image :src="$host + empInfo.image" alt lazy></el-image>-->
                     </el-button>
                 </el-popover>
             </el-menu-item>
@@ -54,25 +55,30 @@
 <script lang="ts">
     import {Vue, Component, Watch} from "vue-property-decorator";
     import {MenuHelper} from "@/helper/back/MenuHelper";
-    import {Menu} from "@/helper/entity";
+    import {Employee, Menu} from "@/helper/entity";
+    import {EmpHelper} from "@/helper/back/EmpHelper";
 
-
-    let menuHelper = new MenuHelper();
 
     @Component
     export default class Header extends Vue {
         //logo
         logo = require('@/assets/mcimg/logos.png');
-        //头像
-        url = require('@/assets/touxiang.jpg');
+        //用户信息
+        empInfo: Employee = {};
 
-        menus: Menu[] = []
+        async created() {
+            this.empInfo = await EmpHelper.getEmp();
+        }
 
-        created() {
-            menuHelper.getMenuData().then(data => {
-                this.menus = data;
-            })
-
+        //退出登录
+        loginOut() {
+            this.$confirm("你确定退出登录吗 ?", "提示: ",{
+                type: "warning",
+                cancelButtonText: "取消",
+                confirmButtonText: "退出"
+            }).then(value => {
+                EmpHelper.loginOut();
+            });
         }
 
         get urls(): string[] {
@@ -83,23 +89,24 @@
 
             //定义 接收中文面包屑的数组
             let zhonarr: string[] = [];
+            let menus = this.$store.getters["back/menus"];
 
             //循环父级菜单
-            for (let i = 0; i < this.menus.length; i++) {
-                let zi = this.menus[i].menus
+            for (let i = 0; i < menus.length; i++) {
+                let zi = menus[i].menus
                 //循环子级菜单   子菜单没有parent  给子菜单的parent赋值
                 for (let j = 0; j < zi.length; j++) {
-                    zi[j].parent = this.menus[i];
+                    zi[j].parent = menus[i];
                 }
             }
-            for (let i = 0; i < this.menus.length; i++) {
-                let zi = this.menus[i].menus
+            for (let i = 0; i < menus.length; i++) {
+                let zi = menus[i].menus
                 //循环子级菜单   子菜单没有parent  给子菜单的parent赋值
                 for (let j = 0; j < zi.length; j++) {
                     //判断 面包屑的url 是否与子菜单的url匹配 返回中文
                     if (zi[j].url === arr[1]) {
                         zhonarr[0] = "首页"
-                        zhonarr[1] = this.menus[i].name
+                        zhonarr[1] = menus[i].name
                         zhonarr[2] = zi[j].name
                         /* console.log(this.menus[i].name)
                         console.log(zi[j].name)*/

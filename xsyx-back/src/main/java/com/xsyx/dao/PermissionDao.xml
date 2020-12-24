@@ -67,4 +67,8 @@
         where id = #{id}
     </update>
 
+    <delete id="deleteBy" parameterType="Permission">
+        delete from permission where role = #{role} and menu = #{menu}
+    </delete>
+
 </mapper>

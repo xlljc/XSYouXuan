@@ -2,12 +2,15 @@ package com.xsyx.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.xsyx.service.RoleService;
+import com.xsyx.vo.Menu;
 import com.xsyx.vo.Role;
 import com.xsyx.vo.system.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 角色控制层
@@ -33,7 +36,7 @@ public class RoleController {
     }
 
     /**
-     * 查询角色, 代码分页
+     * 查询角色, 分页
      * @param role 查询的信息
      * @return 分页对象
      */
@@ -42,6 +45,28 @@ public class RoleController {
                                 @RequestParam(value = "page", defaultValue = "1") int page,
                                 @RequestParam(value = "row", defaultValue = "10") int row) {
         return roleService.query(role,page,row);
+    }
+
+    /**
+     * 查询员工有的角色, 分页
+     * @param role 查询的信息
+     * @return 分页对象
+     */
+    @RequestMapping("/queryHaveRole")
+    public PageInfo<Role> queryHaveRole(Role role,
+                                Integer empId,
+                                @RequestParam(value = "page", defaultValue = "1") int page,
+                                @RequestParam(value = "row", defaultValue = "10") int row) {
+        return roleService.queryHaveRole(role,empId,page,row);
+    }
+
+    /**
+     * 根据角色id查询该角色拥有的菜单
+     * @param id
+     */
+    @RequestMapping("/queryMenus")
+    public List<Menu> queryMenus(Integer id) {
+        return roleService.queryMenus(id);
     }
 
     /**
@@ -66,5 +91,13 @@ public class RoleController {
     @RequestMapping("/delete")
     public Message delete(Integer id, Integer empId) {
         return roleService.delete(id,empId);
+    }
+
+    @RequestMapping("/authorization")
+    public Message authorization(@RequestParam("addIds") List<Integer> addIds,
+                                 @RequestParam("removeIds") List<Integer> removeIds,
+                                 Integer roleId,
+                                 Integer empId) {
+        return roleService.roleService(addIds,removeIds,roleId,empId);
     }
 }

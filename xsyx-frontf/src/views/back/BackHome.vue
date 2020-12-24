@@ -27,7 +27,7 @@
     import {Vue, Component} from "vue-property-decorator";
     import Menu from "@/components/back/home/Menu.vue";
     import Header from "@/components/back/home/Header.vue";
-    import {EmpHelper} from "@/helper/back/EmpHelper";
+    import {MenuHelper} from "@/helper/back/MenuHelper";
 
     @Component({
         components: {
@@ -39,7 +39,8 @@
 
 
         created() {
-
+            //加载菜单
+            MenuHelper.getMenuData();
         }
 
         mounted() {

@@ -7,6 +7,7 @@ import BackRouter from "@/router/back/backRouter";
 import ShopRouter from "@/router/shop/shopRouter";
 import Demo1 from "@/views/shop/Demo1.vue";
 import BackLogin from "@/views/back/BackLogin.vue";
+import {MenuHelper} from "@/helper/back/MenuHelper";
 
 Vue.use(VueRouter)
 
@@ -53,6 +54,17 @@ const routes: Array<RouteConfig> = [
 function addParentUrl(parentUrl: string,routers: Array<RouteConfig>) {
   for (let i of routers) {
     let temp = i.path;
+    //后台路由访问拦截器
+    /*if (parentUrl === "/back") {
+      i.beforeEnter = (to,from,next) => {
+        let flag = MenuHelper.canToMenuPage(temp);
+        if (flag) {
+          next();
+        } else {
+          next({path: "/back/"});
+        }
+      }
+    }*/
     i.path = parentUrl + i.path;
     if (i.children) addParentUrl(parentUrl + temp, i.children);
   }

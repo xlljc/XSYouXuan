@@ -1,8 +1,11 @@
 package com.xsyx.dao;
 
+import com.xsyx.vo.Menu;
 import com.xsyx.vo.Role;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.List;
 
 
@@ -59,4 +62,16 @@ public interface RoleDao {
    * 根据Role条件模糊查询多条数据方法
    */
   List<Role> queryLike(Role role);
+
+  List<Menu> queryMenus(Integer id);
+
+  /**
+   * 判断员工是否是超级管理员
+   */
+  int isSuperAdmin(int id);
+
+  /**
+   * 根据Role条件模糊查询多条数据方法
+   */
+  List<Role> queryHaveLike(@Param("role") Role role,@Param("empId") int empId);
 }

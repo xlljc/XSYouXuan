@@ -8,6 +8,7 @@ import './views/style.css';
 import './views/logine.css';
 import './views/reset.css'
 import Axios from "axios";
+import {MenuHelper} from "@/helper/back/MenuHelper";
 
 Vue.config.productionTip = false;
 Vue.use(ElementUi);
@@ -16,6 +17,7 @@ Vue.use({
   install: (Vue1, options) => {
     Vue1.prototype.$host = "http://localhost:8080/";
     Vue1.prototype.$axios = Axios;
+    Vue1.prototype.$btnPermissions = MenuHelper.hasBtnPermissions;
   }
 })
 

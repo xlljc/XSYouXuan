@@ -10,5 +10,9 @@ export module 'vue/types/vue' {
          * 内置axios对象
          */
         readonly $axios: AxiosStatic;
+        /**
+         * 返回当前操作者是否有使用按钮的权限
+         */
+        readonly $btnPermissions: (butName: string) => boolean;
     }
 }

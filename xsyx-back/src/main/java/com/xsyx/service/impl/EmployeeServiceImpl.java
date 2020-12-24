@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.xsyx.dao.EmpLogDao;
 import com.xsyx.dao.EmployeeDao;
 import com.xsyx.dao.EmproleDao;
+import com.xsyx.dao.RoleDao;
 import com.xsyx.service.EmployeeService;
 import com.xsyx.vo.Employee;
 import com.xsyx.vo.Emprole;
@@ -32,6 +33,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     EmproleDao emproleDao;
 
+    @Autowired
+    RoleDao roleDao;
+
     @Override
     public Message insert(Employee employee, Integer empId) {
         //是否登录
@@ -51,9 +55,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public PageInfo<Employee> query(String name, String sex, Integer state, Integer page, Integer row) {
+    public PageInfo<Employee> query(String name, String sex, Integer state,Integer empId, Integer page, Integer row) {
+        if (empId == null || roleDao.isSuperAdmin(empId) == 0) {
+            PageHelper.startPage(page,row);
+            return new PageInfo<>(employeeDao.search(name,sex,state,false));
+        }
         PageHelper.startPage(page,row);
-        return new PageInfo<>(employeeDao.search(name,sex,state));
+        return new PageInfo<>(employeeDao.search(name,sex,state,true));
     }
 
     @Override
@@ -121,6 +129,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (empId == null) return new Message(false, "请先登录 !");
         //不能冻结自己
         if (empId.equals(id)) return new Message(false,"你不能冻结你自己 !");
+        //不能冻结超级管理员
+        if (roleDao.isSuperAdmin(id) == 1) return new Message(false,"你不能冻结超级管理员 !");
+
         Employee employee = new Employee();
         employee.setId(id);
         employee.setState(0);
@@ -136,8 +147,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Message delete(Integer id, Integer empId) {
         //是否登录
         if (empId == null) return new Message(false, "请先登录 !");
-        //不能冻结自己
+        //不能删除自己
         if (empId.equals(id)) return new Message(false,"你不能删除你自己 !");
+        //不能删除超级管理员
+        if (roleDao.isSuperAdmin(id) == 1) return new Message(false,"你不能删除超级管理员 !");
+
         Employee employee = new Employee();
         employee.setId(id);
         employee.setState(-1);

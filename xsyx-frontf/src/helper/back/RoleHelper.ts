@@ -1,5 +1,5 @@
 import Axios from "axios";
-import {Message, PageInfo, Role} from "@/helper/entity";
+import {Menu, Message, PageInfo, Role} from "@/helper/entity";
 import Utils from "@/helper/Utils";
 import {EmpHelper} from "@/helper/back/EmpHelper";
 
@@ -19,6 +19,22 @@ export class RoleHelper {
         params.append("page",page.toString());
         params.append("row",row.toString());
         return (await Axios.post<PageInfo<Role>>("/role/query",params)).data;
+    }
+
+    /**
+     * 查询拥有的角色, 带分页
+     * @param str 查询条件
+     * @param page 页数
+     * @param row 每页条数
+     */
+    static async queryHave(str: string,page: number,row: number) {
+        let params = new URLSearchParams();
+        params.append("name",str);
+        params.append("empId",EmpHelper.empId);
+        params.append("remark",str);
+        params.append("page",page.toString());
+        params.append("row",row.toString());
+        return (await Axios.post<PageInfo<Role>>("/role/queryHaveRole",params)).data;
     }
 
     /**
@@ -60,6 +76,31 @@ export class RoleHelper {
         let params = new URLSearchParams();
         params.append("id",id.toString());
         return (await Axios.post("/emp/queryByRoleId",params)).data;
+    }
+
+    /**
+     * 根据角色id获取该角色的所有菜单
+     * @param roleId
+     */
+    static async getMenus(roleId: number) {
+        let params = new URLSearchParams();
+        params.append("id",roleId.toString());
+        return (await Axios.post<Menu[]>("/role/queryMenus",params)).data;
+    }
+
+    /**
+     * 授权操作
+     * @param addIds 新增的的权限
+     * @param removeIds 移除的权限
+     * @param roleId 角色id
+     */
+    static async authorization(addIds: number[],removeIds: number[],roleId: number) {
+        let params = new URLSearchParams();
+        params.append("empId", EmpHelper.empId);
+        params.append("addIds", addIds.toString());
+        params.append("removeIds", removeIds.toString());
+        params.append("roleId", roleId.toString());
+        return (await Axios.post<Message>("/role/authorization", params)).data;
     }
 
 }

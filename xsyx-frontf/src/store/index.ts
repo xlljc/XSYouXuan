@@ -17,7 +17,8 @@ const store = new Vuex.Store({
       state: {
         url: "",
         menus: [],
-        menuTrees: [],
+        menusList: [],
+        menusLoading: true,
       },
       getters: {
         /**
@@ -34,8 +35,11 @@ const store = new Vuex.Store({
         menus(state): Menu[] {
           return state.menus;
         },
-        menuTrees(state): MenuTree[] {
-          return state.menuTrees;
+        menusLoading(state): boolean {
+          return state.menusLoading;
+        },
+        menuList(state): Menu[] {
+          return state.menusList;
         }
       },
       mutations: {
@@ -54,9 +58,27 @@ const store = new Vuex.Store({
          */
         menus(state, data) {
           state.menus = data;
+          let list: Menu[] = [];
+          function method(menus: Menu[]): void {
+            for (let menu of menus) {
+              list.push({
+                id: menu.id,
+                layer: menu.layer,
+                name: menu.name,
+                icon: menu.icon,
+                parent: {...menu.parent},
+                type: menu.type,
+                url: menu.url
+              });
+              if (menu.menus) method(menu.menus);
+            }
+          }
+          method(data);
+          //平铺菜单属性
+          state.menusList = list;
         },
-        menuTrees(state, data) {
-          state.menuTrees = data;
+        menusLoading(state, data) {
+          state.menusLoading = data;
         }
       }
     }

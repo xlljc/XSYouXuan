@@ -27,7 +27,7 @@ public interface EmployeeService {
 
     List<Menu> queryMenus(Integer id);
 
-    PageInfo<Employee> query(String name, String sex, Integer state, Integer page, Integer row);
+    PageInfo<Employee> query(String name, String sex, Integer state,Integer empId, Integer page, Integer row);
 
     Message validation(Integer empId, String password);
 

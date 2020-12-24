@@ -58,9 +58,10 @@ public class EmployeeController {
      */
     @RequestMapping("/query")
     public PageInfo<Employee> query(String name,String sex,Integer state,
+                                    Integer empId,
                                     @RequestParam(value = "page",defaultValue = "0") Integer page,
                                     @RequestParam(value = "row",defaultValue = "15") Integer row) {
-        return employeeService.query(name,sex,state, page, row);
+        return employeeService.query(name,sex,state,empId, page, row);
     }
 
     /**

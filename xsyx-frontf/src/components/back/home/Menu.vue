@@ -9,7 +9,7 @@
             </el-menu-item-group>
 
                 <!--判断该变量是否包含子级 生成下拉符号-->            <!--控制台报index错误是因为这个index BUG 还没解决-->
-            <el-submenu v-for="menu in menus" :key="menu.id" :index="menu.id"><!--不给index会将页面全部撑开-->
+            <el-submenu v-for="menu in $store.getters['back/menus']" :key="menu.id" :index="menu.id.toString()"><!--不给index会将页面全部撑开-->
                 <template slot="title">
                     <i class="el-icon-location"></i>
                     <span slot="title">{{menu.name}}</span>
@@ -17,7 +17,7 @@
 
                 <el-menu-item-group v-if="getChild(menu.menus)">
                     <el-menu-item style="background:#CFB8B8;" v-for="(item,index) in getChild(menu.menus)" :key="index">
-                        <router-link :to="/back/+item.url" style="color:#89768F" >{{ item.name }}</router-link>
+                        <router-link :to="'/back'+item.url" style="color:#89768F" >{{ item.name }}</router-link>
                     </el-menu-item>
 
                 </el-menu-item-group>
@@ -29,20 +29,15 @@
 
 <script lang="ts">
     import {Vue, Component} from "vue-property-decorator";
-    import {MenuHelper} from "@/helper/back/MenuHelper";
     import {Menu as MenuInfo} from "@/helper/entity";
 
-    let menuHelper = new MenuHelper();
 
     @Component
     export default class Menu extends Vue {
 
-        menus: MenuInfo[] = []
 
         created() {
-            menuHelper.getMenuData().then(data => {
-                this.menus = data;
-            })
+
         }
 
         //判断开关的变量

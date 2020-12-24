@@ -61,9 +61,11 @@ public interface EmployeeDao {
    * @param str 搜索条件
    * @param sex 性别
    * @param state 状态
+   * @param hasSuperAdmin 是否包含超级管理员
    * @return 员工集合
    */
-  List<Employee> search(@Param("str") String str,@Param("sex") String sex,@Param("state") Integer state);
+  List<Employee> search(@Param("str") String str,@Param("sex") String sex,
+                        @Param("state") Integer state,@Param("hasSuperAdmin") boolean hasSuperAdmin);
 
   /**
    * 验证密码

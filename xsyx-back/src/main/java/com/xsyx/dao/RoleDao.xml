@@ -17,7 +17,7 @@
 
     <!-- 查询所有方法 -->
     <select id="queryAll" resultMap="RoleMap">
-       select name,remark,id from role;
+       select name,remark,id from role where id != 1;
     </select>
 
     <!-- 根据主键id查询数据方法 -->
@@ -32,7 +32,8 @@
         <where>
             <if test="id != null"> and id = #{id}</if>
             <if test="name != null"> and name = #{name}</if>
-            <if test="remark != null"> and remark = #{remark}</if> 
+            <if test="remark != null"> and remark = #{remark}</if>
+            and id != 1
         </where>
     </select>
 
@@ -72,8 +73,8 @@
     <!-- 根据角色id查询所有拥有该角色的员工姓名 -->
     <select id="queryEmpNames" resultType="java.lang.String" parameterType="int">
         select el.name from employee el
-        right join emprole e on el.id = e.employee
-        where el.id = #{id}
+        left join emprole e on el.id = e.employee
+        where e.role = #{id}
     </select>
 
     <!-- 根据id删除角色 -->
@@ -92,6 +93,53 @@
         ) and r.id!=1
         group by r.id
         order by r.id desc
+    </select>
+
+    <resultMap id="MenuMap" type="Menu">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="icon" property="icon"/>
+        <result column="url" property="url"/>
+        <result column="layer" property="layer"/>
+        <result column="type" property="type"/>
+        <association property="parent" column="{fk=parent}"
+                     select="com.xsyx.dao.MenuDao.a_Menu_By_parent" javaType="Menu" fetchType="lazy"/>
+    </resultMap>
+
+    <!-- 根据角色id获取该员工的所有菜单按钮 -->
+    <select id="queryMenus" resultMap="MenuMap">
+        select distinct m.* from menu m
+        left join permission p on m.id = p.menu
+        where m.layer=3 and
+              (1 in (select distinct ro.id from role ro
+              where ro.id=#{id}))
+           or
+            (p.role in (
+            select distinct ro.id from role ro
+            where ro.id=#{id})
+            );
+    </select>
+
+    <!-- 判断员工是否是超级管理员 -->
+    <select id="isSuperAdmin" resultType="int">
+        select ifnull(1 in (select role.id from role
+            left join emprole e on role.id = e.role
+            right join employee e2 on e.employee = e2.id
+        where e2.id = #{id}),0)
+    </select>
+
+    <!-- 根据Role条件模糊查询数据方法 -->
+    <select id="queryHaveLike" resultMap="RoleMap">
+        select role.* from role
+        left join emprole e on role.id = e.role
+        right join employee e2 on e.employee = e2.id
+        where e2.id = #{empId} and
+            (
+                <if test="role.name != null">role.name like concat('%',#{role.name},'%')</if>
+                <if test="role.remark != null">or role.remark like concat('%',#{role.remark},'%')</if>
+        ) and role.id!=1
+        group by role.id
+        order by role.id desc
     </select>
 
 </mapper>

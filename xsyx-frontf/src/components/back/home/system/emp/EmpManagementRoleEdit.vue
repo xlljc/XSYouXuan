@@ -75,7 +75,7 @@
         }
         async query() {
             this.isLoading = true;
-            this.tableData = await RoleHelper.query(this.searchStr,this.page,this.row);
+            this.tableData = await RoleHelper.queryHave(this.searchStr,this.page,this.row);
             this.isLoading = false;
         }
         //页面大小改变
