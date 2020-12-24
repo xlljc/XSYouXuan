@@ -117,7 +117,11 @@
 
         //触发验证
         async validate() {
-            return new Promise<boolean>(resolve => (this.$refs.form as any).validate((value: boolean) => resolve(value)));
+            return new Promise<boolean>(resolve => {
+                (this.$refs.form as any).validate((value: boolean) => {
+                    resolve(value);
+                })
+            });
         }
 
     }

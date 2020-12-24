@@ -1,3 +1,4 @@
+
 /**
  * 表名:  collect<br/>
  * 表注释: 收藏表
@@ -9,7 +10,10 @@ export interface Collect {
     coltime?: string;
     /**商品id*/
     cid?: Commodity;
+
+    [key: string]: any;
 }
+
 /**
  * 表名:  com_discount<br/>
  * 表注释: 商品折扣表
@@ -27,6 +31,8 @@ export interface ComDiscount {
     discount?: number;
     /**备注*/
     remark?: string;
+
+    [key: string]: any;
 }
 
 /**
@@ -40,7 +46,10 @@ export interface ComImage {
     commodity?: number;
     /**路径*/
     url?: string;
+
+    [key: string]: any;
 }
+
 /**
  * 表名:  com_label<br/>
  * 表注释: 商品标签表
@@ -50,7 +59,10 @@ export interface ComLabel {
     id?: number;
     /**标签名称*/
     name?: string;
+
+    [key: string]: any;
 }
+
 /**
  * 表名:  comments<br/>
  * 表注释: 用户评价表
@@ -68,6 +80,8 @@ export interface Comments {
     uid?: number;
     /**评论删除状态, 0未删除, 1已删除*/
     isdelete?: number;
+
+    [key: string]: any;
 }
 
 /**
@@ -107,7 +121,10 @@ export interface Commodity {
     purchases?: Purchase[];
     shopcars?: Shopcar[];
     stars?: Star[];
+
+    [key: string]: any;
 }
+
 /**
  * 表名:  com_order<br/>
  * 表注释: 订单表
@@ -123,7 +140,10 @@ export interface ComOrder {
     isdelete?: number;
     /**购物车id*/
     sid?: Shopcar;
+
+    [key: string]: any;
 }
+
 /**
  * 表名:  com_type<br/>
  * 表注释: 商品类型表
@@ -134,7 +154,10 @@ export interface ComType {
     /**类型名称*/
     name?: string;
     commoditys?: Commodity[];
+
+    [key: string]: any;
 }
+
 /**
  * 表名:  emp_log<br/>
  * 表注释: 员工日志表
@@ -151,7 +174,10 @@ export interface EmpLog {
     data?: string;
     /**时间*/
     time?: string;
+
+    [key: string]: any;
 }
+
 /**
  * 表名:  employee<br/>
  * 表注释: 员工表
@@ -183,7 +209,10 @@ export interface Employee {
     state?: number;
     empLogs?: EmpLog[];
     purchaseorders?: Purchaseorder[];
+
+    [key: string]: any;
 }
+
 /**
  * 表名:  emprole<br/>
  * 表注释: 员工角色表
@@ -195,7 +224,10 @@ export interface Emprole {
     employee?: number;
     /**角色*/
     role?: number;
+
+    [key: string]: any;
 }
+
 /**
  * 表名:  information<br/>
  * 表注释: 用户交流表
@@ -215,7 +247,10 @@ export interface Information {
     infstate?: number;
     /**是否已读, 1已读, 0未读*/
     isRead?: number;
+
+    [key: string]: any;
 }
+
 /**
  * 表名:  look_history<br/>
  * 表注释: 用户浏览历史表
@@ -229,7 +264,10 @@ export interface LookHistory {
     cid?: Commodity;
     /**浏览时间*/
     time?: string;
+
+    [key: string]: any;
 }
+
 /**
  * 表名:  menu<br/>
  * 表注释: 菜单功能表
@@ -250,7 +288,10 @@ export interface Menu {
     /**父级菜单*/
     parent?: Menu;
     menus?: Menu[];
+
+    [key: string]: any;
 }
+
 /**
  * 表名:  merchants<br/>
  * 表注释: 商户表
@@ -278,7 +319,10 @@ export interface Merchants {
     state?: number;
     pickupMerchantss?: PickupMerchants;
     users?: User;
+
+    [key: string]: any;
 }
+
 /**
  * 表名:  merchants_apply<br/>
  * 表注释: 商户申请表
@@ -302,6 +346,8 @@ export interface MerchantsApply {
     systemMessage?: string;
     /**是否已读*/
     isRead?: number;
+
+    [key: string]: any;
 }
 
 /**
@@ -319,7 +365,10 @@ export interface MerLog {
     data?: string;
     /**时间*/
     time?: string;
+
+    [key: string]: any;
 }
+
 /**
  * 表名:  permission<br/>
  * 表注释: 权限表
@@ -331,7 +380,10 @@ export interface Permission {
     menu?: number;
     /**角色*/
     role?: number;
+
+    [key: string]: any;
 }
+
 /**
  * 表名:  pickup<br/>
  * 表注释: 收货表
@@ -349,7 +401,10 @@ export interface Pickup {
     pstate?: number;
     /**用户id*/
     uid?: number;
+
+    [key: string]: any;
 }
+
 /**
  * 表名:  pickup_merchants<br/>
  * 表注释: 收货门店表(收货地址)
@@ -365,7 +420,10 @@ export interface PickupMerchants {
     remark?: string;
     /**创建时间*/
     createTime?: string;
+
+    [key: string]: any;
 }
+
 /**
  * 表名:  purchase<br/>
  * 表注释: 采购表（采购申请记录）
@@ -383,7 +441,10 @@ export interface Purchase {
     price?: number;
     /**商品数量*/
     commoditysum?: number;
+
+    [key: string]: any;
 }
+
 /**
  * 表名:  purchaseorder<br/>
  * 表注释: 采购订单表
@@ -404,7 +465,10 @@ export interface Purchaseorder {
     /**操作时间*/
     operationtime?: string;
     purchases?: Purchase[];
+
+    [key: string]: any;
 }
+
 /**
  * 表名:  role<br/>
  * 表注释: 角色表
@@ -416,7 +480,11 @@ export interface Role {
     name?: string;
     /**角色备注*/
     remark?: string;
+    /**拥有该角色的员工数量*/
+    hasEmpCount?: number;
+    [key: string]: any;
 }
+
 /**
  * 表名:  search_record<br/>
  * 表注释: 用户搜索记录表
@@ -430,7 +498,10 @@ export interface SearchRecord {
     content?: string;
     /**搜索时间*/
     time?: string;
+
+    [key: string]: any;
 }
+
 /**
  * 表名:  shopcar<br/>
  * 表注释: 购物车表
@@ -449,7 +520,10 @@ export interface Shopcar {
     /**用户id*/
     uid?: User;
     comOrders?: ComOrder[];
+
+    [key: string]: any;
 }
+
 /**
  * 表名:  star<br/>
  * 表注释: 评星表
@@ -463,7 +537,10 @@ export interface Star {
     cid?: Commodity;
     /**星星数量*/
     count?: number;
+
+    [key: string]: any;
 }
+
 /**
  * 表名:  user<br/>
  * 表注释: 用户表
@@ -505,7 +582,10 @@ export interface User {
     shopcars?: Shopcar[];
     stars?: Star[];
     userLogs?: UserLog[];
+
+    [key: string]: any;
 }
+
 /**
  * 表名:  user_log<br/>
  * 表注释: 用户日志表
@@ -521,7 +601,10 @@ export interface UserLog {
     data?: string;
     /**时间*/
     time?: string;
+
+    [key: string]: any;
 }
+
 /**
  * 表名:  warehouse<br/>
  * 表注释: 仓库表
@@ -543,7 +626,10 @@ export interface Warehouse {
     latitude?: number;
     /**仓库状态, 0冻结, 1正常*/
     warstate?: number;
+
+    [key: string]: any;
 }
+
 /**
  * 后台返回前端的消息,包含一个flag和msg消息
  * 通常用于前台请求后台操作,后台返回是否成功
@@ -555,6 +641,8 @@ export interface Message {
     flag: boolean;
     /**操作返回的消息, 该消息可以是字符串, 对象等*/
     msg: any;
+
+    [key: string]: any;
 }
 
 /**
@@ -597,7 +685,10 @@ export interface PageInfo<T> {
     navigateFirstPage?: number;
     /**导航条上的最后一页*/
     navigateLastPage?: number;
+
+    [key: string]: any;
 }
+
 /**
  * 文件列表文件对象
  */
@@ -610,6 +701,8 @@ export interface FileInfo {
     status?: string;
     /**文件id*/
     uid?: number;
+
+    [key: string]: any;
 }
 
 /**
@@ -629,6 +722,7 @@ export interface ValidateRules {
         trigger?: string | 'change' | 'blur';
         //正则表达式验证
         pattern?: RegExp;
+        [key: string]: any;
     } [];
 }
 
@@ -644,4 +738,20 @@ export interface DialogTemplateData {
     success?: Function;
     //点击返回按钮
     cancel?: Function;
+
+    [key: string]: any;
+}
+
+/**
+ * 菜单树节点
+ */
+export interface MenuTree {
+    //菜单id
+    id?: number;
+    //菜单显示文本
+    label?: string;
+    //嵌套菜单
+    children?: MenuTree[];
+
+    [key: string]: any;
 }

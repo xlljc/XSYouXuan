@@ -47,6 +47,7 @@
 
         <!--strip 双行阴影效果属性-->
         <el-table
+                v-loading="isLoading"
                 border
                 :data="tableData.list"
                 style="width: 100%;margin-top: 30px">
@@ -90,7 +91,8 @@
                 </template>
             </el-table-column>
             <el-table-column
-                    width="50px"
+                    sortable
+                    width="70px"
                     label="ID"
                     prop="id">
             </el-table-column>
@@ -105,18 +107,21 @@
                     prop="sex">
             </el-table-column>
             <el-table-column
-                    label="头像"
-                    prop="sex">
+                    width="120"
+                    label="头像">
                 <template slot-scope="{row}">
-                     <el-image  style="height: 60px;width: 90px" :src="$host + row.image" fit="cover"></el-image>
+                     <el-image  style="height: 60px;width: 90px" :src="$host + row.image" fit="cover"
+                                :preview-src-list="[$host + row.image]"></el-image>
                 </template>
             </el-table-column>
             <el-table-column
+                    sortable
                     width="140px"
                     label="手机号"
                     prop="phone">
             </el-table-column>
             <el-table-column
+                    sortable
                     label="邮箱"
                     prop="email">
             </el-table-column>
@@ -165,6 +170,24 @@
                         ></el-button>
                     </el-tooltip>
 
+                    <!--员工角色-->
+                    <el-popover trigger="hover" placement="top" title="员工角色" @show="row.roleData === undefined && loadEmpRoles(row)">
+                        <div v-loading="row.roleData === undefined">
+                            <el-tooltip effect="light" v-for="(item,index) in row.roleData" :key="index" placement="top-start" :content="item.remark">
+                                <el-tag style="margin-right: 10px;margin-bottom: 5px">{{ item.name }}</el-tag>
+                            </el-tooltip>
+                            <el-divider></el-divider>
+                            <div style="width: 100%;text-align: center">
+                                <el-button :disabled="row.id.toString() === selfId" size="mini" type="success" plain round icon="el-icon-edit" @click="openEditRole(row)">编辑</el-button>
+                            </div>
+                        </div>
+                        <el-button
+                                slot="reference" type="success" circle
+                                icon="el-icon-user" size="medium"
+                                style="margin-left: 11px"
+                        ></el-button>
+                    </el-popover>
+
                 </template>
             </el-table-column>
         </el-table>
@@ -183,7 +206,7 @@
                    title="员工添加"
                    :visible.sync="addmotaikuang">
             <!-- 商品编辑组件, 传入data值, 传入图片列表 -->
-            <emp-management-edit ref="editBox" :from-data="formData" :image-file="imageFile"></emp-management-edit>
+            <emp-management-edit ref="editBox" :form-data="formData" :image-file="imageFile"></emp-management-edit>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="addmotaikuang = false">取 消</el-button>
                 <!--点击调用添加方法-->
@@ -196,7 +219,7 @@
                    title="员工修改"
                    :visible.sync="updatemotaikuang">
             <!-- 商品编辑组件, 传入data值, 传入图片列表 -->
-            <emp-management-edit ref="editBox" :from-data="formData" :image-file="imageFile"></emp-management-edit>
+            <emp-management-edit ref="editBox" :form-data="formData" :image-file="imageFile"></emp-management-edit>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="updatemotaikuang = false">取 消</el-button>
                 <!--点击调用修改方法-->
@@ -255,15 +278,31 @@
             </div>
         </el-dialog>
 
+        <!-- 编辑角色 -->
+        <!-- 模态框 -->
+        <el-dialog :close-on-click-modal="false"
+                   :title="dialog.title"
+                   :visible.sync="dialog.visible"
+                   width="400px">
+            <div>
+                <emp-management-role-edit :role-data="dialog.roleData"></emp-management-role-edit>
+            </div>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialog.visible = false">取 消</el-button>
+                <el-button type="primary" @click="dialog.success">确 定</el-button>
+            </div>
+        </el-dialog>
+
     </div>
 </template>
 
 <script lang="ts">
     import {Vue, Component} from "vue-property-decorator";
-    import {Employee, FileInfo, PageInfo} from "@/helper/entity";
+    import {DialogTemplateData, Employee, FileInfo, PageInfo} from "@/helper/entity";
     import TestYzm from "@/components/shop/TestYzm.vue";
     import {EmpHelper} from "@/helper/back/EmpHelper";
     import EmpManagementEdit from "@/components/back/home/system/emp/EmpManagementEdit.vue";
+    import EmpManagementRoleEdit from "@/components/back/home/system/emp/EmpManagementRoleEdit.vue";
 
     function getEmptyEmp(): Employee {
         return {
@@ -279,13 +318,17 @@
     }
 
     @Component({
-        components: {EmpManagementEdit, TestYzm}
+        components: {EmpManagementRoleEdit, EmpManagementEdit, TestYzm}
     })
     export default class EmpManagement extends Vue {
         $refs: {
             editBox: any;
         }
+        //自己的id
+        selfId = EmpHelper.empId;
 
+        //加载状态
+        isLoading = false;
         //查询输入框
         searchStr: string = "";
         //性别
@@ -326,6 +369,13 @@
         //删除验证密码
         deleteYzPassword: string = "";
 
+        //模态框
+        dialog: DialogTemplateData = {
+            title: "",
+            visible: false,
+            success() {},
+        }
+
         created() {
             this.$store.commit('back/url', window.location.href);
             this.query();
@@ -356,8 +406,10 @@
          * 查询员工
          */
         query() {
+            this.isLoading = true;
             EmpHelper.query(this.searchStr,this.searchSex,this.searchSate,this.page,this.row).then(value => {
                 this.tableData = value;
+                this.isLoading = false;
             })
         }
 
@@ -556,6 +608,32 @@
             })
         }
 
+        /**获取角色*/
+        async loadEmpRoles(row: Employee) {
+            this.$set(row,"roleData",await EmpHelper.getRolesByEmpId(row.id));
+        }
+
+        //打开编辑角色
+        openEditRole(row: Employee) {
+            this.dialog.title = "编辑角色";
+            this.dialog.visible = true;
+            this.dialog.roleData = [...row.roleData];
+            this.dialog.success = async () => {
+                this.dialog.visible = false;
+                let ids: number[] = [];
+                for (let i of this.dialog.roleData) {
+                    ids.push(i.id);
+                }
+                let message = await EmpHelper.updateRoles(row.id, ids);
+                if (message.flag) {
+                    this.$notify.success({title: "提示", message: "修改成功 !",});
+                    this.query();
+                } else {
+                    this.$notify.error({title: "提示", message: message.msg});
+                }
+                this.dialog.roleData = undefined;
+            }
+        }
     }
 </script>
 

@@ -1,4 +1,4 @@
-import {Employee, Message, PageInfo} from "@/helper/entity";
+import {Employee, Message, PageInfo, Role} from "@/helper/entity";
 import Axios from "axios";
 import {RootRouter} from "@/router";
 import Utils from "@/helper/Utils";
@@ -153,6 +153,29 @@ export class EmpHelper {
                 resolve(value.data);
             })
         });
+    }
+
+    /**
+     * 根据员工id获取该员工所有角色
+     * @param id
+     */
+    static async getRolesByEmpId(id: number) {
+        let params = new URLSearchParams();
+        params.append("id",id.toString());
+        return (await Axios.post<Role[]>("/emp/queryRoles",params)).data;
+    }
+
+    /**
+     * 修改角色
+     * @param id 员工id
+     * @param ids 角色id
+     */
+    static async updateRoles(id: number,ids: number[]) {
+        let params = new URLSearchParams();
+        params.append("id",id.toString());
+        params.append("ids",ids.toString());
+        params.append("empId",EmpHelper.empId);
+        return (await Axios.post<Message>("/emp/updateRoles",params)).data;
     }
 
 }

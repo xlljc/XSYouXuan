@@ -18,6 +18,8 @@ public class Role implements Serializable {
 	private String name;
 	/**角色备注*/
 	private String remark;
+	/**拥有该角色的员工数量*/
+	private Integer hasEmpCount;
 
 	public Role() {
 		super();
@@ -51,12 +53,22 @@ public class Role implements Serializable {
 	public String getRemark(){
 		return remark;
 	}
+	/**获取"拥有该角色的员工数量"*/
+	public Integer getHasEmpCount() {
+		return hasEmpCount;
+	}
+	/**设置"拥有该角色的员工数量"*/
+	public void setHasEmpCount(Integer hasEmpCount) {
+		this.hasEmpCount = hasEmpCount;
+	}
+
 	@Override
 	public String toString() {
 		return "role[" + 
 			"id = " + id + 
 			", name = " + name + 
 			", remark = " + remark + 
+			", hasEmpCount = " + hasEmpCount +
 			"]";
 	}
 }

@@ -40,4 +40,26 @@ export class RoleHelper {
         params.append("empId",EmpHelper.empId);
         return (await Axios.post<Message>("/role/update",params)).data;
     }
+
+    /**
+     * 删除一个角色
+     * @param id 角色id
+     */
+    static async delete(id: number) {
+        let params = new URLSearchParams();
+        params.append("id",id.toString());
+        params.append("empId",EmpHelper.empId);
+        return (await Axios.post<Message>("/role/delete",params)).data;
+    }
+
+    /**
+     * 根据角色id获取拥有该角色的所有员工
+     * @param id
+     */
+    static async getEmpsByRoleId(id: number) {
+        let params = new URLSearchParams();
+        params.append("id",id.toString());
+        return (await Axios.post("/emp/queryByRoleId",params)).data;
+    }
+
 }
