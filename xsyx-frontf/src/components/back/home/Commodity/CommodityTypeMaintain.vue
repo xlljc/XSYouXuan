@@ -19,7 +19,7 @@
                 type="success"
                 slot="append"
                 icon="el-icon-circle-plus"
-
+                @click="addmotaikuang=true"
         >添加
         </el-button>
         <!--strip 双行阴影效果属性-->
@@ -51,13 +51,15 @@
 
             <el-table-column label="操作">
                 <template slot-scope="scope">
+                    <el-tooltip class="item" effect="dark" content="修改类型" placement="top-start">
                     <el-button
                             type="primary"
                             circle
                             icon="el-icon-edit"
                             size="medium"
-                            @click="queryCommodityTypedetails(scope.$index, scope.row)"></el-button>
-                    <el-button
+                            @click="openupdateCommodityType(scope.$index, scope.row)"></el-button>
+                    </el-tooltip>
+                        <el-button
                             type="danger"
                             circle
                             icon="el-icon-delete"
@@ -66,13 +68,41 @@
                 </template>
             </el-table-column>
         </el-table>
-
+        <!--添加模态框-->
+        <el-dialog :close-on-click-modal="false"
+                   title="添加"
+                   :visible.sync="addmotaikuang">
+            <el-input
+                    style="width: 300px"
+                    placeholder="---请输入类型---"
+                    v-model="typename"
+                    clearable>
+            </el-input>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="addCommodityType">确 定</el-button>
+            </div>
+        </el-dialog>
+        <!--修改模态框-->
+        <el-dialog :close-on-click-modal="false"
+                   title="修改"
+                   :visible.sync="updatemotaikuang">
+            <el-input
+                    style="width: 300px"
+                    placeholder="---请输入类型---"
+                    v-model="typename"
+                    clearable>
+            </el-input>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="updateCommodityType">确 定</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
 <script lang="ts">
     import {Vue, Component} from "vue-property-decorator";
     import Axios from "axios";
+    import {Commodity as Com} from "@/helper/entity";
 
 
     @Component
@@ -94,9 +124,16 @@
         input="";
         /*商品类型数据*/
         tableData={};
+        //添加模态框
+        addmotaikuang=false;
+        updatemotaikuang=false;
+        //类型添加的值
+        typename:string="";
+        //修改的类型id
+        typeid : number = 0;
 
         //***********************************************************
-        //                      商品查询部分
+        //                      商品类型查询部分
         //***********************************************************
         //页面打开 查询所有商品类型信息
         getCommodityTypeAll(){
@@ -109,10 +146,63 @@
 
             })
         }
+        //***********************************************************
+        //                      商品类型添加部分
+        //***********************************************************
+        //打开添加模态框
+        /*openaddCommodityType(){
 
+        }*/
+        //添加类型
+        addCommodityType(){
+            //alert(this.typename)
+            let params = new URLSearchParams();
+            params.append("name",this.typename);
+            //添加
+            Axios({
+                method: "post",
+                url: "/commodity/addCommodityType",
+                data: params
+            }).then(value => {
+                //console.log(value)
+                alert(value.data.msg)
+                //关闭模态框
+                this.addmotaikuang=false;
+                //刷新页面
+                this.getCommodityTypeAll();
+            })
+        }
 
-        queryCommodityTypedetails(){
-
+        //***********************************************************
+        //                      商品类型修改部分
+        //***********************************************************
+        //打开修改模态框
+        openupdateCommodityType(index: number, row: any){
+            this.updatemotaikuang=true;
+            //获取id
+            this.typeid=row.id
+            //alert(row.id)
+            //赋值
+            this.typename=row.name;
+        }
+        //提交修改
+        updateCommodityType(){
+            let params = new URLSearchParams();
+            params.append("id",  this.typeid.toString());
+            params.append("name",this.typename);
+            //修改
+            Axios({
+                method: "post",
+                url: "/commodity/updateCommodityType",
+                data: params
+            }).then(value => {
+                //console.log(value)
+                alert(value.data.msg)
+                //关闭模态框
+                this.updatemotaikuang=false;
+                //刷新页面
+                this.getCommodityTypeAll();
+            })
         }
 
         deleteCommodityType(){

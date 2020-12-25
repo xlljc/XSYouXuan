@@ -14,6 +14,17 @@
     <result column="approvedbyremarks" property="approvedbyremarks"/>
     <result column="operationtime" property="operationtime"/>
     </resultMap>
+    <!--采购的map-->
+    <resultMap id="PurchaseMap" type="Purchase">
+        <id column="id" property="id"/>
+        <result column="orderid" property="orderid"/>
+        <result column="id" property="commodityid"/>
+        <result column="name" property="commodityname"/>
+        <result column="price" property="price"/>
+        <result column="specification" property="specification"/>
+        <result column="commoditysum" property="commoditysum"/>
+    </resultMap>
+
     <!--查询所有临时采购表的数据-->
     <select id="PurchaseLinShiAll" resultType="PurchaseLinShi">
         SELECT com.id, com.name, com.price, com.specification, linshi.caigousum
@@ -47,5 +58,12 @@
         INNER JOIN employee em
         ON pur.applicant =em.id
         where pur.state=0
+    </select>
+    <!--根据订单id 查询所有采购商品-->
+    <select id="querycaigouAll" parameterType="String" resultMap="PurchaseMap">
+        SELECT com.id,com.name,com.price,com.specification,pur.commoditysum FROM commodity com
+        INNER JOIN purchase pur
+        ON com.id=pur.commodityid
+        WHERE pur.orderid=#{orderid}
     </select>
 </mapper>

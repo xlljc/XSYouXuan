@@ -27,8 +27,9 @@ public interface PurchaseDao {
     //清除所有临时采购表的数据
     int deletePurchaseLinShi();
 
-    
+
     //查询所有未审核订单信息
     List<Purchaseorder> querypurchaseorderAll();
-
+    //根据订单id 查询所有采购商品
+    List<Purchase> querycaigouAll(@Param("orderid") String orderid);
 }

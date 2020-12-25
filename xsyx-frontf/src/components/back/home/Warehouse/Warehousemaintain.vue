@@ -352,7 +352,7 @@
             </div>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="cleanPurchaseLinShi">取 消</el-button>
-                <el-button type="primary" @click="caigoumotaikuang = false">确 定</el-button>
+                <el-button type="primary" @click="openCaiGouBeiZhu">确 定</el-button>
             </div>
         </el-dialog>
 
@@ -368,6 +368,20 @@
                 </el-input>
             <div slot="footer" class="dialog-footer">
                 <el-button type="primary"  @click="tianjiacaigou">确 定</el-button>
+            </div>
+        </el-dialog>
+        <!--点击确定采购按钮弹出申请人写备注的模态框-->
+        <el-dialog :close-on-click-modal="false"
+                   title="备注"
+                   :visible.sync="caigousummotaikuang">
+            <el-input
+                    style="width: 300px"
+                    placeholder="---请输入---"
+                    v-model="beizhu"
+                    clearable>
+            </el-input>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="SubmitCaiGou">确 定</el-button>
             </div>
         </el-dialog>
     </div>
@@ -406,7 +420,8 @@
         caigoumotaikuang = false;
         //采购数量模态框
         caigousummotaikuang=false;
-
+        //采购人备注模态框状态
+        caigoubeizhu=false;
         //搜索框的变量
         input: string = "";
 
@@ -452,6 +467,8 @@
         //采购------
         //采购数量的变量
         caigousum :number =0;
+        //提交采购时 采购人备注的变量
+        beizhu : string="";
         //点击采购 弹出采购数量框 获取这个商品的值
         caigoushop : any = [];
         //所有临时采购表的数据
@@ -823,9 +840,20 @@
             })
         }
 
+        //点击确定采购按钮弹出申请人写备注的模态框
+        openCaiGouBeiZhu(){
+            this.caigousummotaikuang=true;
+        }
 
+        //点击备注页面的确定按钮 提交采购申请
+        SubmitCaiGou(){
+            alert("提交采购")
+            //员工id
+            console.log("员工id:"+EmpHelper.empId)
+            //申请人备注
+            console.log("申请人备注:"+this.beizhu)
 
-
+        }
 
 
         queryCommodityLabledetails() {

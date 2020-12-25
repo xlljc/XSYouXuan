@@ -6,6 +6,7 @@ import com.xsyx.dao.UserDao;
 import com.xsyx.dao.UserLogDao;
 import com.xsyx.service.PurchaseService;
 
+import com.xsyx.vo.Purchase;
 import com.xsyx.vo.PurchaseLinShi;
 import com.xsyx.vo.Purchaseorder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,10 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     public List<Purchaseorder> querypurchaseorderAll() {
         return purchaseDao.querypurchaseorderAll();
+    }
+
+    @Override
+    public List<Purchase> querycaigouAll(String orderid) {
+        return purchaseDao.querycaigouAll(orderid);
     }
 }

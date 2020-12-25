@@ -31,7 +31,6 @@ public class PurchaseController {
         //System.out.println(purchaseService.PurchaseLinShiAll());
         return purchaseService.PurchaseLinShiAll();
     }
-
     //根据商品id 和 采购数量 向临时采购表添加数据
     @RequestMapping("/addLinShiPurchase")
     public Message addLinShiPurchase(String commodityid,String caigousum) {
@@ -84,6 +83,31 @@ public class PurchaseController {
         //System.out.println("sumprice : " + sumprice);
         return sumprice;
     }
+    //获取所有临时采购表的数据  生成采购订单 生成采购单
+    @RequestMapping("/addCaiGou")
+    public Message addCaiGou(
+            //员工id
+            String applicant,
+            //申请人备注
+            String applicantremarks) {
+        Message message = new Message();
+         //生成订单详情表 未审核记录
+        //参数：当前采购的员工id  申请人备注（就是仓库）
+        System.out.println("员工id:"+applicant);
+        System.out.println("申请人备注:"+applicantremarks);
+
+       //查询所有临时订单表的数据
+
+        //将临时订单表数据添加到  采购表  订单id 商品id 商品数量
+
+        //返回前台 执行删除临时采购表数据操作
+
+        message.flag = true;
+        message.msg = "添加采购成功√";
+        return message;
+
+    }
+
 
     //清除所有临时采购表的数据
     @RequestMapping("/cleanPurchaseLinShi")
@@ -107,6 +131,13 @@ public class PurchaseController {
     public List<Purchaseorder> querypurchaseorderAll() {
 
         return purchaseService.querypurchaseorderAll();
+    }
+
+    //根据订单id 查询所有采购商品
+    @RequestMapping("/querycaigouAll")
+    public List<Purchase> querycaigouAll(String orderid) {
+        //System.out.println(orderid);
+        return purchaseService.querycaigouAll(orderid);
     }
 
 }
