@@ -55,14 +55,23 @@ export class MenuHelper {
         return false;
     }
 
-
+    /**
+     * 返回当前操作者是否有使用按钮的权限
+     * @param name
+     */
     static hasBtnPermissions(name: string): boolean {
         if (RootStore.store.getters["back/menusLoading"]) return false;
         let path = RootRouter.router.currentRoute.path;
         path = path.substring(path.lastIndexOf("/"));
         let menuList: Menu[] = RootStore.store.getters["back/menuList"];
         for (let menu of menuList) {
-            if (menu.layer === 3 && menu.name === name) return true;
+            if (menu.layer === 2 && menu.url === path) {
+                let temp = menu.menus;
+                if (!temp) continue;
+                for (let i of temp) {
+                    if (i.name === name) return true;
+                }
+            }
         }
         return false;
     }

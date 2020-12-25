@@ -27,10 +27,11 @@
             </div>
             <template slot="append">
                 <el-button
-                    slot="append"
-                    icon="el-icon-search"
-                    @click="query">
-                    查询
+                        v-if="$btnPermissions('查询员工')"
+                        slot="append"
+                        icon="el-icon-search"
+                        @click="query">
+                        查询
                 </el-button>
             </template>
         </el-input>
@@ -130,7 +131,9 @@
 
             <el-table-column label="操作">
                 <template slot-scope="{row}">
-                    <el-tooltip effect="dark" content="编辑" placement="top-start">
+                    <!--修改员工-->
+                    <el-tooltip effect="dark" content="编辑" placement="top-start"
+                                v-if="$btnPermissions('修改员工')">
                         <el-button
                                 type="primary"
                                 circle
@@ -139,7 +142,7 @@
                                 @click="openUpdate(row)"
                         ></el-button>
                     </el-tooltip>
-                    <el-tooltip v-if="row.state === 1" effect="dark" content="冻结" placement="top-start">
+                    <el-tooltip v-if="row.state === 1 && $btnPermissions('冻结员工')" effect="dark" content="冻结" placement="top-start">
                         <!-- el-icon-video-play -->
                         <el-button
                                 type="warning"
@@ -149,7 +152,7 @@
                                 @click="openFreezeValidation(row.id)"
                         ></el-button>
                     </el-tooltip>
-                    <el-tooltip v-if="row.state === 0" effect="dark" content="激活" placement="top-start">
+                    <el-tooltip v-if="row.state === 0 && $btnPermissions('冻结员工')" effect="dark" content="激活" placement="top-start">
                         <!-- el-icon-video-play -->
                         <el-button
                                 type="success"
@@ -161,7 +164,8 @@
 
                     </el-tooltip>
 
-                    <el-tooltip effect="dark" content="删除" placement="top-start">
+                    <el-tooltip effect="dark" content="删除" placement="top-start"
+                                v-if="$btnPermissions('删除员工')">
                         <el-button
                                 type="danger"
                                 circle
@@ -172,7 +176,8 @@
                     </el-tooltip>
 
                     <!--员工角色-->
-                    <el-popover trigger="hover" placement="top" title="员工角色" @show="row.roleData === undefined && loadEmpRoles(row)">
+                    <el-popover trigger="hover" placement="top" title="员工角色" @show="row.roleData === undefined && loadEmpRoles(row)"
+                                v-if="$btnPermissions('修改角色')">
                         <div v-loading="row.roleData === undefined">
                             <el-tooltip effect="light" v-for="(item,index) in row.roleData" :key="index" placement="top-start" :content="item.remark">
                                 <el-tag style="margin-right: 10px;margin-bottom: 5px">{{ item.name }}</el-tag>

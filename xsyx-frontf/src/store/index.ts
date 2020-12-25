@@ -66,9 +66,10 @@ const store = new Vuex.Store({
                 layer: menu.layer,
                 name: menu.name,
                 icon: menu.icon,
-                parent: {...menu.parent},
+                parent: menu.parent,
                 type: menu.type,
-                url: menu.url
+                url: menu.url,
+                menus: menu.menus
               });
               if (menu.menus) method(menu.menus);
             }
