@@ -8,6 +8,7 @@ import RoleManagement from "@/components/back/home/system/role/RoleManagement.vu
 import CommodityLableMaintain from "@/components/back/home/Commodity/CommodityLableMaintain.vue";
 import PurchaseOrder from "@/components/back/home/Purchase/PurchaseOrder.vue";
 import PermManagement from "@/components/back/home/system/permission/PermManagement.vue";
+import CustomerMaintain from "@/components/back/home/Customer/CustomerMaintain.vue";
 
 /**
  * 后台路由
@@ -40,6 +41,8 @@ const BackRouter: Array<RouteConfig> = [
     {path:"/roleManagement",component:RoleManagement},
     //权限管理
     {path:"/permissionManagement",component:PermManagement},
+
+    {path:"/customermaintain",component:CustomerMaintain},
 ]
 
 export default BackRouter;

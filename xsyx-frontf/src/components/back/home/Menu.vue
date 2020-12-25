@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-menu  default-active="1-4-0" class="el-menu-vertical-demo"
+        <el-menu unique-opened default-active="1-4-0" class="el-menu-vertical-demo"
                  :collapse="isCollapse" background-color="#DDCDCD" text-color="#89768F" active-text-color="#39313B">
             <!--伸缩框-->
             <el-menu-item-group style="text-align: center">
@@ -11,7 +11,7 @@
                 <!--判断该变量是否包含子级 生成下拉符号-->            <!--控制台报index错误是因为这个index BUG 还没解决-->
             <el-submenu v-for="menu in $store.getters['back/menus']" :key="menu.id" :index="menu.id.toString()"><!--不给index会将页面全部撑开-->
                 <template slot="title">
-                    <i class="el-icon-location"></i>
+                    <i :class="menu.icon"></i>
                     <span slot="title">{{menu.name}}</span>
                 </template>
 

@@ -104,7 +104,7 @@
                 //循环子级菜单   子菜单没有parent  给子菜单的parent赋值
                 for (let j = 0; j < zi.length; j++) {
                     //判断 面包屑的url 是否与子菜单的url匹配 返回中文
-                    if (zi[j].url === arr[1]) {
+                    if (zi[j].url === "/" + arr[1]) {
                         zhonarr[0] = "首页"
                         zhonarr[1] = menus[i].name
                         zhonarr[2] = zi[j].name

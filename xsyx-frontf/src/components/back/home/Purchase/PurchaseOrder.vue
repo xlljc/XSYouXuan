@@ -43,7 +43,7 @@
     @Component
     export default class PurchaseOrder extends Vue {
         //所有订单数据
-        purchaseorderAllData = [];
+        purchaseorderAllData: any[] = [];
 
 
         created() {
