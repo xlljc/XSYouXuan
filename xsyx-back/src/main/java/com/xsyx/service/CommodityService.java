@@ -19,6 +19,10 @@ public interface CommodityService{
 
     //查询所有商品类型
     List<ComType> queryAlltype();
+    //添加商品类型
+    int addCommodityType(@Param("name") String name);
+    //修改商品类型
+    int updateCommodityType(@Param("id") String id,@Param("name") String name);
 
     /**
      *根据商品名 还有上架状态执行模糊查询

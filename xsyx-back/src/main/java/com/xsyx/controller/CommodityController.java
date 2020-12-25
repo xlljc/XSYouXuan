@@ -154,6 +154,40 @@ public class CommodityController {
         return commodityService.queryAlltype();
     }
 
+    /**
+     * 添加商品类型
+     * @return
+     */
+    @RequestMapping("/addCommodityType")
+    public Message addCommodityType(String name) {
+        Message message = new Message();
+        int row = commodityService.addCommodityType(name);
+        if (row > 0) {
+            message.flag = true;
+            message.msg = "添加成功√";
+            return message;
+        }
+        message.flag = false;
+        message.msg = "添加失败×";
+        return message;
+    }
+    /**
+     * 修改商品类型
+     * @return
+     */
+    @RequestMapping("/updateCommodityType")
+    public Message updateCommodityType(String id,String name) {
+        Message message = new Message();
+        int row = commodityService.updateCommodityType(id,name);
+        if (row > 0) {
+            message.flag = true;
+            message.msg = "修改成功√";
+            return message;
+        }
+        message.flag = false;
+        message.msg = "修改失败×";
+        return message;
+    }
 
     /**
      * 查询所有商品标签

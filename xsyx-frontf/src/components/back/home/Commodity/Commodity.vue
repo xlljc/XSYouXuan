@@ -27,6 +27,7 @@
                 slot="append"
                 icon="el-icon-circle-plus"
                 @click="openAddCommodity"
+                v-if="$btnPermissions('商品添加')"
         >添加
         </el-button>
         <!--strip 双行阴影效果属性-->

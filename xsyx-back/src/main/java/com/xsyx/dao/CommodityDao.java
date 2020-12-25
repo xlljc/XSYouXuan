@@ -40,7 +40,7 @@ public interface CommodityDao {
               @Param("type") String type);
   /**
    * 修改商品
-   * 
+   *
    */
   int updateCommodity(@Param("name") String name,
                    @Param("particulars") String particulars,
@@ -49,7 +49,7 @@ public interface CommodityDao {
                    @Param("unit") String unit,
                    @Param("specification") String specification,
                    @Param("manufacturer") String manufacturer,
-                   @Param("type") String type, 
+                   @Param("type") String type,
                       @Param("id") String id);
 
   /**
@@ -59,7 +59,12 @@ public interface CommodityDao {
 
   //查询所有商品类型
   List<ComType> queryAlltype();
-  
+
+  //添加商品类型
+  int addCommodityType(@Param("name") String name);
+  //修改商品类型
+  int updateCommodityType(@Param("id") String id,@Param("name") String name);
+
   //查询所有商品标签
   List<ComLabel> queryAllLabel();
 }
