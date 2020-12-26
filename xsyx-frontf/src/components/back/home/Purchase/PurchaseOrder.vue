@@ -100,7 +100,7 @@
         ddmotaikuang: boolean = false;
 
         //所有订单数据
-        purchaseorderAllData = [];
+        purchaseorderAllData: any[] = [];
         //根据订单id查询所有采购商品数据
         caigouAllData :any = [];
         // 获取当前右键点击的订单id
@@ -121,14 +121,14 @@
         //                      右键菜单部分
         //***********************************************************
         // table的左键点击关闭右键菜单事件
-        clickTableRow(row, column, event) {
+        clickTableRow(row: any, column: any, event: any) {
             let menu = document.querySelector("#menu") as any;
             menu.style.display = 'none';
             // console.log(row,column,event)
         }
 
         // table的右键点击当前行展开右键菜单事件
-        rightClick(row, column, event) {
+        rightClick(row: any, column: any, event: any) {
 
             let menu = document.querySelector("#menu") as any;
             event.preventDefault();

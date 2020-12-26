@@ -57,7 +57,7 @@
                                 <el-table-column label="姓名" prop="name"/>
                                 <el-table-column label="头像">
                                     <template slot-scope="{row}">
-                                        <el-image  style="height: 30px;width: 45px" :src="$host + row.image" fit="cover"
+                                        <el-image style="height: 30px;width: 45px" :src="$host + row.image" fit="cover"
                                         :preview-src-list="[$host + row.image]"></el-image>
                                     </template>
                                 </el-table-column>
@@ -231,7 +231,6 @@
 
         async loadEmp(row: Role) {
             this.$set(row,"empData",await RoleHelper.getEmpsByRoleId(row.id));
-
         }
 
         //***********************************************************

@@ -1,5 +1,5 @@
 import Axios from "axios";
-import {Menu, Message, PageInfo, Role} from "@/helper/entity";
+import {Employee, Menu, Message, PageInfo, Role} from "@/helper/entity";
 import Utils from "@/helper/Utils";
 import {EmpHelper} from "@/helper/back/EmpHelper";
 
@@ -75,7 +75,7 @@ export class RoleHelper {
     static async getEmpsByRoleId(id: number) {
         let params = new URLSearchParams();
         params.append("id",id.toString());
-        return (await Axios.post("/emp/queryByRoleId",params)).data;
+        return (await Axios.post<Employee[]>("/emp/queryByRoleId",params)).data;
     }
 
     /**

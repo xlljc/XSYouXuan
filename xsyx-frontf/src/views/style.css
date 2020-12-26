@@ -93,16 +93,20 @@ body {
     height: 100px;
     text-align: center;
     padding-top: 10px;
+    overflow: hidden;
 }
 .xsyx-type-content {
     cursor: pointer;
-    width: 100px;
-    height: 100px;
+    width: 98px;
+    height: 98px;
     background-color: #F5F7FA;
     border-radius: 4px;
     margin: 0 auto;
+    border: 1px solid #F5F7FA;
 }
-
+.xsyx-type-content:hover {
+    border: 1px solid #67C23A;
+}
 .xsyx-commodity-box {
 
 }
@@ -151,4 +155,13 @@ body {
     width: 178px;
     height: 178px;
     display: block;
+}
+
+.zdy-icon {
+    margin-top: 5px;
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
 }

@@ -30,10 +30,10 @@
 
         //上传前验证
         beforeAvatarUpload(file: any) {
-            const type = file.type === 'image/jpg' || file.type === 'image/png' || file.type === 'image/gif';
+            const type = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif';
             const isLt5M = file.size / 1024 / 1024 < 5;
             if (!type)
-                this.$message.error('上传图片只能是 JPG 或 PNG 获取 GIF 格式!');
+                this.$message.error('上传图片只能是 JPG 或 PNG 获 GIF 格式!');
             if (!isLt5M)
                 this.$message.error('上传图片大小不能超过 5MB!');
             return type && isLt5M;

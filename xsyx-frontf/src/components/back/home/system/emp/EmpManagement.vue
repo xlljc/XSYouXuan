@@ -56,7 +56,7 @@
             <el-table-column type="expand">
                 <template slot-scope="{row}">
                     <el-form label-position="left" inline class="demo-table-expand">
-                        <el-form-item label="用ID ：">
+                        <el-form-item label="用户ID ：">
                             <span>{{ row.id }}</span>
                         </el-form-item>
                         <el-form-item label="用户名 ：">
@@ -197,6 +197,7 @@
                 </template>
             </el-table-column>
         </el-table>
+
         <el-pagination
                 @size-change="rowChange"
                 @current-change="pageChange"
