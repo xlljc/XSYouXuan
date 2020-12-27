@@ -4,7 +4,7 @@ import com.xsyx.vo.ComOrder;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
-
+import java.util.Map;
 
 
 @Repository
@@ -41,4 +41,6 @@ public interface ComOrderDao {
    * 根据ComOrder条件修改单条数据方法,从传入对象获取id 
    */
   int updateById(ComOrder comorder);
+
+  List<Map> queryOrder();
 }

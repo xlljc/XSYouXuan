@@ -1,5 +1,6 @@
 package com.xsyx.controller;
 
+import com.xsyx.dao.ComOrderDao;
 import com.xsyx.dao.RoleDao;
 
 import com.xsyx.vo.Role;
@@ -18,6 +19,9 @@ public class TestController {
 
     @Autowired
     private RoleDao roleDao;
+
+    @Autowired
+    private ComOrderDao comOrderDao;
 
     /**
      * 测试
@@ -38,5 +42,9 @@ public class TestController {
         return roles;
     }
 
+    @RequestMapping("/test3")
+    public List<Map> test3() {
+        return comOrderDao.queryOrder();
+    }
 
 }

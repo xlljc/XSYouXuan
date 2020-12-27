@@ -82,4 +82,9 @@
         where id = #{id}
     </update>
 
+    <select id="queryOrder" resultType="java.util.HashMap">
+        select *
+        from com_order;
+    </select>
+
 </mapper>

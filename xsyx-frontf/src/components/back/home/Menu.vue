@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-menu unique-opened default-active="1-4-0" class="el-menu-vertical-demo"
+        <el-menu unique-opened class="el-menu-vertical-demo" router
                  :collapse="isCollapse" background-color="#DDCDCD" text-color="#89768F" active-text-color="#39313B">
             <!--伸缩框-->
             <el-menu-item-group style="text-align: center">
@@ -16,8 +16,8 @@
                 </template>
 
                 <el-menu-item-group v-if="getChild(menu.menus)">
-                    <el-menu-item style="background:#CFB8B8;" v-for="(item,index) in getChild(menu.menus)" :key="index">
-                        <router-link :to="'/back'+item.url" style="color:#89768F" >{{ item.name }}</router-link>
+                    <el-menu-item style="background:#CFB8B8;" v-for="(item,index) in getChild(menu.menus)" :key="index" :index="'/back'+item.url">
+                        {{ item.name }}
                     </el-menu-item>
 
                 </el-menu-item-group>
@@ -67,6 +67,6 @@
     }
 
     body {
-        background: #DDCDCD;
+        background: #ddcdcd;
     }
 </style>
