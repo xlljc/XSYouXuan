@@ -13,23 +13,27 @@
         <result column="ordstate" property="ordstate"/>
         <result column="order_number" property="orderNumber"/>
         <result column="isdelete" property="isdelete"/>
+        <result column="delivery_time" property="deliveryTime"/>
+        <result column="pick_up_time" property="pickUpTime"/>
         <association property="sid" column="{fk=sid}"
            select="com.xsyx.dao.ShopcarDao.a_Shopcar_By_sid" javaType="Shopcar" fetchType="lazy"/>
+        <association property="merid" column="merid"
+           select="com.xsyx.dao.MerchantsDao.queryById" javaType="Merchants" fetchType="lazy"/>
     </resultMap>
 
     <!-- 查询所有方法 -->
     <select id="queryAll" resultMap="ComOrderMap">
-       select order_number,ordstate,id,isdelete,sid from com_order;
+       select id, ordstate, order_number, isdelete, sid, totlemoney, merid, delivery_time, pick_up_time from com_order;
     </select>
 
     <!-- 根据主键id查询数据方法 -->
     <select id="queryById" parameterType="int" resultMap="ComOrderMap">
-       select order_number,ordstate,id,isdelete,sid from com_order where id = #{id};
+       select id, ordstate, order_number, isdelete, sid, totlemoney, merid, delivery_time, pick_up_time from com_order where id = #{id};
     </select>
 
     <!-- 根据ComOrder条件查询数据方法 -->
     <select id="query" resultMap="ComOrderMap">
-        select order_number,ordstate,id,isdelete,sid 
+        select id, ordstate, order_number, isdelete, sid, totlemoney, merid, delivery_time, pick_up_time
         from com_order 
         <where>
             <if test="id != null"> and id = #{id}</if>
@@ -82,9 +86,5 @@
         where id = #{id}
     </update>
 
-    <select id="queryOrder" resultType="java.util.HashMap">
-        select *
-        from com_order;
-    </select>
 
 </mapper>

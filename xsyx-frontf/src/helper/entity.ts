@@ -755,3 +755,28 @@ export interface MenuTree {
 
     [key: string]: any;
 }
+
+/**
+ * 衍生类, 商品订单详情类
+ */
+export interface OrderDetails {
+    id: number;
+    orderNumber: string;
+    ordstate: number;
+    totlemoney: number;
+    commodityName: string;
+    commodityImage: string;
+    typeName: string;
+    number: string;
+    username: string;
+    uname: string;
+    phone: string;
+    deliveryTime: string;
+    pickUpTime: string;
+    merid: number;
+    merName: string;
+    address: string;
+    merPhone: string;
+
+    [key: string]: any;
+}

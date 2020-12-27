@@ -42,5 +42,4 @@ public interface ComOrderDao {
    */
   int updateById(ComOrder comorder);
 
-  List<Map> queryOrder();
 }

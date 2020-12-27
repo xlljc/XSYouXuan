@@ -82,4 +82,10 @@
         where id = #{id}
     </update>
 
+    <!-- 添加一篇日志 -->
+    <insert id="addLog">
+        insert into mer_log (id,emp,content,data,time) values
+            (null,#{merId},#{content},#{data},default);
+    </insert>
+
 </mapper>
