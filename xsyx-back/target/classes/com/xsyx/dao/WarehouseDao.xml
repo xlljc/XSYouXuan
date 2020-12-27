@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xsyx.dao.WarehouseDao">
+
+
+    <!-- resultMap映射 -->
+    <resultMap id="WarehouseMap" type="Warehouse">
+        <id column="warid" property="warid"/>
+        <result column="warname" property="warname"/>
+        <result column="wartype" property="wartype"/>
+        <result column="warcapacity" property="warcapacity"/>
+        <result column="waraddress" property="waraddress"/>
+        <result column="longitude" property="longitude"/>
+        <result column="latitude" property="latitude"/>
+        <result column="warstate" property="warstate"/>
+    </resultMap>
+
+    <!--条件查询 显示所有的仓库信息 -->
+    <select id="queryWarehouseAll" parameterType="String" resultMap="WarehouseMap">
+        SELECT * FROM warehouse
+        <where>
+            <if test="warname!=null">and warname like concat('%',#{warname},'%')</if>
+        </where>
+    </select>
+
+    <!--根据条件查询仓库总数量-->
+    <select id="querycountWarehousebyCond" parameterType="String" resultType="int">
+        SELECT count(*) FROM warehouse
+        <where>
+            <if test="warname!=null">and warname like concat('%',#{warname},'%')</if>
+        </where>
+    </select>
+
+    <!--根据仓库id查询所有仓库存储商品-->
+    <select id="queryWareHouseStorageAll" parameterType="String" resultType="WareHouseStorage">
+        SELECT house.warid,house.warname, com.id, com.name, warest.number,com.specification FROM warehousestorage warest
+        INNER JOIN warehouse house
+         ON warest.warid = house.warid
+        INNER JOIN commodity com
+         ON warest.commodityid = com.id
+        WHERE house.warid = #{id}
+    </select>
+
+    <!--查询所有仓库-->
+    <select id="warehouseAll" resultType="Warehouse">
+        SELECT * FROM warehouse
+    </select>
+
+    <!--根据商品id 和转出仓库id 修改原仓库商品数量-->
+    <update id="updateshopnumber">
+        UPDATE warehousestorage SET number=#{updatenumber}
+        WHERE commodityid=#{commodityid} AND warid=#{chuwarid}
+    </update>
+    <!--根据转出仓库id 修改转出仓库的容量-->
+    <update id="updateWareHouseRon">
+        UPDATE warehouse SET warcapacity=warcapacity+#{shopron}
+        WHERE warid=#{chuwarid}
+    </update>
+
+    <!--根据商品id 和转出仓库id 删除原仓库商品-->
+    <delete id="deleteshop">
+        delete from warehousestorage where commodityid=#{commodityid} AND warid=#{chuwarid}
+    </delete>
+    <!--根据转入仓库id 商品id 查询是否有结果-->
+    <select id="queryshop" resultType="int">
+        SELECT count(*) FROM warehousestorage
+        WHERE commodityid=#{commodityid} AND warid=#{ruwarid}
+    </select>
+    <!--执行添加数量操作  根据商品id和仓库id添加数量-->
+    <update id="addshopnumber">
+        UPDATE warehousestorage SET number=number+#{chunumber}
+        WHERE commodityid=#{commodityid} AND warid=#{ruwarid}
+    </update>
+    <!--根据转出仓库id 修改转出仓库的容量-->
+    <update id="updateWareHouseRon1">
+        UPDATE warehouse SET warcapacity=warcapacity-#{shopron}
+        WHERE warid=#{ruwarid}
+    </update>
+    <!--给转入仓库添加一条新数据-->
+    <insert id="addwarehousestorageshop">
+        INSERT INTO warehousestorage VALUES(NULL,#{commodityid},#{ruwarid},#{chunumber});
+    </insert>
+</mapper>

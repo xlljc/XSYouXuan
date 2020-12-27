@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xsyx.dao.StarDao">
+
+
+
+
+    <!-- resultMap映射 -->
+    <resultMap id="StarMap" type="Star">
+        <id column="id" property="id"/>
+        <result column="count" property="count"/>
+        <association property="uid" column="{fk=uid}"
+           select="com.xsyx.dao.UserDao.a_User_By_uid" javaType="User" fetchType="lazy"/>
+        <association property="cid" column="{fk=cid}"
+           select="com.xsyx.dao.CommodityDao.a_Commodity_By_cid" javaType="Commodity" fetchType="lazy"/>
+    </resultMap>
+
+    <!-- 查询所有方法 -->
+    <select id="queryAll" resultMap="StarMap">
+       select uid,count,id,cid from star;
+    </select>
+
+    <!-- 根据主键id查询数据方法 -->
+    <select id="queryById" parameterType="int" resultMap="StarMap">
+       select uid,count,id,cid from star where id = #{id};
+    </select>
+
+    <!-- 根据Star条件查询数据方法 -->
+    <select id="query" resultMap="StarMap">
+        select uid,count,id,cid 
+        from star 
+        <where>
+            <if test="id != null"> and id = #{id}</if>
+            <if test="uid != null">
+                 <if test="uid.id != null"> and uid = #{uid.id}</if>
+            </if>
+            <if test="cid != null">
+                 <if test="cid.id != null"> and cid = #{cid.id}</if>
+            </if>
+            <if test="count != null"> and count = #{count}</if> 
+        </where>
+    </select>
+
+    <!-- 根据Star插入数据方法 -->
+    <insert id="insert" parameterType="Star" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into star (id,uid,cid,count) values 
+        (
+            #{id},
+            #{uid.id},
+            #{cid.id},
+            #{count}
+        ); 
+    </insert>
+
+    <!-- 根据Star插入多条数据方法 -->
+    <insert id="inserts" parameterType="List" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into star (id,uid,cid,count) values 
+        <foreach collection="stars" item="item" separator=",">
+            (
+                #{item.id},
+                #{item.uid.id},
+                #{item.cid.id},
+                #{item.count}
+            ) 
+        </foreach>
+    </insert>
+
+    <!-- 根据Star条件修改单条数据方法,从传入对象获取主键id -->
+    <update id="updateById" parameterType="Star">
+        update star 
+        <set>
+            <if test="uid != null">
+                <if test="uid.id != null">uid = #{uid.id},</if>
+            </if>
+            <if test="cid != null">
+                <if test="cid.id != null">cid = #{cid.id},</if>
+            </if>
+            <if test="count != null">count = #{count},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xsyx.dao.EmployeeDao">
+
+
+
+
+    <!-- resultMap映射 -->
+    <resultMap id="EmployeeMap" type="Employee">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="password" property="password"/>
+        <result column="image" property="image"/>
+        <result column="sex" property="sex"/>
+        <result column="phone" property="phone"/>
+        <result column="ic_card" property="icCard"/>
+        <result column="address" property="address"/>
+        <result column="email" property="email"/>
+        <result column="remark" property="remark"/>
+        <result column="last_login_time" property="lastLoginTime"/>
+        <result column="state" property="state"/>
+    </resultMap>
+
+    <!-- 查询所有方法 -->
+    <select id="queryAll" resultMap="EmployeeMap">
+       select image,password,ic_card,address,last_login_time,phone,sex,name,remark,id,state,email from employee;
+    </select>
+
+    <!-- 根据主键id查询数据方法 -->
+    <select id="queryById" parameterType="int" resultMap="EmployeeMap">
+       select image,password,ic_card,address,last_login_time,phone,sex,name,remark,id,state,email from employee where id = #{id};
+    </select>
+
+    <!-- 根据Employee条件查询数据方法 -->
+    <select id="query" resultMap="EmployeeMap">
+        select image,password,ic_card,address,last_login_time,phone,sex,name,remark,id,state,email 
+        from employee 
+        <where>
+            <if test="id != null"> and id = #{id}</if>
+            <if test="name != null"> and name = #{name}</if>
+            <if test="password != null"> and password = #{password}</if>
+            <if test="image != null"> and image = #{image}</if>
+            <if test="sex != null"> and sex = #{sex}</if>
+            <if test="phone != null"> and phone = #{phone}</if>
+            <if test="icCard != null"> and ic_card = #{icCard}</if>
+            <if test="address != null"> and address = #{address}</if>
+            <if test="email != null"> and email = #{email}</if>
+            <if test="remark != null"> and remark = #{remark}</if>
+            <if test="lastLoginTime != null"> and last_login_time = #{lastLoginTime}</if>
+            <if test="state != null"> and state = #{state}</if> 
+        </where>
+    </select>
+
+    <!-- 根据Employee插入数据方法 -->
+    <insert id="insert" parameterType="Employee" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into employee (id,name,password,image,sex,phone,ic_card,address,email,remark,last_login_time,state) values 
+        (
+            #{id},
+            #{name},
+            <if test="password != null">#{password}</if><if test="password == null">default</if>,
+            #{image},
+            #{sex},
+            #{phone},
+            #{icCard},
+            #{address},
+            #{email},
+            #{remark},
+            <if test="lastLoginTime != null">#{lastLoginTime}</if><if test="lastLoginTime == null">default</if>,
+            <if test="state != null">#{state}</if><if test="state == null">default</if>
+        ); 
+    </insert>
+
+    <!-- 根据Employee插入多条数据方法 -->
+    <insert id="inserts" parameterType="List" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into employee (id,name,password,image,sex,phone,ic_card,address,email,remark,last_login_time,state) values 
+        <foreach collection="employees" item="item" separator=",">
+            (
+                #{item.id},
+                #{item.name},
+                <if test="item.password != null">#{item.password}</if><if test="item.password == null">default</if>,
+                #{item.image},
+                #{item.sex},
+                #{item.phone},
+                #{item.icCard},
+                #{item.address},
+                #{item.email},
+                #{item.remark},
+                <if test="item.lastLoginTime != null">#{item.lastLoginTime}</if><if test="item.lastLoginTime == null">default</if>,
+                <if test="item.state != null">#{item.state}</if><if test="item.state == null">default</if>
+            ) 
+        </foreach>
+    </insert>
+
+    <!-- 根据Employee条件修改单条数据方法,从传入对象获取主键id -->
+    <update id="updateById" parameterType="Employee">
+        update employee 
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="image != null">image = #{image},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="icCard != null">ic_card = #{icCard},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="lastLoginTime != null">last_login_time = #{lastLoginTime},</if>
+            <if test="state != null">state = #{state},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 关联查询,调用者:"com.xsyx.dao.PurchaseorderDao" -->
+    <select id="a_Employee_By_approvedby" resultMap="EmployeeMap">
+       select image,password,ic_card,address,last_login_time,phone,sex,name,remark,id,state,email from employee where id = #{fk};
+    </select>
+
+
+    <!-- 关联查询,调用者:"com.xsyx.dao.EmpLogDao" -->
+    <select id="a_Employee_By_emp" resultMap="EmployeeMap">
+       select image,password,ic_card,address,last_login_time,phone,sex,name,remark,id,state,email from employee where id = #{fk};
+    </select>
+
+
+    <!-- 关联查询,调用者:"com.xsyx.dao.PurchaseorderDao" -->
+    <select id="a_Employee_By_applicant" resultMap="EmployeeMap">
+       select image,password,ic_card,address,last_login_time,phone,sex,name,remark,id,state,email from employee where id = #{fk};
+    </select>
+
+
+    <resultMap id="MenuMap" type="Menu">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="icon" property="icon"/>
+        <result column="url" property="url"/>
+        <result column="layer" property="layer"/>
+        <result column="type" property="type"/>
+        <association property="parent" column="{fk=parent}"
+                     select="com.xsyx.dao.MenuDao.a_Menu_By_parent" javaType="Menu" fetchType="lazy"/>
+    </resultMap>
+
+    <!-- 根据员工id获取该员工的所有角色 -->
+    <select id="queryRoles" resultType="Role">
+        select distinct ro.* from role ro
+        right join emprole e on ro.id = e.role
+        left join employee e2 on e.employee = e2.id
+        where e2.id=#{id}
+    </select>
+
+    <!-- 根据员工id获取该员工的所有菜单按钮 -->
+    <select id="queryMenus" resultMap="MenuMap">
+        select distinct m.* from menu m
+        left join permission p on m.id = p.menu
+        where m.layer=3 and
+            (1 in (select distinct ro.id from role ro
+            right join emprole e on ro.id = e.role
+            right join employee e2 on e.employee = e2.id
+            where e2.id=#{id}))
+            or
+            (p.role in (
+            select distinct ro.id from role ro
+            right join emprole e on ro.id = e.role
+            right join employee e2 on e.employee = e2.id
+            where e2.id=#{id})
+        );
+    </select>
+
+    <!-- 搜索 -->
+    <select id="search" resultMap="EmployeeMap">
+        select image,password,ic_card,address,last_login_time,phone,sex,name,remark,id,state,email
+        from employee emp
+        where
+            <if test="str != null">
+                (
+                    name like CONCAT('%',#{str},'%')
+                    or phone
+                    like CONCAT('%',#{str},'%')
+                    or ic_card like CONCAT('%',#{str},'%')
+                    or address like CONCAT('%',#{str},'%')
+                    or email like CONCAT('%',#{str},'%')
+                )
+            </if>
+            <if test="sex != null"> and sex = #{sex}</if>
+            <if test="state != null"> and state = #{state}</if>
+            <if test="!hasSuperAdmin">
+                and not id in (
+                    select distinct emprole.employee from emprole
+                    where emprole.role = 1
+                )
+            </if>
+        order by id desc
+    </select>
+
+    <!--验证密码-->
+    <select id="validation" resultType="int">
+        select count(1) from employee where id=#{empId} and password=#{password}
+    </select>
+
+    <!-- 根据角色id查询拥有该角色的角色的员工 -->
+    <select id="queryByRoleId" resultMap="EmployeeMap">
+        select * from employee emp
+        right join emprole e on emp.id = e.employee
+        left join role r on e.role = r.id
+        where r.id=#{id}
+    </select>
+    
+</mapper>

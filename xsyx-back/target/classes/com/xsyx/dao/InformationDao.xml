@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xsyx.dao.InformationDao">
+
+
+
+
+    <!-- resultMap映射 -->
+    <resultMap id="InformationMap" type="Information">
+        <id column="id" property="id"/>
+        <result column="content" property="content"/>
+        <result column="sendtime" property="sendtime"/>
+        <result column="userid" property="userid"/>
+        <result column="infstate" property="infstate"/>
+        <result column="is_read" property="isRead"/>
+        <association property="uid" column="{fk=uid}"
+           select="com.xsyx.dao.UserDao.a_User_By_uid" javaType="User" fetchType="lazy"/>
+    </resultMap>
+
+    <!-- 查询所有方法 -->
+    <select id="queryAll" resultMap="InformationMap">
+       select is_read,uid,infstate,id,sendtime,userid,content from information;
+    </select>
+
+    <!-- 根据主键id查询数据方法 -->
+    <select id="queryById" parameterType="int" resultMap="InformationMap">
+       select is_read,uid,infstate,id,sendtime,userid,content from information where id = #{id};
+    </select>
+
+    <!-- 根据Information条件查询数据方法 -->
+    <select id="query" resultMap="InformationMap">
+        select is_read,uid,infstate,id,sendtime,userid,content 
+        from information 
+        <where>
+            <if test="id != null"> and id = #{id}</if>
+            <if test="content != null"> and content = #{content}</if>
+            <if test="sendtime != null"> and sendtime = #{sendtime}</if>
+            <if test="uid != null">
+                 <if test="uid.id != null"> and uid = #{uid.id}</if>
+            </if>
+            <if test="userid != null"> and userid = #{userid}</if>
+            <if test="infstate != null"> and infstate = #{infstate}</if>
+            <if test="isRead != null"> and is_read = #{isRead}</if> 
+        </where>
+    </select>
+
+    <!-- 根据Information插入数据方法 -->
+    <insert id="insert" parameterType="Information" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into information (id,content,sendtime,uid,userid,infstate,is_read) values 
+        (
+            #{id},
+            #{content},
+            <if test="sendtime != null">#{sendtime}</if><if test="sendtime == null">default</if>,
+            #{uid.id},
+            #{userid},
+            #{infstate},
+            <if test="isRead != null">#{isRead}</if><if test="isRead == null">default</if>
+        ); 
+    </insert>
+
+    <!-- 根据Information插入多条数据方法 -->
+    <insert id="inserts" parameterType="List" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into information (id,content,sendtime,uid,userid,infstate,is_read) values 
+        <foreach collection="informations" item="item" separator=",">
+            (
+                #{item.id},
+                #{item.content},
+                <if test="item.sendtime != null">#{item.sendtime}</if><if test="item.sendtime == null">default</if>,
+                #{item.uid.id},
+                #{item.userid},
+                #{item.infstate},
+                <if test="item.isRead != null">#{item.isRead}</if><if test="item.isRead == null">default</if>
+            ) 
+        </foreach>
+    </insert>
+
+    <!-- 根据Information条件修改单条数据方法,从传入对象获取主键id -->
+    <update id="updateById" parameterType="Information">
+        update information 
+        <set>
+            <if test="content != null">content = #{content},</if>
+            <if test="sendtime != null">sendtime = #{sendtime},</if>
+            <if test="uid != null">
+                <if test="uid.id != null">uid = #{uid.id},</if>
+            </if>
+            <if test="userid != null">userid = #{userid},</if>
+            <if test="infstate != null">infstate = #{infstate},</if>
+            <if test="isRead != null">is_read = #{isRead},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

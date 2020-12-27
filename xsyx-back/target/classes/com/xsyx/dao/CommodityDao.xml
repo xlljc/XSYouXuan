@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xsyx.dao.CommodityDao">
+
+
+
+
+    <!-- resultMap映射 -->
+    <resultMap id="CommodityMap" type="Commodity">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="particulars" property="particulars"/>
+        <result column="image" property="image"/>
+        <result column="price" property="price"/>
+        <result column="unit" property="unit"/>
+        <result column="specification" property="specification"/>
+        <result column="manufacturer" property="manufacturer"/>
+        <result column="putaway_date" property="putawayDate"/>
+        <result column="newest_putaway_date" property="newestPutawayDate"/>
+        <result column="state" property="state"/>
+        <association property="comType" column="{fk=com_type}"
+           select="com.xsyx.dao.ComTypeDao.a_ComType_By_com_type" javaType="ComType" fetchType="lazy"/>
+        <association property="comDiscount" column="id"
+           select="com.xsyx.dao.ComDiscountDao.queryDiscount" javaType="ComDiscount" fetchType="lazy"/>
+    </resultMap>
+
+
+    <!--条件查询 显示所有的上架商品信息 -->
+    <select id="queryCommodityAll" parameterType="String" resultMap="CommodityMap">
+        SELECT co.* FROM commodity co
+        INNER JOIN com_type ty
+        ON ty.id=co.com_type
+        <where>
+            <if test="name!=null"> and co.name like  concat('%',#{name},'%')</if>
+            <if test="state != null"> and co.state like  concat('%',#{state},'%')</if>
+        </where>
+    </select>
+
+    <!--根据条件查询商品总数量-->
+    <select id="querycountCommoditybyCond" parameterType="String" resultType="int">
+        SELECT count(*) FROM commodity co
+        INNER JOIN com_type ty
+        ON ty.id=co.com_type
+        <where>
+            <if test="name!=null"> and co.name like  concat('%',#{name},'%')</if>
+            <if test="state != null"> and co.state like  concat('%',#{state},'%')</if>
+        </where>
+    </select>
+
+    <!-- 添加商品 -->
+    <insert id="addCommodity">
+        INSERT INTO commodity VALUES (NULL,#{name},#{particulars},#{image},#{price},#{unit},#{specification},#{manufacturer},#{type},DEFAULT,DEFAULT,DEFAULT);
+    </insert>
+
+    <!-- 修改商品 -->
+    <update id="updateCommodity">
+        UPDATE commodity SET name=#{name},particulars=#{particulars},image=#{image},price=#{price},unit=#{unit},specification=#{specification},manufacturer=#{manufacturer},com_type=#{type}
+        WHERE id=#{id}
+    </update>
+
+    <!--根据商品id下架商品  -->
+    <update id="deleteCommodity">
+        UPDATE commodity SET state=2
+        WHERE id=#{id}
+    </update>
+
+    <!--查询所有商品类型-->
+    <select id="queryAlltype" resultType="comtype">
+        select * from  com_type
+    </select>
+   <!-- 添加商品类型-->
+    <insert id="addCommodityType">
+        INSERT INTO com_type VALUES (NULL,#{name});
+    </insert>
+    <!--修改商品类型-->
+    <update id="updateCommodityType">
+        UPDATE com_type SET name=#{name}
+        WHERE id=#{id}
+    </update>
+
+
+
+    <!--查询所有商品标签-->
+    <select id="queryAllLabel" resultType="ComLabel">
+        select * from  com_label
+    </select>
+
+</mapper>

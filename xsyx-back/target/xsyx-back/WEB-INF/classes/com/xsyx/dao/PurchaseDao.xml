@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xsyx.dao.PurchaseDao">
+
+    <!--申请订单map-->
+    <resultMap id="PurchaseorderMap" type="Purchaseorder">
+    <id column="orderid" property="orderid"/>
+    <result column="name" property="applicant"/>
+    <result column="applicantremarks" property="applicantremarks"/>
+    <result column="approvedby" property="approvedby"/>
+    <result column="state" property="state"/>
+    <result column="approvedbyremarks" property="approvedbyremarks"/>
+    <result column="operationtime" property="operationtime"/>
+    </resultMap>
+    <!--采购的map-->
+    <resultMap id="PurchaseMap" type="Purchase">
+        <id column="id" property="id"/>
+        <result column="orderid" property="orderid"/>
+        <result column="id" property="commodityid"/>
+        <result column="name" property="commodityname"/>
+        <result column="price" property="price"/>
+        <result column="specification" property="specification"/>
+        <result column="commoditysum" property="commoditysum"/>
+    </resultMap>
+
+    <!--查询所有临时采购表的数据-->
+    <select id="PurchaseLinShiAll" resultType="PurchaseLinShi">
+        SELECT com.id, com.name, com.price, com.specification, linshi.caigousum
+        FROM commodity com
+        INNER JOIN purchaselinshi linshi
+        ON linshi.commodityid = com.id
+    </select>
+    <!--根据商品id 和 采购数量 向临时采购表添加数据-->
+    <insert id="addLinShiPurchase">
+        INSERT INTO purchaselinshi
+        VALUES (NULL, #{commodityid}, #{caigousum});
+    </insert>
+    <!--根据商品id 查询临时采购表是否有这个商品-->
+    <select id="queryPurchaseLinShiBycommodityid" resultType="int">
+        SELECT count(*) FROM purchaselinshi
+        WHERE commodityid=#{commodityid}
+    </select>
+    <!--根据商品id 添加数量-->
+    <update id="updatePurchaseLinShicommoditysum">
+        UPDATE purchaselinshi SET caigousum=caigousum+#{caigousum}
+        WHERE commodityid=#{commodityid}
+    </update>
+    <!--清除所有临时采购表的数据-->
+    <delete id="deletePurchaseLinShi">
+        DELETE FROM purchaselinshi
+    </delete>
+
+    <!--查询所有未审核订单信息-->
+    <select id="querypurchaseorderAll" resultMap="PurchaseorderMap">
+        SELECT pur.orderid,em.name,pur.applicantremarks,pur.approvedby,pur.state,pur.approvedbyremarks,pur.operationtime FROM purchaseorder pur
+        INNER JOIN employee em
+        ON pur.applicant =em.id
+        where pur.state=0
+    </select>
+    <!--根据订单id 查询所有采购商品-->
+    <select id="querycaigouAll" parameterType="String" resultMap="PurchaseMap">
+        SELECT com.id,com.name,com.price,com.specification,pur.commoditysum FROM commodity com
+        INNER JOIN purchase pur
+        ON com.id=pur.commodityid
+        WHERE pur.orderid=#{orderid}
+    </select>
+</mapper>
