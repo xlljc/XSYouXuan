@@ -43,5 +43,8 @@ public interface WareHouseService {
     int addwarehousestorageshop(@Param("commodityid") String commodityid,
                       @Param("ruwarid") String ruwarid,
                       @Param("chunumber") String chunumber);
+    //根据仓库id 和 传过来的状态 修改仓库状态
+    int updateWareHouseWarstate(@Param("warid") String warid,
+                                @Param("warstate") String warstate);
 
 }

@@ -65,7 +65,18 @@
         UPDATE commodity SET state=2
         WHERE id=#{id}
     </update>
-
+    <!--根据商品id上架商品  -->
+    <!--如果第一次上架时间是null 上架修改最新和第一次上架时间-->
+    <update id="up">
+        <if test="putawayDate==null">
+            UPDATE commodity SET state=1,putaway_date=now(),newest_putaway_date=now()
+            WHERE id=#{id}
+        </if>
+        <if test="putawayDate!=null">
+            UPDATE commodity SET state=1,newest_putaway_date=now()
+            WHERE id=#{id}
+        </if>
+    </update>
     <!--查询所有商品类型-->
     <select id="queryAlltype" resultType="comtype">
         select * from  com_type

@@ -8,7 +8,11 @@ import RoleManagement from "@/components/back/home/system/role/RoleManagement.vu
 import CommodityLableMaintain from "@/components/back/home/Commodity/CommodityLableMaintain.vue";
 import PurchaseOrder from "@/components/back/home/Purchase/PurchaseOrder.vue";
 import PermManagement from "@/components/back/home/system/permission/PermManagement.vue";
+
+import PurchaseOrderJiLu from "@/components/back/home/Purchase/PurchaseOrderJiLu.vue";
+
 import CustomerMaintain from "@/components/back/home/Customer/CustomerMaintain.vue";
+
 
 /**
  * 后台路由
@@ -25,6 +29,8 @@ const BackRouter: Array<RouteConfig> = [
     {path:"/warehousemaintain",component:Warehousemaintain},
     //商品采购申请
     {path:"/purchaseorderapply",component:PurchaseOrder},
+    //采购审批记录
+    {path:"/purchaseorderapplyjilu",component:PurchaseOrderJiLu},
     /*{
         path: '/aaa',
         component: BackHome,

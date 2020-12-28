@@ -48,6 +48,21 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
+    public int addPurchaseOrder(String applicant, String applicantremarks) {
+        return purchaseDao.addPurchaseOrder(applicant,applicantremarks);
+    }
+
+    @Override
+    public int queryorderidBig() {
+        return purchaseDao.queryorderidBig();
+    }
+
+    @Override
+    public int addPurchase(int orderid, String commodityid, String commoditysum) {
+        return purchaseDao.addPurchase(orderid,commodityid,commoditysum);
+    }
+
+    @Override
     public List<Purchaseorder> querypurchaseorderAll() {
         return purchaseDao.querypurchaseorderAll();
     }
@@ -55,5 +70,20 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     public List<Purchase> querycaigouAll(String orderid) {
         return purchaseDao.querycaigouAll(orderid);
+    }
+
+    @Override
+    public List<Purchaseorder> purchaseorderAllnowei() {
+        return purchaseDao.purchaseorderAllnowei();
+    }
+
+    @Override
+    public int updatepurchaseorder(int orderid, String approvedby, String state, String approvedbyremarks) {
+        return purchaseDao.updatepurchaseorder(orderid,approvedby,state,approvedbyremarks);
+    }
+
+    @Override
+    public int rukuUpdateOrderstate(int orderid) {
+        return purchaseDao.rukuUpdateOrderstate(orderid);
     }
 }

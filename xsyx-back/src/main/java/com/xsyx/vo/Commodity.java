@@ -33,10 +33,10 @@ public class Commodity implements Serializable {
 	/**商品类型 , 外键*/
 	private ComType comType;
 	/**商品上架时间(第一次上架时间)*/
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
 	private Date putawayDate;
 	/**最新上架时间*/
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
 	private Date newestPutawayDate;
 	/**商品状态, 0未上架, 1已上架, -1已删除*/
 	private Integer state;

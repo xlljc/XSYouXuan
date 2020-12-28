@@ -18,8 +18,11 @@
 
                     </div>
                     <el-button style="border: 0;margin-top: -15px;background: #F3F3F3" slot="reference">
-                        <el-avatar :src="$host + empInfo.image" alt></el-avatar>
-                        <!--<el-image :src="$host + empInfo.image" alt lazy></el-image>-->
+                        <!--<el-avatar :src="$host + empInfo.image" alt></el-avatar>-->
+                        <el-avatar>
+                            <el-image fit="cover" :src="$host + empInfo.image" alt lazy></el-image>
+                        </el-avatar>
+
                     </el-button>
                 </el-popover>
             </el-menu-item>

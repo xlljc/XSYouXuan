@@ -107,4 +107,23 @@ public class WareHouseController {
         return "转库成功";
     }
 
+    //根据仓库id 和 传过来的状态 修改仓库状态
+    @RequestMapping("/donjieOrjiedon")
+    public Message donjieOrjiedon(String warid,String warstate){
+        Message message = new Message();
+
+        if (warstate.equals("0")){
+            wareHouseService.updateWareHouseWarstate(warid,warstate);
+            message.flag = true;
+            message.msg = "冻结成功√";
+            return message;
+        }else {
+            wareHouseService.updateWareHouseWarstate(warid,warstate);
+            message.flag = true;
+            message.msg = "解冻成功√";
+            return message;
+        }
+
+    }
+
 }
