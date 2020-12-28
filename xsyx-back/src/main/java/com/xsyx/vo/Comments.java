@@ -18,7 +18,7 @@ public class Comments implements Serializable {
 	/**评价内容*/
 	private String content;
 	/**评价时间*/
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Timestamp comtime;
 	/**商品id*/
 	private Commodity cid;

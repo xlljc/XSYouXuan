@@ -28,7 +28,7 @@ public class User implements Serializable {
 	/**个性签名*/
 	private String signature;
 	/**生日*/
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date birthday;
 	/**姓名*/
 	private String uname;
@@ -39,7 +39,7 @@ public class User implements Serializable {
 	/**商户id*/
 	private Merchants merid;
 	/**最后一次登录时间*/
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Timestamp lastLoginTime;
 	/**注销状态, 1注销, 0正常*/
 	private Integer isDelete;

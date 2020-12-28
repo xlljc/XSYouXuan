@@ -20,7 +20,7 @@ public class LookHistory implements Serializable {
 	/**浏览商品, 外键*/
 	private Commodity cid;
 	/**浏览时间*/
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Timestamp time;
 
 	public LookHistory() {

@@ -11,7 +11,7 @@ import com.xsyx.vo.system.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class OrderDetailsServiceImpl implements OrderDetailsService {
@@ -47,5 +47,48 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
             orderDetailsDao.setState(ids,2);
         }
         return new Message(true,"提货成功 !");
+    }
+
+    @Override
+    public Map<String, Object> statistical(Integer merId, Integer day) {
+        Map<String,Object> map = new HashMap<>();
+
+        //商品与销售数量
+        List<Map<String, Object>> list = orderDetailsDao.queryIncomeByCom(merId, day);
+        //总收入
+        float sum = 0f;
+        for (Map<String, Object> i : list) {
+            Object o = i.get("value");
+            if (o != null)
+                sum += Float.parseFloat(o.toString());
+        }
+        //每个时间段的数量
+        List<Map<String, Object>> list1 = orderDetailsDao.queryDateSum(merId, day);
+        //昨日收入
+        int yesterdayIncome = orderDetailsDao.queryYesterdayIncome(merId);
+
+        List<Map<String, Object>> list2 = orderDetailsDao.queryStateCount(merId);
+        //待收数量
+        long shouHuoCount = 0;
+        //待提数量
+        long tiHuoCount = 0;
+        for (Map<String, Object> i : list2) {
+            Object temp = i.get("ordstate");
+            if (temp.equals(0)) {
+                shouHuoCount = (long) i.get("count");
+            } else if (temp.equals(1)) {
+                tiHuoCount = (long) i.get("count");
+            }
+        }
+
+        //写入
+        map.put("comIncome",list); //商品与销售数量
+        map.put("sum",sum); //总收入
+        map.put("timeIncome",list1); //时间段收入
+        map.put("shouHuoCount",shouHuoCount); //待收数量
+        map.put("tiHuoCount",tiHuoCount); //待提数量
+        map.put("yesterdayIncome",yesterdayIncome); //昨日收入
+
+        return map;
     }
 }

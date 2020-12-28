@@ -19,7 +19,7 @@ public class Shopcar implements Serializable {
 	/**数量*/
 	private Integer number;
 	/**加入购物车时间*/
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Timestamp jointime;
 	/**总价*/
 	private Float totalprice;
