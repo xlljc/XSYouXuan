@@ -58,6 +58,11 @@ public interface CommodityService{
      * 根据id下架商品
      */
     int deleteCommodity(@Param("id") String id);
+    /**
+     * 根据id上架商品
+     */
+    int up(@Param("id") String id,
+           @Param("putawayDate") String putawayDate);
     //查询所有商品标签
     List<ComLabel> queryAllLabel();
 

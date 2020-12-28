@@ -96,7 +96,8 @@
                  @click="openquerywarehousemotaikuang"
             ><i style="font-size: 15px" class="el-icon-lock"></i>查看仓库存储
             </div>
-            <div class="menu"><i style="font-size: 15px" class="el-icon-lock"></i>冻结仓库</div>
+            <div class="menu"
+                 @click="donjie"><i style="font-size: 15px" class="el-icon-lock"></i>冻结仓库</div>
             <div class="menu"
                  @click="opencaigoumotaikuang"><i style="font-size: 15px" class="el-icon-lock"></i>采购
             </div>
@@ -106,6 +107,12 @@
             </div>
         </div>
 
+        <div id="menu1">
+            <div class="menu"
+                 @click="jiedon"
+            ><i style="font-size: 15px" class="el-icon-lock"></i>解冻
+            </div>
+        </div>
         <!--分页-->
         <el-pagination
                 @size-change="rowsChange"
@@ -546,30 +553,54 @@
             let menu = document.querySelector("#menu") as any;
             menu.style.display = 'none';
             // console.log(row,column,event)
+            let menu1 = document.querySelector("#menu1") as any;
+            menu1.style.display = 'none';
         }
 
         // table的右键点击当前行展开右键菜单事件
         rightClick(row: any, column: any, event: any) {
+            if (row.warstate===1){
+                let menu = document.querySelector("#menu") as any;
+                event.preventDefault();
+                //获取我们自定义的右键菜单
+                //console.log(menu)
 
-            let menu = document.querySelector("#menu") as any;
-            event.preventDefault();
-            //获取我们自定义的右键菜单
-            //console.log(menu)
+                // 根据事件对象中鼠标点击的位置，进行定位
+                menu.style.left = event.clientX + 'px';
+                menu.style.top = event.clientY + 'px';
+                // 改变自定义菜单的隐藏与显示
+                menu.style.display = 'block';
+                //console.log(row,column);
 
-            // 根据事件对象中鼠标点击的位置，进行定位
-            menu.style.left = event.clientX + 'px';
-            menu.style.top = event.clientY + 'px';
-            // 改变自定义菜单的隐藏与显示
-            menu.style.display = 'block';
-            //console.log(row,column);
+                // 获取当前右键点击table 获取当前行的id值下标
+                this.tableData.rows.forEach((item, index) => {
+                    if (item.warname === row.warname) {
+                        this.currentRowIndex = item.warid;
+                        return false;
+                    }
+                })
+            }else {
+                let menu = document.querySelector("#menu1") as any;
+                event.preventDefault();
+                //获取我们自定义的右键菜单
+                //console.log(menu)
 
-            // 获取当前右键点击table 获取当前行的id值下标
-            this.tableData.rows.forEach((item, index) => {
-                if (item.warname === row.warname) {
-                    this.currentRowIndex = item.warid;
-                    return false;
-                }
-            })
+                // 根据事件对象中鼠标点击的位置，进行定位
+                menu.style.left = event.clientX + 'px';
+                menu.style.top = event.clientY + 'px';
+                // 改变自定义菜单的隐藏与显示
+                menu.style.display = 'block';
+                //console.log(row,column);
+
+                // 获取当前右键点击table 获取当前行的id值下标
+                this.tableData.rows.forEach((item, index) => {
+                    if (item.warname === row.warname) {
+                        this.currentRowIndex = item.warid;
+                        return false;
+                    }
+                })
+            }
+
         }
 
         //***********************************************************
@@ -867,7 +898,50 @@
             })
         }
 
-
+        //冻结仓库
+        donjie(){
+            let params = new URLSearchParams();
+            params.append("warid",this.currentRowIndex.toString());
+            params.append("warstate","0");
+            //添加
+            Axios({
+                method: "post",
+                url: "/warehouse/donjieOrjiedon",
+                data: params
+            }).then(value => {
+                //console.log(value)
+                alert(value.data.msg)
+                //关闭右键菜单
+                let menu = document.querySelector("#menu") as any;
+                menu.style.display = 'none';
+                let menu1 = document.querySelector("#menu1") as any;
+                menu1.style.display = 'none';
+                //刷新显示仓库信息页面
+                this.getWarehouseAll();
+            })
+        }
+        //解冻仓库
+        jiedon(){
+            let params = new URLSearchParams();
+            params.append("warid",this.currentRowIndex.toString());
+            params.append("warstate","1");
+            //添加
+            Axios({
+                method: "post",
+                url: "/warehouse/donjieOrjiedon",
+                data: params
+            }).then(value => {
+                //console.log(value)
+                alert(value.data.msg)
+                //关闭右键菜单
+                let menu = document.querySelector("#menu") as any;
+                menu.style.display = 'none';
+                let menu1 = document.querySelector("#menu1") as any;
+                menu1.style.display = 'none';
+                //刷新显示仓库信息页面
+                this.getWarehouseAll();
+            })
+        }
 
 
 
@@ -901,6 +975,17 @@
     /*table拉开的样式 ↑*/
 
     #menu {
+        width: 120px;
+
+        overflow: hidden; /*隐藏溢出的元素*/
+        box-shadow: 0 1px 1px #888, 1px 0 1px #ccc;
+        position: absolute;
+        display: none;
+        background: #ffffff;
+        z-index: 10;
+    }
+
+    #menu1 {
         width: 120px;
 
         overflow: hidden; /*隐藏溢出的元素*/

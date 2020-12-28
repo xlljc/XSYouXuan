@@ -143,7 +143,24 @@ public class CommodityController {
         message.msg = "下架失败×";
         return message;
     }
-
+    /**
+     * 上架商品
+     */
+    @RequestMapping("/up")
+    public Message up(String id,
+                      String putawayDate) {
+        Message message = new Message();
+        //如果上架时间不是null 上架修改最新和第一次上架时间
+        int row = commodityService.up(id,putawayDate);
+        if (row > 0) {
+            message.flag = true;
+            message.msg = "上架成功√";
+            return message;
+        }
+        message.flag = false;
+        message.msg = "上架失败×";
+        return message;
+    }
     /**
      * 查询所有商品类型
      */

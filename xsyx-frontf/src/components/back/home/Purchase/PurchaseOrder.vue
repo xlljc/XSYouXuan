@@ -181,6 +181,7 @@
             if (state === 0) return "未审核";
             if (state === 1) return "采购中";
             if (state === 2) return "采购完成";
+            if (state === 3) return "已入库";
         }
 
         //***********************************************************
@@ -235,13 +236,13 @@
         //点击同意 通过申请
         agree(){
             //获取当前用户id  做审核人
-            console.log(EmpHelper.empId)
+            //console.log(EmpHelper.empId)
             //获取订单id
-            console.log(this.currentRowIndex)
+            //console.log(this.currentRowIndex)
             //传一个表示同意的参数 1 修改状态
 
             //获取审批人备注
-            console.log(this.beizhu)
+            //console.log(this.beizhu)
             let params = new URLSearchParams();
             params.append("orderid",this.currentRowIndex.toString());
             params.append("approvedby",EmpHelper.empId);
@@ -254,19 +255,62 @@
                 url: "/purchase/shenHe",
                 data: params
             }).then(value => {
-                //console.log(value)
+                //审核成功
                 alert(value.data.msg)
-                //临时采购表数据 在点击采购或者点击取消后就会清除
                 //关闭备注模态框
-                //this.caigoubeizhu=false;
-                //关闭采购模态框
-                //this.caigoumotaikuang=false;
+                this.shenhebeizhu=false;
+                //订单详情审核模态框
+                this.ddmotaikuang=false;
+                //刷新表格数据
+                this.getpurchaseorderAll();
+                //模拟采购流程 计时30秒后执行修改订单状态为采购成功
+                //根据订单id 修改订单状态为2
+                setTimeout(() => {
+                    //执行采购完成操作
+                    Axios({
+                        method: "post",
+                        url: "/purchase/caigouwancheng",
+                        data: params
+                    }).then(value => {
+                        alert("订单："+this.currentRowIndex+"已经"+value.data.msg)
+                    })
+
+                }, 10000)
             })
 
         }
         //点击拒绝 不通过申请
         refuse(){
+            //获取当前用户id  做审核人
+            //console.log(EmpHelper.empId)
+            //获取订单id
+            //console.log(this.currentRowIndex)
+            //传一个表示同意的参数 1 修改状态
 
+            //获取审批人备注
+            //console.log(this.beizhu)
+            let params = new URLSearchParams();
+            params.append("orderid",this.currentRowIndex.toString());
+            params.append("approvedby",EmpHelper.empId);
+            params.append("state","-1");
+            params.append("approvedbyremarks",this.beizhu);
+
+            //提交审核
+            Axios({
+                method: "post",
+                url: "/purchase/shenHe",
+                data: params
+            }).then(value => {
+                //审核成功
+                alert(value.data.msg)
+                //关闭备注模态框
+                this.shenhebeizhu=false;
+                //订单详情审核模态框
+                this.ddmotaikuang=false;
+                //刷新表格数据
+                this.getpurchaseorderAll();
+
+            })
         }
     }
 </script>

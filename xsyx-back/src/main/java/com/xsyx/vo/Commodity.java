@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 表名 :  commodity<br/>
  * 表注释 : 商品表
- */ 
+ */
 @JsonIgnoreProperties(value = "handler")
 public class Commodity implements Serializable {
 
@@ -33,10 +33,10 @@ public class Commodity implements Serializable {
 	/**商品类型 , 外键*/
 	private ComType comType;
 	/**商品上架时间(第一次上架时间)*/
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+	@JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
 	private Date putawayDate;
 	/**最新上架时间*/
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+	@JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
 	private Date newestPutawayDate;
 	/**商品状态, 0未上架, 1已上架, -1已删除*/
 	private Integer state;
@@ -226,25 +226,25 @@ public class Commodity implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "commodity[" + 
-			"id = " + id + 
-			", name = " + name + 
-			", particulars = " + particulars + 
+		return "commodity[" +
+			"id = " + id +
+			", name = " + name +
+			", particulars = " + particulars +
 			", image = " + image +
 			", price = " + price +
-			", unit = " + unit + 
-			", specification = " + specification + 
-			", manufacturer = " + manufacturer + 
-			", comType = " + comType + 
-			", putawayDate = " + putawayDate + 
-			", newestPutawayDate = " + newestPutawayDate + 
-			", state = " + state + 
-			", collects = " + collects + 
-			", commentss = " + commentss + 
-			", lookHistorys = " + lookHistorys + 
-			", purchases = " + purchases + 
-			", shopcars = " + shopcars + 
-			", stars = " + stars + 
+			", unit = " + unit +
+			", specification = " + specification +
+			", manufacturer = " + manufacturer +
+			", comType = " + comType +
+			", putawayDate = " + putawayDate +
+			", newestPutawayDate = " + newestPutawayDate +
+			", state = " + state +
+			", collects = " + collects +
+			", commentss = " + commentss +
+			", lookHistorys = " + lookHistorys +
+			", purchases = " + purchases +
+			", shopcars = " + shopcars +
+			", stars = " + stars +
 			", comDiscount = " + comDiscount +
 			"]";
 	}

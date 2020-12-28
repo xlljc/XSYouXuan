@@ -46,5 +46,6 @@ public interface PurchaseService {
                             @Param("approvedby") String approvedby,
                             @Param("state") String state,
                             @Param("approvedbyremarks") String approvedbyremarks);
-   
+    //入库完成 修改订单状态为 3 已入库
+    int rukuUpdateOrderstate(@Param("orderid") int orderid);
 }

@@ -27,7 +27,7 @@ public class Purchaseorder implements Serializable {
 	/**审核人备注*/
 	private String approvedbyremarks;
 	/**操作时间*/
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Timestamp operationtime;
 
 	public Purchaseorder() {

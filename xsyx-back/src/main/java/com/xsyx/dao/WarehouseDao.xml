@@ -82,4 +82,9 @@
     <insert id="addwarehousestorageshop">
         INSERT INTO warehousestorage VALUES(NULL,#{commodityid},#{ruwarid},#{chunumber});
     </insert>
+    <!--根据仓库id 和 传过来的状态 修改仓库状态-->
+    <update id="updateWareHouseWarstate">
+        UPDATE warehouse SET warstate=#{warstate}
+        WHERE warid=#{warid}
+    </update>
 </mapper>

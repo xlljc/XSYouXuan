@@ -2,6 +2,7 @@ package com.xsyx.controller;
 
 import com.xsyx.service.PurchaseService;
 import com.xsyx.service.UserService;
+import com.xsyx.service.WareHouseService;
 import com.xsyx.utils.MyUtils;
 import com.xsyx.vo.*;
 import com.xsyx.vo.system.Message;
@@ -24,6 +25,8 @@ public class PurchaseController {
 
     @Autowired
     PurchaseService purchaseService;
+    @Autowired
+    WareHouseService wareHouseService;
 
     //查询所有临时采购表的数据
     @RequestMapping("/queryPurchaseLinShiAll")
@@ -162,11 +165,76 @@ public class PurchaseController {
         System.out.println(approvedby);
         System.out.println(state);
         System.out.println(approvedbyremarks);*/
-        //修改订单状态
+        //修改订单状态  1是采购中
         purchaseService.updatepurchaseorder(orderid,approvedby,state,approvedbyremarks);
 
         message.flag = true;
         message.msg = "审核成功√";
         return message;
     }
+    //模拟采购流程 计时30秒后执行修改订单状态为采购成功
+    //根据订单id 修改订单状态为2
+    @RequestMapping("/caigouwancheng")
+    public Message caigouwancheng(
+            //获取订单id
+            int orderid,
+            //获取当前用户id  做审核人
+            String approvedby,
+            //传一个表示同意的参数 1 修改状态  拒绝传-1
+            String state,
+            //获取审批人备注
+            String approvedbyremarks) {
+        Message message = new Message();
+
+        //根据订单id 修改订单状态为2 采购完成
+        purchaseService.updatepurchaseorder(orderid,approvedby,"2",approvedbyremarks);
+
+        message.flag = true;
+        message.msg = "采购完成√";
+        return message;
+    }
+
+    //入库
+    @RequestMapping("/ruku")
+    public Message ruku(
+            //获取仓库id
+            String warehouseid,
+            //获取订单id
+            String orderid) {
+        Message message = new Message();
+
+        //根据订单id 获取改订单所有商品
+        List<Purchase> arr = purchaseService.querycaigouAll(orderid);
+
+        //根据商品id 仓库id 执行入库
+        for (int i=0;i<arr.size();i++) {
+            //判断要转入的仓库有没有相同的商品 如果有相同的商品就加数量  没有才添加
+            //根据转入仓库id 商品id 查询是否有结果 1是有 0是没有
+            Integer jie = wareHouseService.queryshop(arr.get(i).getCommodityid(), warehouseid);
+            //如果有
+            if (jie > 0) {
+                //执行添加数量操作  根据商品id和转入仓库id添加数量
+                wareHouseService.addshopnumber(arr.get(i).getCommodityid(), warehouseid, arr.get(i).getCommoditysum().toString());
+                //根据转入仓库id 修改转入仓库的容量
+                //计算这个商品的容量
+                Float shopron = Float.parseFloat(arr.get(i).getCommoditysum().toString()) * Float.parseFloat(arr.get(i).getSpecification());
+                wareHouseService.updateWareHouseRon1(warehouseid, shopron.toString());
+            } else {
+                //如果没有
+                //添加一个新的记录 else
+                wareHouseService.addwarehousestorageshop(arr.get(i).getCommodityid(), warehouseid, arr.get(i).getCommoditysum().toString());
+                //修改转入仓库的容量
+                //计算这个商品的容量
+                Float shopron = Float.parseFloat(arr.get(i).getCommoditysum().toString()) * Float.parseFloat(arr.get(i).getSpecification());
+                wareHouseService.updateWareHouseRon1(warehouseid, shopron.toString());
+            }
+        }
+        //修改订单状态为已入库  3
+        purchaseService.rukuUpdateOrderstate(Integer.parseInt(orderid));
+        message.flag = true;
+        message.msg = "入库完成√";
+        return message;
+    }
+
+
 }

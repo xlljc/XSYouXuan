@@ -81,4 +81,9 @@ public class PurchaseServiceImpl implements PurchaseService {
     public int updatepurchaseorder(int orderid, String approvedby, String state, String approvedbyremarks) {
         return purchaseDao.updatepurchaseorder(orderid,approvedby,state,approvedbyremarks);
     }
+
+    @Override
+    public int rukuUpdateOrderstate(int orderid) {
+        return purchaseDao.rukuUpdateOrderstate(orderid);
+    }
 }

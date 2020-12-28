@@ -82,5 +82,10 @@ public class WareHouseServiceImpl implements WareHouseService {
         return warehouseDao.addwarehousestorageshop(commodityid,ruwarid,chunumber);
     }
 
+    @Override
+    public int updateWareHouseWarstate(String warid, String warstate) {
+        return warehouseDao.updateWareHouseWarstate(warid,warstate);
+    }
+
 
 }

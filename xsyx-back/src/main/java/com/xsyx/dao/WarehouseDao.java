@@ -30,7 +30,7 @@ public interface WarehouseDao {
   //根据转出仓库id 修改转出仓库的容量
   int updateWareHouseRon(@Param("chuwarid") String chuwarid,
                        @Param("shopron") String shopron);
-  
+
   //根据商品id 和转出仓库id 删除原仓库商品
   int deleteshop(@Param("commodityid") String commodityid,
                        @Param("chuwarid") String chuwarid);
@@ -44,10 +44,14 @@ public interface WarehouseDao {
   //根据转出仓库id 修改转入仓库的容量
   int updateWareHouseRon1(@Param("ruwarid") String ruwarid,
                          @Param("shopron") String shopron);
-  
-  
+
+
   //给转入仓库添加一条新数据
   int addwarehousestorageshop(@Param("commodityid") String commodityid,
                    @Param("ruwarid") String ruwarid,
                    @Param("chunumber") String chunumber);
+
+  //根据仓库id 和 传过来的状态 修改仓库状态
+  int updateWareHouseWarstate(@Param("warid") String warid,
+                              @Param("warstate") String warstate);
 }

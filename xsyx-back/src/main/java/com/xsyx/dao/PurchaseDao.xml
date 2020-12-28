@@ -9,7 +9,7 @@
     <id column="orderid" property="orderid"/>
     <result column="name" property="applicant"/>
     <result column="applicantremarks" property="applicantremarks"/>
-    <result column="approvedby" property="approvedby"/>
+    <result column="name2" property="approvedby"/>
     <result column="state" property="state"/>
     <result column="approvedbyremarks" property="approvedbyremarks"/>
     <result column="operationtime" property="operationtime"/>
@@ -83,14 +83,21 @@
     </select>
     <!--查询所有不是未审核订单信息-->
     <select id="purchaseorderAllnowei" resultMap="PurchaseorderMap">
-        SELECT pur.orderid,em.name,pur.applicantremarks,pur.approvedby,pur.state,pur.approvedbyremarks,pur.operationtime FROM purchaseorder pur
+        SELECT pur.orderid,em.name,pur.applicantremarks,em2.name name2,pur.state,pur.approvedbyremarks,pur.operationtime FROM purchaseorder pur
         INNER JOIN employee em
         ON pur.applicant =em.id
+        INNER JOIN employee em2
+        ON pur.approvedby =em2.id
         where pur.state!=0
     </select>
     <!--完成审核修改订单状态-->
     <update id="updatepurchaseorder">
         UPDATE purchaseorder SET approvedby=#{approvedby},state=#{state},approvedbyremarks=#{approvedbyremarks},operationtime=DEFAULT
+        WHERE orderid=#{orderid}
+    </update>
+    <!--入库完成 修改订单状态为 3 已入库-->
+    <update id="rukuUpdateOrderstate">
+        UPDATE purchaseorder SET state=3,operationtime=DEFAULT
         WHERE orderid=#{orderid}
     </update>
 </mapper>

@@ -75,6 +75,12 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
+    public int up(String id, String putawayDate) {
+        return commodityDao.up(id,putawayDate);
+    }
+
+
+    @Override
     public List<ComLabel> queryAllLabel() {
         return commodityDao.queryAllLabel();
     }

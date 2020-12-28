@@ -112,6 +112,14 @@
                             size="medium"
                             @click="deleteCommodity(scope.$index, scope.row)"></el-button>
                     </el-tooltip>
+                    <el-tooltip class="item" effect="dark" content="上架商品" placement="top-start">
+                        <el-button
+                                type="success"
+                                circle
+                                icon="el-icon-top"
+                                size="medium"
+                                @click="PutCommodity(scope.$index, scope.row)"></el-button>
+                    </el-tooltip>
                 </template>
             </el-table-column>
         </el-table>
@@ -163,6 +171,7 @@
     import {ComDiscount, Commodity as Com, FileInfo, Message} from "@/helper/entity";
     import CommodityEdit from "@/components/back/home/Commodity/CommodityEdit.vue";
     import {EmpHelper} from "@/helper/back/EmpHelper";
+    import el from "element-ui/src/locale/lang/el";
 
     /**
      * 创建一个空的商品对象
@@ -378,42 +387,102 @@
         //***********************************************************
         //删除商品信息方法
         deleteCommodity(index: number, row: Com) {
+            if (row.state!==2){
+                this.$confirm('此操作将下架商品, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning',
+                    center: true
+                }).then(() => {
+                    let params = new URLSearchParams();
+                    params.append("id",row.id.toString())
+                    //执行删除操作
+                    this.$axios.post("/commodity/delete",params)
+                        .then((result)=> {
+                            if (result.data.flag===true){
+                                this.$message({
+                                    type: 'success',
+                                    message: "下架成功√"
+                                });
+                            }
+                            //刷新页面
+                            this.getCommodityAll();
+                        }).catch((msg) => {
+                        this.$message({
+                            type: 'error',
+                            message: "下架失败×"
+                        });
+                    });
 
-            /*alert(row.id)*/
-            this.$confirm('此操作将下架商品, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning',
-                center: true
-            }).then(() => {
-                let params = new URLSearchParams();
-                params.append("id",row.id.toString())
-                //执行删除操作
-                this.$axios.post("/commodity/delete",params)
-                    .then((result)=> {
-                        if (result.data.flag===true){
-                            this.$message({
-                                type: 'success',
-                                message: "下架成功√"
-                            });
-                        }
-                        //刷新页面
-                        this.getCommodityAll();
-                    }).catch((msg) => {
+
+                }).catch(() => {
                     this.$message({
                         type: 'error',
-                        message: "下架失败×"
+                        message: '已取消下架'
                     });
                 });
-
-
-            }).catch(() => {
+            }else {
                 this.$message({
                     type: 'error',
-                    message: '已取消下架'
+                    message: "商品已是下架状态×"
                 });
-            });
+            }
 
+
+        }
+        //上架商品
+        PutCommodity(index: number, row: Com){
+            //alert(row.id)
+            //console.log(row.putawayDate) //null  等于1是上架状态
+            if (row.state!==1){
+                //拿到商品id
+
+                this.$confirm('此操作将上架商品, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning',
+                    center: true
+                }).then(() => {
+                    let params = new URLSearchParams();
+                    //如果上架时间不是null 上架修改最新和第一次上架时间
+                    if (row.putawayDate===null){
+                        params.append("id",row.id.toString())
+                    }else {
+                        params.append("id",row.id.toString())
+                        params.append("putawayDate",row.putawayDate)
+                    }
+
+                    //执行删除操作
+                    this.$axios.post("/commodity/up",params)
+                        .then((result)=> {
+                            if (result.data.flag===true){
+                                this.$message({
+                                    type: 'success',
+                                    message: "上架成功√"
+                                });
+                            }
+                            //刷新页面
+                            this.getCommodityAll();
+                        }).catch((msg) => {
+                        this.$message({
+                            type: 'error',
+                            message: "上架失败×"
+                        });
+                    });
+
+
+                }).catch(() => {
+                    this.$message({
+                        type: 'error',
+                        message: '已取消上架'
+                    });
+                });
+            }else {
+                this.$message({
+                    type: 'error',
+                    message: '商品已是上架状态'
+                });
+            }
         }
 
 
