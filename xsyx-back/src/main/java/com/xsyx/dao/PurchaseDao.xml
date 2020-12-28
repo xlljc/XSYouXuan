@@ -51,6 +51,21 @@
     <delete id="deletePurchaseLinShi">
         DELETE FROM purchaselinshi
     </delete>
+    <!--生成订单详情表 未审核记录-->
+    <insert id="addPurchaseOrder">
+        INSERT INTO purchaseorder VALUES(NULL,#{applicant},#{applicantremarks},NULL,0,NULL,DEFAULT);
+    </insert>
+    <!--查询订单详情表的最大订单号-->
+    <select id="queryorderidBig" resultType="int">
+        SELECT orderid FROM purchaseorder
+        ORDER BY orderid
+        DESC
+        LIMIT 1
+    </select>
+    <!--添加采购表数据-->
+    <insert id="addPurchase">
+        INSERT INTO purchase VALUES(NULL,#{orderid},#{commodityid},#{commoditysum});
+    </insert>
 
     <!--查询所有未审核订单信息-->
     <select id="querypurchaseorderAll" resultMap="PurchaseorderMap">
@@ -66,4 +81,16 @@
         ON com.id=pur.commodityid
         WHERE pur.orderid=#{orderid}
     </select>
+    <!--查询所有不是未审核订单信息-->
+    <select id="purchaseorderAllnowei" resultMap="PurchaseorderMap">
+        SELECT pur.orderid,em.name,pur.applicantremarks,pur.approvedby,pur.state,pur.approvedbyremarks,pur.operationtime FROM purchaseorder pur
+        INNER JOIN employee em
+        ON pur.applicant =em.id
+        where pur.state!=0
+    </select>
+    <!--完成审核修改订单状态-->
+    <update id="updatepurchaseorder">
+        UPDATE purchaseorder SET approvedby=#{approvedby},state=#{state},approvedbyremarks=#{approvedbyremarks},operationtime=DEFAULT
+        WHERE orderid=#{orderid}
+    </update>
 </mapper>

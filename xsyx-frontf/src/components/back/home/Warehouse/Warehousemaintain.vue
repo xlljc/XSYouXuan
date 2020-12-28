@@ -242,7 +242,6 @@
         </el-dialog>
         <!--采购模态框-->
         <el-dialog :close-on-click-modal="false"
-                   :show-close="false"
                    title="采购"
                    :visible.sync="caigoumotaikuang">
             <span>采购商品：</span>
@@ -373,7 +372,7 @@
         <!--点击确定采购按钮弹出申请人写备注的模态框-->
         <el-dialog :close-on-click-modal="false"
                    title="备注"
-                   :visible.sync="caigousummotaikuang">
+                   :visible.sync="caigoubeizhu">
             <el-input
                     style="width: 300px"
                     placeholder="---请输入---"
@@ -773,6 +772,8 @@
         opencaigoumotaikuang() {
             //console.log(this.empInfo)
             //alert(EmpHelper.empId)
+            //清除临时采购表数据
+            this.cleanPurchaseLinShi();
             this.caigoumotaikuang = true;
         }
 
@@ -842,18 +843,32 @@
 
         //点击确定采购按钮弹出申请人写备注的模态框
         openCaiGouBeiZhu(){
-            this.caigousummotaikuang=true;
+            this.caigoubeizhu=true;
         }
 
         //点击备注页面的确定按钮 提交采购申请
         SubmitCaiGou(){
-            alert("提交采购")
-            //员工id
-            console.log("员工id:"+EmpHelper.empId)
-            //申请人备注
-            console.log("申请人备注:"+this.beizhu)
-
+            let params = new URLSearchParams();
+            params.append("applicant",EmpHelper.empId);
+            params.append("applicantremarks",this.beizhu);
+            //添加
+            Axios({
+                method: "post",
+                url: "/purchase/addCaiGou",
+                data: params
+            }).then(value => {
+                //console.log(value)
+                alert(value.data.msg)
+                //临时采购表数据 在点击采购或者点击取消后就会清除
+                //关闭备注模态框
+                this.caigoubeizhu=false;
+                //关闭采购模态框
+                this.caigoumotaikuang=false;
+            })
         }
+
+
+
 
 
         queryCommodityLabledetails() {

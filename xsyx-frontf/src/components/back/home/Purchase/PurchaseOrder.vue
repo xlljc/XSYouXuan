@@ -46,7 +46,6 @@
 
         <!--订单详情模态框-->
         <el-dialog :close-on-click-modal="false"
-                   :show-close="false"
                    title="订单详情审核页面"
                    :visible.sync="ddmotaikuang">
             <!--采购商品的表-->
@@ -81,8 +80,24 @@
             </el-table>
             <span style="float: right">总价：<a style="color:red;">{{this.CaiGouShopZon}}</a></span>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="closeDinDanXiangQing">取 消</el-button>
-                <el-button type="primary" @click="ddmotaikuang = false">确 定</el-button>
+                <el-button type="primary" @click="openShenHeBeiZhu">审核</el-button>
+
+            </div>
+        </el-dialog>
+
+        <!--点击审核按钮弹出审核人写备注的模态框-->
+        <el-dialog :close-on-click-modal="false"
+                   title="备注"
+                   :visible.sync="shenhebeizhu">
+            <el-input
+                    style="width: 300px"
+                    placeholder="---请输入---"
+                    v-model="beizhu"
+                    clearable>
+            </el-input>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="danger" @click="refuse">拒绝</el-button>
+                 <el-button type="primary" @click="agree">同意</el-button>
             </div>
         </el-dialog>
     </div>
@@ -91,6 +106,7 @@
     import {Vue, Component} from "vue-property-decorator";
 
     import Axios from "axios";
+    import {EmpHelper} from "@/helper/back/EmpHelper";
 
     @Component
     export default class PurchaseOrder extends Vue {
@@ -102,12 +118,19 @@
         //所有订单数据
         purchaseorderAllData = [];
         //根据订单id查询所有采购商品数据
-        caigouAllData :any = [];
+        caigouAllData: any = [];
         // 获取当前右键点击的订单id
         currentRowIndex: number = 0;
         //订单所有采购商品总价
-        CaiGouShopZon : number=0;
+        CaiGouShopZon: number = 0;
+
+        //审核人备注模态框状态
+        shenhebeizhu=false;
+        //提交审核时 审核人备注的变量
+        beizhu : string="";
+
         created() {
+            this.$store.commit('back/url', window.location.href);
             //加载所有未审核订单信息
             this.getpurchaseorderAll();
 
@@ -156,8 +179,13 @@
         getState(state: number): string {
             if (state === -1) return "拒绝";
             if (state === 0) return "未审核";
-            if (state === 1) return "通过";
+            if (state === 1) return "采购中";
+            if (state === 2) return "采购完成";
         }
+
+        //***********************************************************
+        //                      显示所有未审核订单部分
+        //***********************************************************
 
         //获取所有未审核订单信息
         getpurchaseorderAll() {
@@ -171,8 +199,11 @@
         }
 
         //右键查看订单详情打开模态框
-        openDinDanXiangQing(){
-            this.ddmotaikuang=true;
+        openDinDanXiangQing() {
+            //清除总价数据
+            this.CaiGouShopZon = 0;
+
+            this.ddmotaikuang = true;
             //根据订单id 查询所有采购商品
             let params = new URLSearchParams();
             params.append("orderid", this.currentRowIndex.toString())
@@ -184,17 +215,58 @@
                 //console.log(value.data)
                 this.caigouAllData = value.data;
                 //计算这个订单的总价
-                for (let i=0;i<this.caigouAllData.length;i++){
+                for (let i = 0; i < this.caigouAllData.length; i++) {
                     //alert(this.caigouAllData[i].commoditysum)
-                    this.CaiGouShopZon+=this.caigouAllData[i].commoditysum*this.caigouAllData[i].price;
+                    this.CaiGouShopZon += this.caigouAllData[i].commoditysum * this.caigouAllData[i].price;
                 }
 
             })
         }
-        //关闭订单详情页面 清除总价的数据
-        closeDinDanXiangQing(){
-            this.ddmotaikuang=false
-            this.CaiGouShopZon=0;
+
+        //关闭订单详情页面
+        closeDinDanXiangQing() {
+            this.ddmotaikuang = false
+        }
+        //打开审核人备注模态框
+        openShenHeBeiZhu(){
+            this.shenhebeizhu=true;
+        }
+
+        //点击同意 通过申请
+        agree(){
+            //获取当前用户id  做审核人
+            console.log(EmpHelper.empId)
+            //获取订单id
+            console.log(this.currentRowIndex)
+            //传一个表示同意的参数 1 修改状态
+
+            //获取审批人备注
+            console.log(this.beizhu)
+            let params = new URLSearchParams();
+            params.append("orderid",this.currentRowIndex.toString());
+            params.append("approvedby",EmpHelper.empId);
+            params.append("state","1");
+            params.append("approvedbyremarks",this.beizhu);
+
+            //提交审核
+            Axios({
+                method: "post",
+                url: "/purchase/shenHe",
+                data: params
+            }).then(value => {
+                //console.log(value)
+                alert(value.data.msg)
+                //临时采购表数据 在点击采购或者点击取消后就会清除
+                //关闭备注模态框
+                //this.caigoubeizhu=false;
+                //关闭采购模态框
+                //this.caigoumotaikuang=false;
+            })
+
+        }
+        //点击拒绝 不通过申请
+        refuse(){
+
         }
     }
 </script>

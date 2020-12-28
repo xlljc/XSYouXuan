@@ -93,19 +93,19 @@ public class PurchaseController {
         Message message = new Message();
          //生成订单详情表 未审核记录
         //参数：当前采购的员工id  申请人备注（就是仓库）
-        System.out.println("员工id:"+applicant);
-        System.out.println("申请人备注:"+applicantremarks);
-
+        purchaseService.addPurchaseOrder(applicant,applicantremarks);
        //查询所有临时订单表的数据
-
+        //System.out.println(purchaseService.PurchaseLinShiAll());
+        List<PurchaseLinShi> arr=  purchaseService.PurchaseLinShiAll();
         //将临时订单表数据添加到  采购表  订单id 商品id 商品数量
-
-        //返回前台 执行删除临时采购表数据操作
-
+        //查询订单详情表的最大订单号
+        int orderid = purchaseService.queryorderidBig();
+        for (int i=0;i<arr.size();i++){
+            purchaseService.addPurchase(orderid,arr.get(i).getId().toString(),arr.get(i).getPrice().toString());
+        }
         message.flag = true;
-        message.msg = "添加采购成功√";
+        message.msg = "提交采购申请成功√";
         return message;
-
     }
 
 
@@ -125,7 +125,7 @@ public class PurchaseController {
         }
     }
 
-
+    //审核部分-------------
     //查询所有未审核订单信息
     @RequestMapping("/querypurchaseorderAll")
     public List<Purchaseorder> querypurchaseorderAll() {
@@ -140,4 +140,33 @@ public class PurchaseController {
         return purchaseService.querycaigouAll(orderid);
     }
 
+    //查询所有不是未审核订单信息
+    @RequestMapping("/purchaseorderAllnowei")
+    public List<Purchaseorder> purchaseorderAllnowei() {
+
+        return purchaseService.purchaseorderAllnowei();
+    }
+    //提交审核
+    @RequestMapping("/shenHe")
+    public Message shenHe(
+            //获取订单id
+            int orderid,
+            //获取当前用户id  做审核人
+            String approvedby,
+            //传一个表示同意的参数 1 修改状态  拒绝传-1
+            String state,
+            //获取审批人备注
+            String approvedbyremarks) {
+        Message message = new Message();
+        /*System.out.println(orderid);
+        System.out.println(approvedby);
+        System.out.println(state);
+        System.out.println(approvedbyremarks);*/
+        //修改订单状态
+        purchaseService.updatepurchaseorder(orderid,approvedby,state,approvedbyremarks);
+
+        message.flag = true;
+        message.msg = "审核成功√";
+        return message;
+    }
 }
