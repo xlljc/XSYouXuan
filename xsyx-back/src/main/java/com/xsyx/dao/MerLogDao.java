@@ -41,4 +41,6 @@ public interface MerLogDao {
    * 根据MerLog条件修改单条数据方法,从传入对象获取id 
    */
   int updateById(MerLog merlog);
+
+  int addLog(@Param("merId") Integer mer,@Param("content") String content,@Param("data") String data);
 }

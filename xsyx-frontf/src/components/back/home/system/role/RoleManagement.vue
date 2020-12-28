@@ -9,6 +9,7 @@
                 clearable>
             <template slot="append">
                 <el-button
+                        v-if="$btnPermissions('查询角色')"
                         slot="append"
                         icon="el-icon-search"
                         @click="query">
@@ -18,6 +19,7 @@
         </el-input>
 
         <el-button
+                v-if="$btnPermissions('添加角色')"
                 plain
                 type="success"
                 slot="append"
@@ -55,7 +57,7 @@
                                 <el-table-column label="姓名" prop="name"/>
                                 <el-table-column label="头像">
                                     <template slot-scope="{row}">
-                                        <el-image  style="height: 30px;width: 45px" :src="$host + row.image" fit="cover"
+                                        <el-image style="height: 30px;width: 45px" :src="$host + row.image" fit="cover"
                                         :preview-src-list="[$host + row.image]"></el-image>
                                     </template>
                                 </el-table-column>
@@ -72,7 +74,7 @@
             </el-table-column>
             <el-table-column label="操作" width="180px">
                 <template slot-scope="{row}">
-                    <el-tooltip effect="dark" content="编辑" placement="top-start">
+                    <el-tooltip effect="dark" content="编辑" placement="top-start" v-if="$btnPermissions('修改角色')">
                         <el-button
                                 type="primary"
                                 circle
@@ -89,7 +91,7 @@
                             icon="el-icon-info"
                             icon-color="red"
                             title="你确定删除该角色吗？该操作不能取消 !">
-                        <el-tooltip slot="reference" effect="dark" content="删除" placement="top-start">
+                        <el-tooltip slot="reference" effect="dark" content="删除" placement="top-start" v-if="$btnPermissions('删除角色')">
                             <el-button
                                     style="margin-left: 10px"
                                     type="danger"
@@ -229,7 +231,6 @@
 
         async loadEmp(row: Role) {
             this.$set(row,"empData",await RoleHelper.getEmpsByRoleId(row.id));
-
         }
 
         //***********************************************************

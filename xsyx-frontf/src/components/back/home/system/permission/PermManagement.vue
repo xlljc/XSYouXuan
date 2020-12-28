@@ -29,7 +29,10 @@
         <el-col :span="8">
             <div style="padding-left: 25px">
                 <el-row>
-                    <el-button icon="el-icon-key" type="primary" plain style="margin-right: 8px" @click="authorization">授权</el-button>
+                    <el-button v-if="$btnPermissions('授权')"
+                            icon="el-icon-key" type="primary" plain style="margin-right: 8px" @click="authorization">
+                        授权
+                    </el-button>
                     <el-input style="width: 210px;"
                             placeholder="输入关键字进行过滤"
                             v-model="filterText"
@@ -49,7 +52,15 @@
                             label: 'name',
                             id: 'id'
                         }"
+                        icon-class="el-icon-caret-right"
                         highlight-current>
+
+                    <span slot-scope="{ node, data }">
+                        <i :class="data.icon"></i>
+                        <span :dataType="data.type">
+                          {{ node.label }}
+                        </span>
+                      </span>
                 </el-tree>
             </div>
         </el-col>
@@ -178,7 +189,7 @@
         //授权
         async authorization() {
             if (!this.selectRowData) {
-                this.$notify({type: "error",message: "请选择一个角色 !",title: "提示"})
+                this.$notify({type: "error", message: "请选择一个角色 !", title: "提示"})
                 return;
             }
             //身份验证

@@ -8,6 +8,7 @@ import './views/style.css';
 import './views/logine.css';
 import './views/reset.css'
 import Axios from "axios";
+import './assets/icon/iconfont.js';
 import {MenuHelper} from "@/helper/back/MenuHelper";
 
 Vue.config.productionTip = false;

@@ -3,22 +3,19 @@ package com.xsyx.vo.system;
 import com.xsyx.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class Demo extends Thread {
+public class BackThreadBase extends Thread {
 
-    private static Demo instance = null;
+    private static BackThreadBase instance = null;
 
-    public static Demo getActionInstance(){
-        if (instance == null) instance = new Demo();
+    public static BackThreadBase getActionInstance(){
+        if (instance == null) instance = new BackThreadBase();
         return instance;
     }
-
-    @Autowired
-    private UserDao userDao;
 
     /**
      * 创建实例线程
      */
-    public Demo() {
+    public BackThreadBase() {
         // 先检查之前是否启用过线程, 确保只有一个执行的实例
         if (instance != null) instance.flag = false;
         instance = this;
@@ -44,7 +41,6 @@ public class Demo extends Thread {
 
 
 
-                //System.out.println("userDao : " + userDao.queryAll());
 
             } catch (Exception e) {
                 flag = false;

@@ -123,7 +123,7 @@
         //搜索框的值
         input="";
         /*商品类型数据*/
-        tableData={};
+        tableData: any[]=[];
         //添加模态框
         addmotaikuang=false;
         updatemotaikuang=false;

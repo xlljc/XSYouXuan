@@ -147,4 +147,28 @@
         where (username=#{nameOrPhone} or phone=#{nameOrPhone}) and password=#{password} and is_delete!=1 limit 1;
     </select>
 
+    <!--搜索客户-->
+    <select id="search" resultMap="UserMap">
+        select id, username, password, head_portrait, phone, signature, birthday, uname, sex, id_card, merid, last_login_time, is_delete from user
+        where
+            (
+                username like concat('%',#{str},'%') or
+                phone like concat('%',#{str},'%') or
+                signature like concat('%',#{str},'%') or
+                uname like concat('%',#{str},'%') or
+                id_card like concat('%',#{str},'%')
+            )
+            <if test="sex != null"> and sex=#{sex}</if>
+            <if test="isRealName != null">
+                <if test="isRealName == 1">
+                    and id_card is not null and id_card != ''
+                </if>
+                <if test="isRealName == 0">
+                    and (id_card is null or id_card = '')
+                </if>
+            </if>
+            and is_delete = 0
+            order by id desc
+    </select>
+
 </mapper>

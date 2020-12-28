@@ -427,9 +427,9 @@
         //仓库数据
         tableData: PageInfo = {};
         //仓库存储商品数据
-        warehousestoragetableData = []
+        warehousestoragetableData: any[] = []
         //所有仓库数据
-        warehouseAll = []
+        warehouseAll: any[] = []
 
         //商品数据(包括图片)
         shoptableData: PageInfo = {};
@@ -469,9 +469,9 @@
         //提交采购时 采购人备注的变量
         beizhu : string="";
         //点击采购 弹出采购数量框 获取这个商品的值
-        caigoushop : any = [];
+        caigoushop : any = {};
         //所有临时采购表的数据
-        PurchaseLinShiData = [];
+        PurchaseLinShiData: any[] = [];
         //所有临时采购表的商品总价
         PurchaseLinShiShopZon : number =0
 
@@ -542,14 +542,14 @@
         //                      右键菜单部分
         //***********************************************************
         // table的左键点击关闭右键菜单事件
-        clickTableRow(row, column, event) {
+        clickTableRow(row: any, column: any, event: any) {
             let menu = document.querySelector("#menu") as any;
             menu.style.display = 'none';
             // console.log(row,column,event)
         }
 
         // table的右键点击当前行展开右键菜单事件
-        rightClick(row, column, event) {
+        rightClick(row: any, column: any, event: any) {
 
             let menu = document.querySelector("#menu") as any;
             event.preventDefault();

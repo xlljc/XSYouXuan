@@ -5,9 +5,9 @@ import BackHome from '../views/back/BackHome.vue'
 import FontRouter from "@/router/front/frontRouter";
 import BackRouter from "@/router/back/backRouter";
 import ShopRouter from "@/router/shop/shopRouter";
-import Demo1 from "@/views/shop/Demo1.vue";
 import BackLogin from "@/views/back/BackLogin.vue";
 import {MenuHelper} from "@/helper/back/MenuHelper";
+import ShopHome from "@/views/shop/ShopHome.vue";
 
 Vue.use(VueRouter)
 
@@ -39,7 +39,7 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/shop',
-    component: Demo1,
+    component: ShopHome,
     children: ShopRouter
   },
   /**

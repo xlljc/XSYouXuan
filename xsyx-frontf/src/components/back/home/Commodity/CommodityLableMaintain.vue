@@ -50,19 +50,19 @@
 
 
             <el-table-column label="操作">
-                <template slot-scope="scope">
+                <template>
                     <el-button
                             type="primary"
                             circle
                             icon="el-icon-edit"
                             size="medium"
-                            @click="queryCommodityTypedetails(scope.$index, scope.row)"></el-button>
+                            ></el-button>
                     <el-button
                             type="danger"
                             circle
                             icon="el-icon-delete"
                             size="medium"
-                            @click="deleteCommodityType(scope.$index, scope.row)"></el-button>
+                            ></el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -94,7 +94,7 @@
         //搜索框的值
         input="";
         /*商品标签数据*/
-        tableData={};
+        tableData: any[]=[];
 
         //***********************************************************
         //                      商品标签查询部分

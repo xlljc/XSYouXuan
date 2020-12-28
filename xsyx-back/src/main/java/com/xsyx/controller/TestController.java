@@ -1,11 +1,15 @@
 package com.xsyx.controller;
 
+import com.xsyx.dao.ComOrderDao;
+import com.xsyx.dao.OrderDetailsDao;
 import com.xsyx.dao.RoleDao;
 
+import com.xsyx.vo.OrderDetails;
 import com.xsyx.vo.Role;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -18,6 +22,9 @@ public class TestController {
 
     @Autowired
     private RoleDao roleDao;
+
+    @Autowired
+    private OrderDetailsDao orderDetailsDao;
 
     /**
      * 测试
@@ -38,5 +45,12 @@ public class TestController {
         return roles;
     }
 
+    /**
+     * 测试2
+     */
+    @RequestMapping("/test3")
+    public List<OrderDetails> test3(@RequestParam(defaultValue = "") String str, Integer merId, Integer state) {
+        return orderDetailsDao.queryForMer(str,merId,state);
+    }
 
 }

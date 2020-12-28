@@ -65,4 +65,35 @@ export default class Utils {
         for (let i of item) list.splice(list.indexOf(i), 1);
         return list;
     }
+
+    /**
+     * 格式化时间戳
+     * @param value
+     */
+    public static formatDate(value: number): string {
+        if (!value) return "";
+        let date = new Date(value);
+        let y: string | number = date.getFullYear(),
+            m: string | number = date.getMonth() + 1,
+            d: string | number = date.getDate(),
+            h: string | number = date.getUTCHours(),
+            i: string | number = date.getMinutes(),
+            s: string | number = date.getSeconds();
+        if (m < 10) {
+            m = '0' + m;
+        }
+        if (d < 10) {
+            d = '0' + d;
+        }
+        if (h < 10) {
+            h = '0' + h;
+        }
+        if (i < 10) {
+            i = '0' + i;
+        }
+        if (s < 10) {
+            s = '0' + s;
+        }
+        return y + '-' + m + '-' + d + ' ' + h + ':' + i + ':' + s;
+    }
 }

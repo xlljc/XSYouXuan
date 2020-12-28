@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xsyx.dao.OrderDetailsDao">
+
+    <!--
+    商户端的条件查询
+    merId: 商户id
+    str: 客户手机号,客户名,客户真实姓名,商品名,订单编号
+    state: 状态0,配送中,1商户收货,2用户提货
+    -->
+    <select id="queryForMer" resultType="OrderDetails">
+        select co.id id,order_number orderNumber,ordstate,
+               co.totlemoney totlemoney,c.name commodityName,c.image commodityImage,
+               ct.name typeName,s.number number,username,uname,
+               u.phone phone,co.delivery_time deliveryTime,co.pick_up_time pickUpTime,
+               m.id merid,m.name merName,m.address address,m.phone merPhone
+        from com_order co
+                 left join shopcar s on co.sid = s.id
+                 left join user u on s.uid = u.id
+                 left JOIN commodity c on s.cid = c.id
+                 left join com_type ct on c.com_type = ct.id
+                 left join merchants m on co.merid = m.id
+        where (
+                u.phone like concat('%',#{str},'%') or
+                u.username like concat('%',#{str},'%') or
+                u.uname like concat('%',#{str},'%') or
+                c.name like concat('%',#{str},'%') or
+                order_number like concat('%',#{str},'%')
+            )
+          and m.id = #{merId}
+          <if test="state != null">
+              and co.ordstate = #{state}
+          </if>
+        order by order_number
+    </select>
+
+    <update id="setState">
+        update com_order set ordstate=#{state}
+        where id in (
+            <foreach collection="ids" item="item" separator=",">#{item}</foreach>
+        )
+    </update>
+
+</mapper>

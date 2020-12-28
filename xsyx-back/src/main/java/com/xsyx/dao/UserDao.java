@@ -48,4 +48,9 @@ public interface UserDao {
    * @param password 密码
    */
   User login(@Param("nameOrPhone") String nameOrPhone,@Param("password") String password);
+
+  /**
+   * 查询客户
+   */
+  List<User> search(@Param("str") String str, @Param("sex") String sex, @Param("isRealName") Integer isRealName);
 }
