@@ -35,7 +35,7 @@ public class Employee implements Serializable {
 	/**备注*/
 	private String remark;
 	/**最后一次登录日期*/
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Timestamp lastLoginTime;
 	/**员工状态, 0冻结, 1正常, -1删除*/
 	private Integer state;

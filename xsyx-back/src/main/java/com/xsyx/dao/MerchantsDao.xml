@@ -113,5 +113,15 @@
        select address,phone,open_time_from,latitude,name,remark,id,state,open_time_to,longitude from merchants where id = #{fk};
     </select>
 
+    <!--条件查询-->
+    <select id="queryBy" resultMap="MerchantsMap">
+        select * from merchants
+        where (
+            name like concat('%',#{str},'%') or
+            phone like concat('%',#{str},'%') or
+            address like concat('%',#{str},'%') or
+            remark like concat('%',#{str},'%')
+        ) and state = 1;
+    </select>
 
 </mapper>

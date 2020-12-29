@@ -22,7 +22,7 @@ public class EmpLog implements Serializable {
 	/**附加数据, 可选*/
 	private String data;
 	/**时间*/
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Timestamp time;
 
 	public EmpLog() {

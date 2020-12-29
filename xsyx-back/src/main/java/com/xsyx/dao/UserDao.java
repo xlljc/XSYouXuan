@@ -53,4 +53,11 @@ public interface UserDao {
    * 查询客户
    */
   List<User> search(@Param("str") String str, @Param("sex") String sex, @Param("isRealName") Integer isRealName);
+
+  /**
+   * 用户解除商户关系
+   * @param merId
+   * @return
+   */
+  int unMerchant(@Param("merId") Integer merId);
 }

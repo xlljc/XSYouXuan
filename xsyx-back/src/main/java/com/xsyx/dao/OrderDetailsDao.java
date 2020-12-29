@@ -5,6 +5,7 @@ import com.xsyx.vo.OrderDetails;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface OrderDetailsDao {
 
@@ -18,4 +19,18 @@ public interface OrderDetailsDao {
 
 
     int setState(@Param("ids") List<Integer> ids,@Param("state") Integer state);
+
+    /**
+     * 查询day天之内所有商品的销量
+     * @param merId
+     * @param day
+     * @return
+     */
+    List<Map<String, Object>> queryIncomeByCom(@Param("merId") int merId,@Param("day") int day);
+
+    List<Map<String, Object>> queryDateSum(@Param("merId") int merId,@Param("day") int day);
+
+    List<Map<String, Object>> queryStateCount(@Param("merId") int merId);
+
+    int queryYesterdayIncome(@Param("merId") int merId);
 }

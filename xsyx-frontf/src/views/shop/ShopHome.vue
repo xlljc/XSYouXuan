@@ -36,7 +36,7 @@
                 <!--菜单-->
                 <el-aside width="200px">
 
-                    <el-menu router>
+                    <el-menu router default-active="/shop/statistics">
                         <el-menu-item index="/shop/shouhuo">
                             <i class="el-icon-suitcase"></i>
                             <span slot="title">收货</span>
@@ -77,8 +77,10 @@
         }
 
         mounted() {
-
+            if (this.$router.currentRoute.path !== "/shop/statistics")
+                this.$router.push({path: "/shop/statistics"});
         }
+
     }
 </script>
 

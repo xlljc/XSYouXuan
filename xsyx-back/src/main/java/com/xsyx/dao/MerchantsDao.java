@@ -41,4 +41,6 @@ public interface MerchantsDao {
    * 根据Merchants条件修改单条数据方法,从传入对象获取id 
    */
   int updateById(Merchants merchants);
+
+  List<Merchants> queryBy(@Param("str") String str);
 }

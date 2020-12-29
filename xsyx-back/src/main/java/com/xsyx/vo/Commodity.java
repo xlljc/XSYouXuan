@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 表名 :  commodity<br/>
  * 表注释 : 商品表
- */
+ */ 
 @JsonIgnoreProperties(value = "handler")
 public class Commodity implements Serializable {
 
@@ -226,25 +226,25 @@ public class Commodity implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "commodity[" +
-			"id = " + id +
-			", name = " + name +
-			", particulars = " + particulars +
+		return "commodity[" + 
+			"id = " + id + 
+			", name = " + name + 
+			", particulars = " + particulars + 
 			", image = " + image +
 			", price = " + price +
-			", unit = " + unit +
-			", specification = " + specification +
-			", manufacturer = " + manufacturer +
-			", comType = " + comType +
-			", putawayDate = " + putawayDate +
-			", newestPutawayDate = " + newestPutawayDate +
-			", state = " + state +
-			", collects = " + collects +
-			", commentss = " + commentss +
-			", lookHistorys = " + lookHistorys +
-			", purchases = " + purchases +
-			", shopcars = " + shopcars +
-			", stars = " + stars +
+			", unit = " + unit + 
+			", specification = " + specification + 
+			", manufacturer = " + manufacturer + 
+			", comType = " + comType + 
+			", putawayDate = " + putawayDate + 
+			", newestPutawayDate = " + newestPutawayDate + 
+			", state = " + state + 
+			", collects = " + collects + 
+			", commentss = " + commentss + 
+			", lookHistorys = " + lookHistorys + 
+			", purchases = " + purchases + 
+			", shopcars = " + shopcars + 
+			", stars = " + stars + 
 			", comDiscount = " + comDiscount +
 			"]";
 	}

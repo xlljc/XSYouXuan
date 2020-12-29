@@ -20,7 +20,7 @@ public class SearchRecord implements Serializable {
 	/**搜索内容*/
 	private String content;
 	/**搜索时间*/
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Timestamp time;
 
 	public SearchRecord() {

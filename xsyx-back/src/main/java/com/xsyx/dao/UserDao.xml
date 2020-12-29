@@ -171,4 +171,9 @@
             order by id desc
     </select>
 
+    <!--用户解除商户关系-->
+    <update id="unMerchant" parameterType="int">
+        update user set merid = null where merid = #{merId}
+    </update>
+
 </mapper>
