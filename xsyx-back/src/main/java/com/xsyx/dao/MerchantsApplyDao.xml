@@ -63,7 +63,7 @@
             <if test="state != null">#{state}</if><if test="state == null">default</if>,
             #{systemMessage},
             <if test="isRead != null">#{isRead}</if><if test="isRead == null">default</if>
-        ); 
+        );
     </insert>
 
     <!-- 根据MerchantsApply插入多条数据方法 -->

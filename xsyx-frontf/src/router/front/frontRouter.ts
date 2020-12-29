@@ -12,6 +12,7 @@ import Shopcars from "@/views/front/Shopcars.vue";
 import UpdateUser from "@/views/front/UpdateUser.vue";
 import Mylove from "@/views/front/Mylove.vue";
 import HomeSearch from "@/components/front/home/HomeSearch.vue";
+import RegisShanghu from "@/views/front/RegisShanghu.vue";
 
 /**
  * 前台路由
@@ -47,6 +48,9 @@ const FontRouter: Array<RouteConfig> = [
     },{
         path:'/login',
         component:Login
+    },{
+        path:'/zcsh',
+        component:RegisShanghu
     },
 
 

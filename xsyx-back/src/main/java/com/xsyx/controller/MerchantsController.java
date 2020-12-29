@@ -15,14 +15,11 @@ public class MerchantsController {
     @Autowired
     private MerchantsService merchantsService;
 
-    @RequestMapping("/reg")
-    public Message zcMerchants(Merchants merchants){
-
-        return merchantsService.insert(merchants);
-    }
-
-
-
+//    @RequestMapping("/reg")
+//    public Message zcMerchants(Merchants merchants){
+//
+//        return merchantsService.insert(merchants);
+//    }
     //查询商户
     @RequestMapping("/query")
     public PageInfo<Merchants> query(String str,

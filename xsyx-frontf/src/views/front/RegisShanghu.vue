@@ -26,10 +26,21 @@
                                         <div class="login-center-img">
                                             <el-image style="width: 27px; height: 27px" :src="require('@/assets/mcimg/dh.png')"></el-image>
                                         </div>
-                                        <el-form-item class="login-center-input" prop="phone">
-                                            <el-input type="phone" placeholder="请输入您的电话" onfocus="this.placeholder=''"
-                                                      v-model="ruleForm.phone" autocomplete="off" onblur="this.placeholder='请输入您的密码'"/>
-                                            <div class="login-center-input-text">电话</div>
+                                        <el-form-item class="login-center-input" prop="address">
+                                            <el-input type="text" placeholder="请输入您的地址" onfocus="this.placeholder=''"
+                                                      v-model="ruleForm.address" autocomplete="off" onblur="this.placeholder='请输入您的地址'"/>
+                                            <div class="login-center-input-text">地址</div>
+                                        </el-form-item>
+                                    </div>
+
+                                    <div class="login-center clearfix">
+                                        <div class="login-center-img">
+                                            <el-image style="width: 27px; height: 27px" :src="require('@/assets/mcimg/dh.png')"></el-image>
+                                        </div>
+                                        <el-form-item class="login-center-input" prop="userMessage">
+                                            <el-input type="text" placeholder="请输入您成为商户的理由" onfocus="this.placeholder=''"
+                                                      v-model="ruleForm.userMessage" autocomplete="off" onblur="this.placeholder='请输入您成为商户的理由'"/>
+                                            <div class="login-center-input-text">理由</div>
                                         </el-form-item>
                                     </div>
 
@@ -73,23 +84,26 @@
     @Component
     export default class RegisShanghu extends Vue {
         id:number=0;
-
+        state=0;
         //注册商户方法
        zhuce(){
            let data = new URLSearchParams();
             data.append("name",this.ruleForm.name);
-            data.append("phone",this.ruleForm.phone);
 
+           data.append("address",this.ruleForm.address)
+           data.append("userMessage",this.ruleForm.userMessage)
+
+           data.append("userId.id",UserHelper.userId)
            Axios({
                method:'post',
-               url:'/merchants/reg',
+               url:'/merchantsApp/reg',
                 data:data
            }).then((result) => {
                if (result.data.flag === false) alert(result.data.msg);
-               alert("注册成功")
+               alert("请等待审批")
                this.id=result.data.msg.id;
 
-               this.xg()
+
            })
        }
        //用户表添加商户id
@@ -117,10 +131,6 @@
 
 
 
-
-
-
-
         validatename:any = (rule:any, value:any, callback:any) => {
             if (value === '') {
                 callback(new Error('请输入您的商户名称'));
@@ -130,20 +140,31 @@
 
         validatePass:any = (rule:any, value:any, callback:any) => {
             if (value === '') {
-                callback(new Error('请输入您的手机号码'));
+                callback(new Error('请输入您的地址'));
             }
             let $ref = this.$refs["ruleForm"];
         };
+        validateMess:any = (rule:any, value:any, callback:any) => {
+            if (value === '') {
+                callback(new Error('请输入您的理由'));
+            }
+            let $ref = this.$refs["ruleForm"];
+        };
+
         ruleForm = {
             name:'',
-            phone: '',
+            userId:'',
+            address:'',
+            userMessage:''
         }
         rules= {
-            phone: [
+            address: [
                 { validator: this.validatePass, trigger: 'blur' }
             ],
             name:[
                 { validator: this.validatename, trigger: 'blur' }
+            ], userMessage:[
+                { validator: this.validateMess, trigger: 'blur' }
             ]
         }
         created() {

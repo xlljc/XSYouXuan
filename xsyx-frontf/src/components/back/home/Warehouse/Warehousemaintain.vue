@@ -1126,6 +1126,12 @@
         }
         //查询当前仓库信息 并打开模态框赋值
         queryWarehouseByid(index: number, row: any) {
+            //判断仓库是否被冻结  冻结不执行操作
+            if(row.warstate===0){
+                this.$message.error("仓库已被冻结，不能操作")
+                return;
+            }
+
             this.updatemotaikuang=true;
             //打开模态框赋值
             this.warname=row.warname;
@@ -1187,6 +1193,11 @@
         }
         //删除仓库
         deleteWarehouse(index: number, row: any) {
+            //判断仓库是否被冻结  冻结不执行操作
+            if(row.warstate===0){
+                this.$message.error("仓库已被冻结，不能操作")
+                return;
+            }
             this.$confirm('此操作将删除仓库, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',

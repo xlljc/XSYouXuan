@@ -44,5 +44,9 @@ public interface ComOrderDao {
    */
   int updateById(ComOrder comorder);
 
+  //根据UID查询订单
+    List<ComOrder> queryAllByUid(@Param("uid") Integer uid);
+
+
 
 }
