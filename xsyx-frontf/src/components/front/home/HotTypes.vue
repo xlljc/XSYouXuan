@@ -8,7 +8,7 @@
         </el-row>
         <el-row>
             <div class="xsyx-type-box">
-                <commodity-type v-for="(item,index) in 10" :index="index" :key="item"></commodity-type>
+                <commodity-type v-for="(item,index) in data" :data="item" :index="index" :key="item"></commodity-type>
             </div>
         </el-row>
     </div>
@@ -17,17 +17,22 @@
 <script lang="ts">
     import {Vue, Component} from "vue-property-decorator";
     import CommodityType from "@/components/front/home/CommodityType.vue";
+    import {ComType} from "@/helper/entity";
+    import {HomeHelper} from "@/helper/front/HomeHelper";
     @Component({
         components: {CommodityType}
     })
     export default class HotTypes extends Vue {
 
+        //数据
+        data: ComType[] = [];
+
         created() {
 
         }
 
-        mounted() {
-
+        async mounted() {
+            this.data = await HomeHelper.getHotTypes();
         }
     }
 </script>

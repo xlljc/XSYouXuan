@@ -41,4 +41,6 @@ public interface ComTypeDao {
    * 根据ComType条件修改单条数据方法,从传入对象获取id 
    */
   int updateById(ComType comtype);
+
+  List<ComType> queryHot();
 }

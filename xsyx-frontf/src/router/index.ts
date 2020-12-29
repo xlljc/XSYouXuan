@@ -54,17 +54,6 @@ const routes: Array<RouteConfig> = [
 function addParentUrl(parentUrl: string,routers: Array<RouteConfig>) {
   for (let i of routers) {
     let temp = i.path;
-    //后台路由访问拦截器
-    /*if (parentUrl === "/back") {
-      i.beforeEnter = (to,from,next) => {
-        let flag = MenuHelper.canToMenuPage(temp);
-        if (flag) {
-          next();
-        } else {
-          next({path: "/back/"});
-        }
-      }
-    }*/
     i.path = parentUrl + i.path;
     if (i.children) addParentUrl(parentUrl + temp, i.children);
   }

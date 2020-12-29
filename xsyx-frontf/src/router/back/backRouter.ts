@@ -12,6 +12,7 @@ import PermManagement from "@/components/back/home/system/permission/PermManagem
 import PurchaseOrderJiLu from "@/components/back/home/Purchase/PurchaseOrderJiLu.vue";
 
 import CustomerMaintain from "@/components/back/home/Customer/CustomerMaintain.vue";
+import MerchantsMaintain from "@/components/back/home/Merchants/MerchantsMaintain.vue";
 
 
 /**
@@ -41,6 +42,8 @@ const BackRouter: Array<RouteConfig> = [
             }
         ]
     }*/
+    //商户管理
+    {path:"/merchants",component: MerchantsMaintain},
     //员工管理
     {path:"/empManagement",component:EmpManagement},
     //角色管理

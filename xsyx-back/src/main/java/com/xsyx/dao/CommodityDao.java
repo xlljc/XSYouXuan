@@ -72,4 +72,15 @@ public interface CommodityDao {
 
   //查询所有商品标签
   List<ComLabel> queryAllLabel();
+
+
+  List<Commodity> queryNewReleases();
+
+  List<Commodity> queryHotSale();
+
+  List<Commodity> queryGuessLikes();
+
+  List<Commodity> search(@Param("str") String str);
+
+  List<Commodity> searchTips(@Param("str") String str);
 }

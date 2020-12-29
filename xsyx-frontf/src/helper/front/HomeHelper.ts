@@ -1,13 +1,21 @@
-import {ComType} from "@/helper/entity";
+import {ComType, HomeDataType} from "@/helper/entity";
 import Axios from "axios";
 
 
 export class HomeHelper {
 
-    static async getHotTypes(row: number): Promise<ComType> {
-        let params = new URLSearchParams();
-        params.append("row",row.toString());
-        return (await Axios.post("/home/getHotTypes",params)).data;
+    /**
+     * 获取热门分类
+     */
+    static async getHotTypes(): Promise<ComType[]> {
+        return (await Axios.get("/comType/queryHot")).data;
+    }
+
+    /**
+     * 获取首页数据
+     */
+    static async getHomeDate(): Promise<HomeDataType> {
+        return (await Axios.get("/commodity/queryHome")).data;
     }
 
 

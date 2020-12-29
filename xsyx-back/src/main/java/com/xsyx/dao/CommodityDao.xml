@@ -98,4 +98,45 @@
         select * from  com_label
     </select>
 
+    <!-- 查询最新上架的商品 -->
+    <select id="queryNewReleases" resultMap="CommodityMap">
+        select * from commodity where state = 1 order by newest_putaway_date limit 10
+    </select>
+
+    <!-- 查询销量最好的商品 -->
+    <select id="queryHotSale" resultMap="CommodityMap">
+        select commodity.* from commodity
+        left join shopcar s on commodity.id = s.cid
+        left join com_order co on s.id = co.sid
+        where commodity.state = 1
+        group by commodity.id
+        order by sum(s.number) desc
+        limit 10
+    </select>
+
+    <!-- 猜你喜欢 -->
+    <select id="queryGuessLikes" resultMap="CommodityMap">
+        select * from commodity
+        where state = 1
+        order by rand()
+        limit 10
+    </select>
+
+    <!-- 搜索商品 -->
+    <select id="search" resultMap="CommodityMap">
+        select commodity.id, commodity.name, commodity.image, commodity.price, commodity.unit, commodity.specification, commodity.manufacturer, commodity.com_type, commodity.newest_putaway_date from commodity
+        right join com_type ct on commodity.com_type = ct.id
+        where (commodity.name like concat('%',#{str},'%')
+        or ct.name like concat('%',#{str},'%')) and state = 1
+    </select>
+
+    <!-- 搜索提示 -->
+    <select id="searchTips" resultMap="CommodityMap">
+        select commodity.id, commodity.name, commodity.com_type from commodity
+        right join com_type ct on commodity.com_type = ct.id
+        where (commodity.name like concat('%',#{str},'%')
+            or ct.name like concat('%',#{str},'%')) and state = 1
+        limit 10;
+    </select>
+
 </mapper>
