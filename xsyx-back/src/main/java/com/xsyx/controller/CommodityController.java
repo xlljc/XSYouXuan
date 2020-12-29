@@ -216,4 +216,9 @@ public class CommodityController {
         return commodityService.queryAllLabel();
     }
 
+    //根据id查询
+    @RequestMapping("/queryComShpId")
+    public Commodity queryBySpid(int id){
+        return commodityService.querySpByid(id);
+    }
 }

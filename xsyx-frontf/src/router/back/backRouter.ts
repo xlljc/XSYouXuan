@@ -12,6 +12,7 @@ import PermManagement from "@/components/back/home/system/permission/PermManagem
 import PurchaseOrderJiLu from "@/components/back/home/Purchase/PurchaseOrderJiLu.vue";
 
 import CustomerMaintain from "@/components/back/home/Customer/CustomerMaintain.vue";
+import Distribution from "@/components/back/home/Distribution/Distribution.vue";
 
 
 /**
@@ -31,6 +32,8 @@ const BackRouter: Array<RouteConfig> = [
     {path:"/purchaseorderapply",component:PurchaseOrder},
     //采购审批记录
     {path:"/purchaseorderapplyjilu",component:PurchaseOrderJiLu},
+    //配送管理
+    {path:"/peison",component:Distribution},
     /*{
         path: '/aaa',
         component: BackHome,

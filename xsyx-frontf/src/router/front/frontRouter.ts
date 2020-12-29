@@ -6,31 +6,47 @@ import UserHome from "@/views/front/UserHome.vue";
 import Shopcar from "@/views/front/Shopcar.vue";
 import Shopes from "@/views/front/Shopes.vue";
 import Information from "@/views/front/Information.vue";
+import FrontHome from "@/views/front/FrontHome.vue";
+import Dingdan from "@/views/front/Dingdan.vue";
+import Shopcars from "@/views/front/Shopcars.vue";
+import UpdateUser from "@/views/front/UpdateUser.vue";
+import Mylove from "@/views/front/Mylove.vue";
 
 /**
  * 前台路由
  */
 const FontRouter: Array<RouteConfig> = [
     {
-        path: '/test01',
-        component: Login
-    },{
-    path:'/test02',
+        path:'/zc',
         component:Registered
     },{
-        path:'/zc',
+        path:'/homepage',
         component:UserHome,
         children: [{
             path: "/information",
             component:Information
-        }]
+        },{
+            path:'/dd',
+            component:Dingdan
+        },{
+            path:'/updateuser',
+            component:UpdateUser
+        },{
+            path:'/sc',
+            component:Mylove
+        }
+        ],
+
     },{
-    path:'/gwc',
-        component:Shopcar
+        path:'/gwc',
+        component:Shopcars
     },{
-    path:'/spxq',
+        path:'/spxq',
         component:Shopes
-    }
+    },{
+        path:'/login',
+        component:Login
+    },
 
 ]
 

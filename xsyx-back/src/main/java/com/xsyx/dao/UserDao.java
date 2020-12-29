@@ -10,8 +10,6 @@ import java.util.List;
 @Repository
 public interface UserDao {
 
-
-
   /**
    * 查询所有方法 
    */
@@ -49,8 +47,5 @@ public interface UserDao {
    */
   User login(@Param("nameOrPhone") String nameOrPhone,@Param("password") String password);
 
-  /**
-   * 查询客户
-   */
-  List<User> search(@Param("str") String str, @Param("sex") String sex, @Param("isRealName") Integer isRealName);
+
 }

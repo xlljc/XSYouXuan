@@ -66,4 +66,6 @@ public interface CommodityService{
     //查询所有商品标签
     List<ComLabel> queryAllLabel();
 
+    //根据id查询
+    Commodity querySpByid(@Param("id") int id);
 }

@@ -2,40 +2,7 @@
   <div>
     <el-container>
 
-      <el-header style="position: fixed;width: 100%;z-index: 10;margin-top: -9px;">
-        <el-menu :default-active="'1'"
-                 mode="horizontal">
-          <el-menu-item>
-            <el-image style="width: 60px; height: 60px" :src="logoImg"></el-image>
-          </el-menu-item>
-          <el-menu-item index="1"><i class="el-icon-house"/>首页</el-menu-item>
-
-          <el-menu-item class="right">
-            <el-button round type="success" plain>现在下单</el-button>
-          </el-menu-item>
-          <el-menu-item class="right" index="7">联系客服</el-menu-item>
-          <el-menu-item class="right" index="6">注册</el-menu-item>
-          <el-menu-item class="right" index="5">登录</el-menu-item>
-          <!--购物车-->
-          <el-submenu class="right" index="4" >
-            <template slot="title">
-              <i class="el-icon-shopping-cart-2">
-                <el-badge :value="carData ? carData.length : 0" :max="99" type="success" style="margin-top: -30px;margin-left: -8px"/>
-              </i>
-            </template>
-            <!--购物车模板-->
-            <shopping-cart :car-data="carData"></shopping-cart>
-          </el-submenu>
-          <el-menu-item class="right" index="3"><i class="el-icon-scissors"></i>每日特价</el-menu-item>
-          <el-submenu class="right" index="2">
-            <template slot="title"><i class="el-icon-notebook-2"></i>商品分类</template>
-          </el-submenu>
-          <el-menu-item class="right">
-            <home-query></home-query>
-          </el-menu-item>
-
-        </el-menu>
-      </el-header>
+      <front-header></front-header>
 
 
       <el-main style="margin-top: 50px">
@@ -82,11 +49,13 @@
   import HotSale from "@/components/front/home/HotSale.vue";
   import SpecialOffer from "@/components/front/home/SpecialOffer.vue";
   import GuessLikes from "@/components/front/home/GuessLikes.vue";
+  import FrontHeader from "@/components/front/home/FrontHeader.vue";
 
   let shoppingCartHelper = new ShoppingCartHelper();
 
   @Component({
     components: {
+      FrontHeader,
       GuessLikes,
       SpecialOffer,
       HotSale,
@@ -96,7 +65,7 @@
       HotTypes,
       HomeQuery,
       ShoppingCart,
-      Hugescreen
+      Hugescreen,
     }
   })
   export default class FrontHome extends Vue {

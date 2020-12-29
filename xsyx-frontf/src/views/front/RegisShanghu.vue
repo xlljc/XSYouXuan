@@ -1,37 +1,15 @@
 <template>
     <div>
         <el-container>
-
-            <!--<el-header style="position: fixed;width: 100%;z-index: 10;margin-top: -9px;">
-                <el-menu :default-active="'1'"
-                         mode="horizontal">
-                    <el-menu-item>
-                        <el-image style="width: 60px; height: 60px" :src="require('@/assets/mcimg/logos.png')"></el-image>
-                    </el-menu-item>
-                    <el-menu-item><i class="el-icon-house"/>首页</el-menu-item>
-                    <el-menu-item class="right">
-                        <el-image style="width: 55px; height: 50px" :src="require('@/assets/mcimg/hua.png')"></el-image>
-                    </el-menu-item>
-                    <el-menu-item class="right" index="8">关于我们</el-menu-item>
-                    <el-menu-item class="right" index="7">联系客服</el-menu-item>
-                    <el-menu-item class="right" index="6">注册</el-menu-item>
-                    <el-menu-item class="right" index="5">登录</el-menu-item>
-
-
-
-                    <el-menu-item index="3"><i class="el-icon-scissors"></i>每日特价</el-menu-item>
-                </el-menu>
-            </el-header>-->
-            <front-header></front-header>
             <div style="width: 1900px; height: 800px">
                 <el-main>
                     <el-col :span="24">
-                        <el-image style="width: 1855px; height: 800px;margin-left:12px" :src="require('@/assets/mcimg/loginsss.png')"></el-image>
+                        <el-image style="width: 1855px; height: 800px;margin-left:12px" :src="require('@/assets/mcimg/sh1.png')"></el-image>
                     </el-col>
                     <el-col :span="4">
                         <div class="login">
                             <div class="login-top">
-                                用户登录
+                                商户注册
                             </div>
                             <div style="margin-top: -20px">
                                 <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm">
@@ -39,19 +17,19 @@
                                         <div class="login-center-img">
                                             <el-image style="width:30px; height: 27px" :src="require('@/assets/mcimg/name.png')"></el-image>
                                         </div>
-                                        <el-form-item class="login-center-input" prop="username">
-                                            <el-input type="type" placeholder="请输入您的用户名" v-model="ruleForm.username" onfocus="this.placeholder=''"
-                                                      autocomplete="off" onblur="this.placeholder='请输入您的用户名'"/>
+                                        <el-form-item class="login-center-input" prop="name">
+                                            <el-input type="type" placeholder="请输入您的商户名称" v-model="ruleForm.name" onfocus="this.placeholder=''"
+                                                      autocomplete="off" onblur="this.placeholder='请输入您的商户名称'"/>
                                         </el-form-item>
                                     </div>
                                     <div class="login-center clearfix">
                                         <div class="login-center-img">
-                                            <el-image style="width: 27px; height: 27px" :src="require('@/assets/mcimg/password.png')"></el-image>
+                                            <el-image style="width: 27px; height: 27px" :src="require('@/assets/mcimg/dh.png')"></el-image>
                                         </div>
-                                        <el-form-item class="login-center-input" prop="password">
-                                            <el-input type="password" placeholder="请输入您的密码" onfocus="this.placeholder=''"
-                                                      v-model="ruleForm.password" autocomplete="off" onblur="this.placeholder='请输入您的密码'"/>
-                                            <div class="login-center-input-text">密码</div>
+                                        <el-form-item class="login-center-input" prop="phone">
+                                            <el-input type="phone" placeholder="请输入您的电话" onfocus="this.placeholder=''"
+                                                      v-model="ruleForm.phone" autocomplete="off" onblur="this.placeholder='请输入您的密码'"/>
+                                            <div class="login-center-input-text">电话</div>
                                         </el-form-item>
                                     </div>
 
@@ -65,10 +43,10 @@
                                             <br>
                                             <canvas id="canvas" @click="showNum"></canvas>
                                         </div>
-
                                     </div>
+
                                     <br>
-                                    <el-button style="margin-left: 140px ;margin-top: 20px" type="primary" @click="denglu">提交</el-button>
+                                    <el-button style="margin-left: 140px ;margin-top: 20px" type="primary" @click="zhuce">提交</el-button>
                                 </el-form>
                             </div>
                         </div>
@@ -80,7 +58,6 @@
 
                     <h2>合作商</h2>
 
-
                 </el-footer>
             </div>
         </el-container>
@@ -88,72 +65,94 @@
 </template>
 
 <script lang="ts">
-    import {Vue, Component, Watch} from "vue-property-decorator";
-    import Axios from "axios";
-    import {User} from "@/helper/entity";
-    import FrontHeader from "@/components/front/home/FrontHeader.vue";
+    import {Vue, Component} from "vue-property-decorator";
+    import Axios from "axios"
     import {UserHelper} from "@/helper/front/UserHelper";
+    import {Message, User} from "@/helper/entity";
 
+    @Component
+    export default class RegisShanghu extends Vue {
+        id:number=0;
 
-    @Component({
-        components: {
-            FrontHeader
+        //注册商户方法
+       zhuce(){
+           let data = new URLSearchParams();
+            data.append("name",this.ruleForm.name);
+            data.append("phone",this.ruleForm.phone);
+
+           Axios({
+               method:'post',
+               url:'/merchants/reg',
+                data:data
+           }).then((result) => {
+               if (result.data.flag === false) alert(result.data.msg);
+               alert("注册成功")
+               this.id=result.data.msg.id;
+
+               this.xg()
+           })
+       }
+       //用户表添加商户id
+        xg(){
+            let params = new URLSearchParams();
+            console.log("this.id :",this.id)
+            params.append("merid.id",this.id.toString())
+            Axios({
+                method:'post',
+                url:"/user/up/"+UserHelper.userId,
+                params:params
+            }).then((result) => {
+                if (result.data.flag === false) {
+                    alert(result.data.msg + "id:" + result.data.msg.id);
+                }
+            })
         }
-    })
-    export default class Login extends Vue {
-        /*num: [];
-        number: "";*/
 
-        validateusername:any = (rule:any, value:any, callback:any) => {
+
+
+
+
+
+
+
+
+
+
+
+
+
+        validatename:any = (rule:any, value:any, callback:any) => {
             if (value === '') {
-                callback(new Error('请输入您的账号'));
+                callback(new Error('请输入您的商户名称'));
             }
             let $ref = this.$refs["ruleForm"];
         };
 
         validatePass:any = (rule:any, value:any, callback:any) => {
             if (value === '') {
-                callback(new Error('请输入您的密码'));
+                callback(new Error('请输入您的手机号码'));
             }
             let $ref = this.$refs["ruleForm"];
         };
         ruleForm = {
-            username:'',
-            password: '',
+            name:'',
+            phone: '',
         }
         rules= {
-            password: [
+            phone: [
                 { validator: this.validatePass, trigger: 'blur' }
             ],
-            username:[
-                { validator: this.validateusername, trigger: 'blur' }
+            name:[
+                { validator: this.validatename, trigger: 'blur' }
             ]
         }
+        created() {
 
-
-
-        num:string[] = [];
-        number = "";
-
-        denglu(){
-
-            let data = new URLSearchParams();
-
-            data.append("name",this.ruleForm.username);
-            data.append("password",this.ruleForm.password)
-            Axios({
-                method:"post",
-                url:"/user/login",
-                data:data
-            }).then((result) => {
-
-                //sessionStorage.setItem("id",result.data.msg.id)
-                UserHelper.userId = result.data.msg.id;
-                this.$router.replace("/");
-            })
         }
 
-
+        //验证码
+        num:string[] = [];
+        number = "";
         showNum() {
 
             this.draw(this.num);
@@ -229,12 +228,10 @@
         mounted() {
             this.draw(this.num);
         }
-
     }
 </script>
 
 <style scoped>
-
     .right {
         float: right !important;
     }
@@ -245,5 +242,4 @@
         left: 74%;
         opacity: 0.8;
     }
-
 </style>

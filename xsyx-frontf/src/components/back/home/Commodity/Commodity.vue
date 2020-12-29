@@ -32,6 +32,7 @@
         </el-button>
         <!--strip 双行阴影效果属性-->
         <el-table
+                v-loading="loading"
                 border
                 :data="tableData.rows"
                 style="width: 100%;margin-top: 30px">
@@ -171,7 +172,7 @@
     import {ComDiscount, Commodity as Com, FileInfo, Message} from "@/helper/entity";
     import CommodityEdit from "@/components/back/home/Commodity/CommodityEdit.vue";
     import {EmpHelper} from "@/helper/back/EmpHelper";
-    import el from "element-ui/src/locale/lang/el";
+    // import el from "element-ui/src/locale/lang/el";
 
     /**
      * 创建一个空的商品对象
@@ -200,7 +201,8 @@
         components: {CommodityEdit}
     })
     export default class Commodity extends Vue {
-
+        /*延迟表格加载*/
+        loading: boolean = true;
         //添加模态框的状态
         addmotaikuang =false;
         //修改模态框的状态
@@ -237,6 +239,10 @@
             /*EmpHelper.getEmp().then(value => {
                 console.log(value);
             })*/
+            //延迟表格加载
+            setTimeout(() => {
+                this.loading = false;
+            }, 2000)
         }
 
         //获取商品上架状态
