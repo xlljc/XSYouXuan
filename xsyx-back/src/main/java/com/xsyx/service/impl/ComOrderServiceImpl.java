@@ -23,16 +23,20 @@ public class ComOrderServiceImpl implements ComOrderService {
     @Override
     public Message insert(ComOrder comOrder) {
         Message message=new Message();
-
-
         comOrderDao.insert(comOrder);
         comOrder.getId();
-        System.out.println(comOrder.getId());
+
         message.setMsg(comOrder.getId());
+        System.out.println(comOrder.getIsdelete());
         return message;
     }
 
     public int updateOrder(ComOrder comOrder){
         return comOrderDao.updateById(comOrder);
+    }
+
+    @Override
+    public List<ComOrder> queryAllByUid(Integer uid) {
+        return comOrderDao.queryAllByUid(uid);
     }
 }

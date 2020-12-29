@@ -107,6 +107,7 @@
     import {MenuHelper} from "@/helper/back/MenuHelper";
     import {Shopcar, Shopcar as sc} from '@/helper/entity'
     import {Message} from "element-ui";
+    import {SOURCE_FORMAT_TYPED_ARRAY} from "echarts/lib/util/types";
 
     let hp = new MenuHelper();
     // export type data = {
@@ -125,18 +126,19 @@
     @Component
     export default class Shopcars extends Vue {
         da:Shopcar={};
-
+        state:number =1
         checkAll: false;
         name='';
         number=1;
         price:number=0
-        id='';
         selectId:number[] = [];
         zj=0;
         ordstate=0;
         checked:boolean=false
         data:MyShopcar[] =[];
         ordid:number=0;
+        isdelete:number=0;
+
 
         handleChange(value: number) {
             this.zongjia()
@@ -159,11 +161,9 @@
         }   
 
         zongjia(){
-
             this.zj=0;
             for (let i of this.data) {
                 if (i.checked) {
-
                     this.zj += i.number * i.cid.price;
                 }
             }
@@ -202,12 +202,13 @@
             this.data.forEach(value => {
                 if (value.checked) this.da = value;
             })
+
             let data = new URLSearchParams();
             //data.append("id",this.cid);
-
+            this.isdelete=this.da.number;
             data.append("sid",this.da.id.toString());
-            data.append("totlemoney",this.zj.toString());
-
+            data.append("totlemoney",this.isdelete.toString());
+            data.append("isdelete",this.zj.toString())
             Axios({
                 method:'post',
                 url:'/ord/addord',
@@ -215,23 +216,38 @@
             }).then((result) => {
                 if (result.data.flag === false) alert(result.data.msg);
                 this.ordid=result.data.msg;
-
                 this.updateord()
-
+                this.ycgwc()
                 alert("购买成功")
             })
         }
 
+        //移除购物车
+        ycgwc(){
+            let params = new URLSearchParams();
+            params.append("state",this.state.toString());
+
+
+            Axios({
+                method:'post',
+                url:'/shopcar/update/'+this.da.id
+            }).then((result) => {
+
+                if (result.data.flag === false) alert(result.data.msg);
+            })
+        }
+
+        //添加到订单
         updateord(){
             let params = new URLSearchParams();
             params.append("ordstate",this.ordstate.toString())
+            params.append("isdelete",this.zj.toString());
             Axios({
                 method:'post',
                 url:'/ord/upd/'+this.ordid,
                 params:params
             }).then((result) => {
                 if (result.data.flag === false) alert(result.data.msg);
-
             })
 
         }

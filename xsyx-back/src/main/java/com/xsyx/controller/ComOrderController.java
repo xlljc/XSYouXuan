@@ -27,7 +27,7 @@ public class ComOrderController {
         return comOrderService.queryAlls();
     }
     @RequestMapping("/addord")
-    public Message addOrd(String sid, String ordernumber, Integer totlemoney){
+    public Message addOrd(String sid, Integer isdelete, Integer totlemoney){
         Shopcar shopcar = new Shopcar();
         ComOrder comOrder = new ComOrder();
         shopcar.setId(Integer.parseInt(sid));
@@ -40,7 +40,7 @@ public class ComOrderController {
         comOrder.setOrderNumber(date);
 
         comOrder.setTotlemoney(totlemoney);
-
+        comOrder.setIsdelete(isdelete);
         return  comOrderService.insert(comOrder);
     }
     
@@ -48,5 +48,11 @@ public class ComOrderController {
     public int updateOrder(@PathVariable Integer id, ComOrder comOrder){
         comOrder.setId(id);
         return comOrderService.updateOrder(comOrder);
+    }
+
+    @RequestMapping("/queryOrdbyuid")
+    public List<ComOrder> queryOrderByUid(Integer uid){
+        System.out.println("-----"+uid);
+        return comOrderService.queryAllByUid(uid);
     }
 }

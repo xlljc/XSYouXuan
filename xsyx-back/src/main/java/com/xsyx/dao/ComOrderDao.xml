@@ -90,4 +90,13 @@
         where id = #{id}
     </update>
 
+<!--    根据UID查询订单-->
+    <select id="queryAllByUid" resultMap="ComOrderMap">
+        select c.id,c.isdelete,c.order_number,c.totlemoney, c.ordstate,c2.name,u.uname,c.sid from com_order c
+        inner join shopcar s on c.sid = s.id
+        inner join user u on s.uid = u.id
+        inner join commodity c2 on s.cid = c2.id
+        where u.id=#{uid}
+    </select>
+
 </mapper>

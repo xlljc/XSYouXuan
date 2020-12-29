@@ -33,7 +33,7 @@
             </div>
 
             <div style="margin-left: 390px;margin-top: -40px" v-show="isSmrz">
-                <el-button type="warning" plain @click="$router.replace('/zcshanghu')">申请成为商户</el-button>
+                <el-button type="warning" plain @click="$router.replace('/zcsh')">申请成为商户</el-button>
             </div>
 
             <div style="margin-left: 390px;margin-top: -40px" v-show="sh">

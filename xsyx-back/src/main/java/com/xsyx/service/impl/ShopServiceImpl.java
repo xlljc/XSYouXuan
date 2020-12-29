@@ -43,7 +43,6 @@ public class ShopServiceImpl implements ShopcarService {
     public Message updateShopcar(Shopcar shopcar) {
         shopcarDao.updateById(shopcar);
         //写入日志
-
         return new Message(true,shopcar);
     }
 

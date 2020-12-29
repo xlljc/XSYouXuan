@@ -37,10 +37,11 @@
                             ￥{{da.sid.cid.price}}
                         </div>
                         <div class="numbers">
-                            {{da.sid.number}}
+                            {{da.totlemoney}}
+
                         </div>
                         <div class="allmoney">
-                            {{da.totlemoney}}
+                            {{da.isdelete}}
                         </div>
                         <div class="cz">
                             <el-link type="success" @click="addlove(da.sid.cid.id)">添加至收藏夹</el-link>
@@ -56,10 +57,9 @@
 
 <script lang="ts">
     import {Vue, Component} from "vue-property-decorator";
-
     import Axios from "axios";
-
     import {Collect, ComOrder, ComOrder as scs} from '@/helper/entity'
+    import {UserHelper} from "@/helper/front/UserHelper";
 
 
     interface MyShopcar extends scs {
@@ -68,14 +68,14 @@
 
     @Component
     export default class Dingdan extends Vue {
-        da:ComOrder={}
+
         da1:Collect={}
         data:MyShopcar[] =[];
 
         getcomorderData(){
             Axios({
                 method: 'get',
-                url: '/ord/query'
+                url: '/ord/queryOrdbyuid?uid=' + UserHelper.userId
             }).then(value => {
 
                 let temp = value.data as MyShopcar[];

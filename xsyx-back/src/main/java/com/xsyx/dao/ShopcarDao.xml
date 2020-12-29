@@ -31,7 +31,7 @@
 
     <!--  查询用户购物车  -->
     <select id="queryShopcarByuid" resultMap="ShopcarMap">
-        select s.id,s.number,s.jointime,s.totalprice,s.state,c.name,c.price,c.image,s.cid,s.uid from shopcar s
+    select s.id,s.number,s.jointime,s.totalprice,s.state,c.name,c.price,c.image,s.cid,s.uid from shopcar s
     inner join commodity c on s.cid= c.id
     inner join user u on s.uid=u.id
     where s.state is null and uid=#{uid}
@@ -90,6 +90,7 @@
             <if test="number != null">number = #{number},</if>
             <if test="jointime != null">jointime = #{jointime},</if>
             <if test="totalprice != null">totalprice = #{totalprice},</if>
+            <if test="state != null">state = #{state},</if>
             <if test="cid != null">
                 <if test="cid.id != null">cid = #{cid.id},</if>
             </if>

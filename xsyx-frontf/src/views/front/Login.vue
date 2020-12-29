@@ -90,7 +90,7 @@
 <script lang="ts">
     import {Vue, Component, Watch} from "vue-property-decorator";
     import Axios from "axios";
-    import {User} from "@/helper/entity";
+    import {Message, User} from "@/helper/entity";
     import FrontHeader from "@/components/front/home/FrontHeader.vue";
     import {UserHelper} from "@/helper/front/UserHelper";
 
@@ -147,9 +147,16 @@
                 data:data
             }).then((result) => {
 
-                //sessionStorage.setItem("id",result.data.msg.id)
-                UserHelper.userId = result.data.msg.id;
-                this.$router.replace("/");
+                //sessionStorage.setItem("id",result.data.msg.id)、
+                let message: Message = result.data;
+                if (message.flag) {
+                    UserHelper.userId = message.msg.id;
+                    this.$router.replace("/");
+                } else {
+                    this.$message.error(message.msg)
+                }
+
+
             })
         }
 

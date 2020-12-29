@@ -11,4 +11,6 @@ public interface ComOrderService {
     Message insert(ComOrder comOrder);
 
     int updateOrder(ComOrder comOrder);
+
+    List<ComOrder> queryAllByUid(Integer uid);
 }

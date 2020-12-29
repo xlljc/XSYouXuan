@@ -11,6 +11,7 @@ import Dingdan from "@/views/front/Dingdan.vue";
 import Shopcars from "@/views/front/Shopcars.vue";
 import UpdateUser from "@/views/front/UpdateUser.vue";
 import Mylove from "@/views/front/Mylove.vue";
+import RegisShanghu from "@/views/front/RegisShanghu.vue";
 
 /**
  * 前台路由
@@ -46,6 +47,9 @@ const FontRouter: Array<RouteConfig> = [
     },{
         path:'/login',
         component:Login
+    },{
+        path:'/zcsh',
+        component:RegisShanghu
     },
 
 ]

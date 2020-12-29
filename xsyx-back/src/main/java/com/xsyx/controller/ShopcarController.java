@@ -18,6 +18,7 @@ import java.util.List;
 public class ShopcarController {
     @Autowired
     ShopcarService shopcarService;
+
     @RequestMapping("/queryshopbyuid")
     public List<Shopcar> queryShopcarByuid(Integer uid){
 
@@ -47,8 +48,10 @@ public class ShopcarController {
         return shopcarService.insert(shopcar);
     }
 
-    @RequestMapping("/update")
-    public Message updateById(Shopcar shopcar){
+    @RequestMapping("/update/{id}")
+    public Message updateById(@PathVariable Integer id,Shopcar shopcar){
+        shopcar.setId(id);
+        System.out.println("*****"+id);
         return shopcarService.updateShopcar(shopcar);
     }
 }
