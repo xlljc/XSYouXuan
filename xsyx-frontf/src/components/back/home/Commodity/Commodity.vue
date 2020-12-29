@@ -175,7 +175,7 @@
     import {ComDiscount, Commodity as Com, FileInfo, Message} from "@/helper/entity";
     import CommodityEdit from "@/components/back/home/Commodity/CommodityEdit.vue";
     import {EmpHelper} from "@/helper/back/EmpHelper";
-    import el from "element-ui/src/locale/lang/el";
+    // import el from "element-ui/src/locale/lang/el";
 
     /**
      * 创建一个空的商品对象

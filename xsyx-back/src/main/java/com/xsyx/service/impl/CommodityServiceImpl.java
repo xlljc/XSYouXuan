@@ -89,4 +89,9 @@ public class CommodityServiceImpl implements CommodityService {
     public List<ComLabel> queryAllLabel() {
         return commodityDao.queryAllLabel();
     }
+
+    @Override
+    public Commodity querySpByid(int id) {
+        return commodityDao.querySpByid(id);
+    }
 }

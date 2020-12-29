@@ -106,4 +106,13 @@
         select * from  com_label
     </select>
 
+<!--    连表查询要用-->
+    <select id="a_Commodity_By_cid" resultMap="CommodityMap">
+        select * from commodity where id = #{fk};
+    </select>
+
+<!--    根据商品id查询商品-->
+    <select id="querySpByid" parameterType="int" resultMap="CommodityMap">
+        select * from commodity where id=#{id};
+    </select>
 </mapper>

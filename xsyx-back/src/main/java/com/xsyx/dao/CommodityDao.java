@@ -74,4 +74,13 @@ public interface CommodityDao {
 
   //查询所有商品标签
   List<ComLabel> queryAllLabel();
+
+  //连表查询要用
+  Commodity a_Commodity_By_cid(int id);
+
+
+  /*
+  /*根据id查询
+   */
+  Commodity querySpByid(int id);
 }

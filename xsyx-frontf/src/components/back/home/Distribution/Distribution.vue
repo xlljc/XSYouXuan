@@ -229,7 +229,7 @@
         }
 
         //获取订单状态
-        getState(state: number): string {
+        getState(state: string): string {
             if (state === "0") return "待发货";
             if (state === "1") return "待收货";
             if (state === "2") return "已收货";

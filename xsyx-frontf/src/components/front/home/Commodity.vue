@@ -2,10 +2,10 @@
     <div class="xsyx-commodity-item">
         <div class="xsyx-commodity-content">
             <el-badge :value="'NEW'" type="success" class="badge"/>
-            <div class="image-box">
+            <div class="image-box" @click="$router.replace('/spxq')">
                 <el-image :src="image" fit="cover" class="image"></el-image>
             </div>
-            <el-row style="height: 52px">
+            <el-row style="height: 52px" >
                 <div class="title">西红柿</div>
             </el-row>
             <el-row>

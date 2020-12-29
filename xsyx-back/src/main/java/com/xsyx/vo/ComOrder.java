@@ -4,12 +4,11 @@ package com.xsyx.vo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
-import java.sql.Date;
 
 /**
  * 表名 :  com_order<br/>
  * 表注释 : 订单表
- */ 
+ */
 @JsonIgnoreProperties(value = "handler")
 public class ComOrder implements Serializable {
 
@@ -23,22 +22,18 @@ public class ComOrder implements Serializable {
 	private Integer isdelete;
 	/**购物车id*/
 	private Shopcar sid;
-	/**收货商户id*/
-	private Merchants merid;
-	/**送达时间(商户收货时间)*/
-	private Date deliveryTime;
-	/**用户提货时间*/
-	private Date pickUpTime;
+	private Integer totlemoney;
 
 	public ComOrder() {
 		super();
 	}
-	public ComOrder(Integer id, Integer ordstate, String orderNumber, Integer isdelete, Shopcar sid) {
+	public ComOrder(Integer id, Integer ordstate, String orderNumber, Integer isdelete, Shopcar sid,Integer totlemoney) {
 		this.id = id;
 		this.ordstate = ordstate;
 		this.orderNumber = orderNumber;
 		this.isdelete = isdelete;
 		this.sid = sid;
+		this.totlemoney = totlemoney;
 	}
 	/**设置"id"*/
 	public void setId(Integer id){
@@ -78,43 +73,24 @@ public class ComOrder implements Serializable {
 	public Shopcar getSid(){
 		return sid;
 	}
-
-	public Merchants getMerid() {
-		return merid;
+	/**设置"总价"*/
+	public void setTotlemoney(Integer totlemoney){
+		this.totlemoney = totlemoney;
 	}
-
-	public void setMerid(Merchants merid) {
-		this.merid = merid;
+	/**获取"总价"*/
+	public Integer getTotlemoney(){
+		return totlemoney;
 	}
-
-	public Date getDeliveryTime() {
-		return deliveryTime;
-	}
-
-	public void setDeliveryTime(Date deliveryTime) {
-		this.deliveryTime = deliveryTime;
-	}
-
-	public Date getPickUpTime() {
-		return pickUpTime;
-	}
-
-	public void setPickUpTime(Date pickUpTime) {
-		this.pickUpTime = pickUpTime;
-	}
-
 	@Override
 	public String toString() {
-		return "com_order[" + 
-			"id = " + id + 
-			", ordstate = " + ordstate + 
-			", orderNumber = " + orderNumber + 
-			", isdelete = " + isdelete + 
-			", sid = " + sid + 
-			", merid = " + merid +
-			", deliveryTime = " + deliveryTime +
-			", pickUpTime = " + pickUpTime +
-			"]";
+		return "com_order[" +
+				"id = " + id +
+				", ordstate = " + ordstate +
+				", orderNumber = " + orderNumber +
+				", isdelete = " + isdelete +
+				", sid = " + sid +
+				", totlemoney = " + totlemoney +
+				"]";
 	}
 }
 

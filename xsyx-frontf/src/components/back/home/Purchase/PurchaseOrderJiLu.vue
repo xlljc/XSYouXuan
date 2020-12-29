@@ -188,7 +188,7 @@
             //console.log(row,column);
 
             // 获取当前右键点击table 获取当前行的id值下标
-            this.purchaseorderAllData.forEach((item, index) => {
+            this.purchaseorderAllData.forEach((item:any, index:any) => {
 
                 if (item.orderid === row.orderid) {
                     //订单id
