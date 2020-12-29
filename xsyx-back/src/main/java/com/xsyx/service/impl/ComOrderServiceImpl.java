@@ -3,6 +3,8 @@ package com.xsyx.service.impl;
 import com.xsyx.dao.ComOrderDao;
 import com.xsyx.service.ComOrderService;
 import com.xsyx.vo.ComOrder;
+import com.xsyx.vo.Commodity;
+import com.xsyx.vo.system.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +21,18 @@ public class ComOrderServiceImpl implements ComOrderService {
     }
 
     @Override
-    public int insert(ComOrder comOrder) {
-        return comOrderDao.insert(comOrder);
+    public Message insert(ComOrder comOrder) {
+        Message message=new Message();
+
+
+        comOrderDao.insert(comOrder);
+        comOrder.getId();
+        System.out.println(comOrder.getId());
+        message.setMsg(comOrder.getId());
+        return message;
+    }
+
+    public int updateOrder(ComOrder comOrder){
+        return comOrderDao.updateById(comOrder);
     }
 }

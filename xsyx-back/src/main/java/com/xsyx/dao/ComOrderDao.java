@@ -1,6 +1,7 @@
 package com.xsyx.dao;
 
 import com.xsyx.vo.ComOrder;
+import com.xsyx.vo.system.Message;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;

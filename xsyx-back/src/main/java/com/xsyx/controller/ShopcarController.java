@@ -18,8 +18,9 @@ import java.util.List;
 public class ShopcarController {
     @Autowired
     ShopcarService shopcarService;
-    @RequestMapping("/queryshopbyuid/{uid}")
-    public List<Shopcar> queryShopcarByuid(@PathVariable Integer uid){
+    @RequestMapping("/queryshopbyuid")
+    public List<Shopcar> queryShopcarByuid(Integer uid){
+
         return shopcarService.queryShopcarByuid(uid);
     }
 
@@ -34,12 +35,15 @@ public class ShopcarController {
     }
 
     @RequestMapping("/add")
-    public int addShop(String cid,String number,User uid){
+    public int addShop(String cid,int id,int number){
+        User u = new User();
+        u.setId(id);
         Shopcar shopcar = new Shopcar();
         Commodity commodity = new Commodity();
         commodity.setId(Integer.parseInt(cid));
-        shopcar.setUid(uid);
+        shopcar.setUid(u);
         shopcar.setCid(commodity);
+        shopcar.setNumber(number);
         return shopcarService.insert(shopcar);
     }
 

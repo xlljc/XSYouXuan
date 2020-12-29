@@ -102,7 +102,7 @@
     import XlPanel from "@/components/shop/XlPanel.vue";
     import {ShopHelper} from "@/helper/shop/ShopHelper";
     import {ShopStatisticalType} from "@/helper/entity";
-    import col from "element-ui/packages/col/src/col";
+    //import col from "element-ui/packages/col/src/col";
 
 
 

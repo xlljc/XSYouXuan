@@ -5,8 +5,10 @@ import com.xsyx.service.ComOrderService;
 import com.xsyx.vo.ComOrder;
 import com.xsyx.vo.Commodity;
 import com.xsyx.vo.Shopcar;
+import com.xsyx.vo.system.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,7 +27,7 @@ public class ComOrderController {
         return comOrderService.queryAlls();
     }
     @RequestMapping("/addord")
-    public int addOrd(String sid,String ordernumber,Integer totlemoney){
+    public Message addOrd(String sid, String ordernumber, Integer totlemoney){
         Shopcar shopcar = new Shopcar();
         ComOrder comOrder = new ComOrder();
         shopcar.setId(Integer.parseInt(sid));
@@ -39,6 +41,12 @@ public class ComOrderController {
 
         comOrder.setTotlemoney(totlemoney);
 
-        return comOrderService.insert(comOrder);
+        return  comOrderService.insert(comOrder);
+    }
+    
+    @RequestMapping("/upd/{id}")
+    public int updateOrder(@PathVariable Integer id, ComOrder comOrder){
+        comOrder.setId(id);
+        return comOrderService.updateOrder(comOrder);
     }
 }

@@ -142,18 +142,20 @@
         }
         addShopcar(){
             let data = new URLSearchParams();
-            //data.append("id",this.cid);
 
             data.append("cid",this.sp.id.toString());
             data.append("number",this.number.toString());
             // let data = Utils.format(new URLSearchParams(),this.sp,"id","name")
-            data.append("uid.id",UserHelper.userId)
+            data.append("id",UserHelper.userId)
+
             Axios({
+
                 method:'POST',
                 url:'/shopcar/add',
                 data:data
             }).then((result) => {
                 if (result.data.flag === false) alert(result.data.msg);
+                alert("购买成功")
 
             })
         }

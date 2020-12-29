@@ -133,9 +133,10 @@
         id='';
         selectId:number[] = [];
         zj=0;
+        ordstate=0;
         checked:boolean=false
         data:MyShopcar[] =[];
-
+        ordid:number=0;
 
         handleChange(value: number) {
             this.zongjia()
@@ -143,9 +144,10 @@
 
 
         getShopcarData(){
+
             Axios({
                 method: 'get',
-                url: '/shopcar/queryshopbyuid'+UserHelper.userId
+                url: '/shopcar/queryshopbyuid?uid=' + UserHelper.userId
             }).then(value => {
 
                 let temp = value.data as MyShopcar[];
@@ -210,11 +212,30 @@
                 method:'post',
                 url:'/ord/addord',
                 data:data
-            }).then(value => {
-                this.da = value.data;
+            }).then((result) => {
+                if (result.data.flag === false) alert(result.data.msg);
+                this.ordid=result.data.msg;
 
+                this.updateord()
+
+                alert("购买成功")
             })
         }
+
+        updateord(){
+            let params = new URLSearchParams();
+            params.append("ordstate",this.ordstate.toString())
+            Axios({
+                method:'post',
+                url:'/ord/upd/'+this.ordid,
+                params:params
+            }).then((result) => {
+                if (result.data.flag === false) alert(result.data.msg);
+
+            })
+
+        }
+
         created(){
             this.getShopcarData();
         }

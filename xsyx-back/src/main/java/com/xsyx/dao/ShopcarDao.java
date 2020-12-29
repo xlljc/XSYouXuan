@@ -42,7 +42,7 @@ public interface ShopcarDao {
    */
   int updateById(Shopcar shopcar);
 
-  List<Shopcar> queryShopcarByuid(Integer uid);
+  List<Shopcar> queryShopcarByuid(@Param("uid") Integer uid);
 
   /*
    *删除购物车

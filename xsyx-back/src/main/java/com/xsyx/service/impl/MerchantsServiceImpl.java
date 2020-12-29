@@ -14,8 +14,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MerchantsServiceImpl implements MerchantsService {
-    @Autowired
-    MerchantsDao merchantsDao;
 
     @Autowired
     private MerchantsDao merchantsDao;
@@ -28,12 +26,12 @@ public class MerchantsServiceImpl implements MerchantsService {
 
     @Override
     public Message insert(Merchants merchants) {
-        Message message = new Message(true,merchants);
+        Message message = new Message(true, merchants);
         merchants.getId();
         merchantsDao.insert(merchants);
-        System.out.println(merchants);
-        return message;
 
+        return message;
+    }
     @Override
     public PageInfo<Merchants> query(String str, Integer page, Integer row) {
         PageHelper.startPage(page, row);

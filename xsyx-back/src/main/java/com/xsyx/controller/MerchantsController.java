@@ -1,28 +1,19 @@
 package com.xsyx.controller;
-
-<<<<<<< HEAD
 import com.xsyx.service.MerchantsService;
 import com.xsyx.vo.Merchants;
 import com.xsyx.vo.User;
 import com.xsyx.vo.system.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-=======
 import com.github.pagehelper.PageInfo;
-import com.xsyx.service.MerchantsService;
-import com.xsyx.vo.Merchants;
-import com.xsyx.vo.system.Message;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
->>>>>>> origin/master
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/merchants")
 public class MerchantsController {
     @Autowired
-    MerchantsService merchantsService;
+    private MerchantsService merchantsService;
 
     @RequestMapping("/reg")
     public Message zcMerchants(Merchants merchants){
@@ -30,8 +21,7 @@ public class MerchantsController {
         return merchantsService.insert(merchants);
     }
 
-    @Autowired
-    private MerchantsService merchantsService;
+
 
     //查询商户
     @RequestMapping("/query")

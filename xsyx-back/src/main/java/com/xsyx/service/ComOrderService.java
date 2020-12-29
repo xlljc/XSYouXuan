@@ -8,5 +8,7 @@ import java.util.List;
 public interface ComOrderService {
     List<ComOrder> queryAlls();
 
-    int insert(ComOrder comOrder);
+    Message insert(ComOrder comOrder);
+
+    int updateOrder(ComOrder comOrder);
 }
