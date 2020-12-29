@@ -83,4 +83,15 @@ public interface CommodityDao {
   /*根据id查询
    */
   Commodity querySpByid(int id);
+
+
+  List<Commodity> queryNewReleases();
+
+  List<Commodity> queryHotSale();
+
+  List<Commodity> queryGuessLikes();
+
+  List<Commodity> search(@Param("str") String str);
+
+  List<Commodity> searchTips(@Param("str") String str);
 }

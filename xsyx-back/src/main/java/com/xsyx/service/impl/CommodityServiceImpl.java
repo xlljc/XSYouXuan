@@ -1,6 +1,7 @@
 package com.xsyx.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.xsyx.dao.CommodityDao;
 import com.xsyx.dao.MenuDao;
 import com.xsyx.service.CommodityService;
@@ -13,7 +14,9 @@ import com.xsyx.vo.system.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CommodityServiceImpl implements CommodityService {
@@ -93,5 +96,31 @@ public class CommodityServiceImpl implements CommodityService {
     @Override
     public Commodity querySpByid(int id) {
         return commodityDao.querySpByid(id);
+    }
+
+    @Override
+    public Map<String, Object> queryHome() {
+        Map<String,Object> map = new HashMap<>();
+        //查询首页的--新品上市
+        List<Commodity> commodities1 = commodityDao.queryNewReleases();
+        map.put("newReleases",commodities1);
+        //查询热销商品
+        List<Commodity> commodities2 = commodityDao.queryHotSale();
+        map.put("hotSale",commodities2);
+        //查询猜你喜欢
+        List<Commodity> commodities3 = commodityDao.queryGuessLikes();
+        map.put("guessLikes",commodities3);
+        return map;
+    }
+
+    @Override
+    public List<Commodity> searchTips(String str) {
+        return commodityDao.searchTips(str);
+    }
+
+    @Override
+    public PageInfo<Commodity> search(String str, int page, int rows) {
+        PageHelper.startPage(page,rows);
+        return new PageInfo<>(commodityDao.search(str));
     }
 }

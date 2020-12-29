@@ -1,6 +1,9 @@
 /**
  * 死的数据
  */
+import Axios from "axios";
+import {Commodity} from "@/helper/entity";
+
 const data: QueryData[] = [
     { "value": "三全鲜食（北新泾店）" },
     { "value": "Hot honey 首尔炸鸡（仙霞路）" },
@@ -76,22 +79,22 @@ export type HotQueryData = {
 
 export class HomeQueryHelper {
 
-    private timeOut: number;
-
     /**
      * 提示查询
      * @param str 需要查询的字符串
      */
-    queryPrompt(str: string): Promise<QueryData[]> {
-        return new Promise<QueryData[]>(resolve => {
-            if (!str) resolve([]);
-            let results = str ? data.filter((value: any) => value.value.toLowerCase().indexOf(str.toLowerCase()) === 0) : [...data];
-            this.timeOut && clearTimeout(this.timeOut);
-            this.timeOut = setTimeout(() => {
-                resolve(results);
-            },1500);
-        });
+    async queryPrompt(str: string): Promise<QueryData[]> {
+
+        if (!str) return [];
+        let params = new URLSearchParams();
+        params.append("str", str);
+        let data: Commodity[] = (await Axios.post("/commodity/searchTips", params)).data;
+        let list: QueryData[] = [];
+        data.forEach(value => list.push({value: value.name}));
+        return list;
     }
+
+
 
     /**
      * 获取热搜数据

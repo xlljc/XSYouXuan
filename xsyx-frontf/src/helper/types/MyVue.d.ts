@@ -14,5 +14,9 @@ export module 'vue/types/vue' {
          * 返回当前操作者是否有使用按钮的权限
          */
         readonly $btnPermissions: (butName: string) => boolean;
+
+        created(): void;
+
+        mounted(): void;
     }
 }

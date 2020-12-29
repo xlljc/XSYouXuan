@@ -25,7 +25,7 @@
 
 <script lang="ts">
     import {Vue, Component} from "vue-property-decorator";
-    import {HomeQueryHelper, HotQueryData} from "@/helper/front/HomeQueryHelper";
+    import {HomeQueryHelper, HotQueryData, QueryData} from "@/helper/front/HomeQueryHelper";
 
     let homeQueryHelper = new HomeQueryHelper();
 
@@ -36,10 +36,8 @@
         hotQueryList: HotQueryData[] = [];
         hotSearch = '白菜';
 
-        querySearch(queryString: string, cb: (results: {}[]) => void) {
-            homeQueryHelper.queryPrompt(queryString).then(value => {
-                cb(value);
-            })
+        async querySearch(queryString: string, cb: (results: QueryData[]) => void) {
+            cb(await homeQueryHelper.queryPrompt(queryString));
         }
 
         query() {
@@ -52,9 +50,6 @@
             console.log(item.value);
         }
 
-        created() {
-
-        }
         mounted() {
             homeQueryHelper.getHotQuery().then(value => {
                 this.hotQueryList = value;

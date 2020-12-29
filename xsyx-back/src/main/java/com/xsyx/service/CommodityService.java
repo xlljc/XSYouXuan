@@ -1,5 +1,6 @@
 package com.xsyx.service;
 
+import com.github.pagehelper.PageInfo;
 import com.xsyx.vo.ComLabel;
 import com.xsyx.vo.ComType;
 import com.xsyx.vo.Commodity;
@@ -7,6 +8,7 @@ import com.xsyx.vo.system.PageVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CommodityService{
 
@@ -71,4 +73,9 @@ public interface CommodityService{
 
     //根据id查询
     Commodity querySpByid(@Param("id") int id);
+    Map<String, Object> queryHome();
+
+    List<Commodity> searchTips(String str);
+
+    PageInfo<Commodity> search(String str, int page, int rows);
 }

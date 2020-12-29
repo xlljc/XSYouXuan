@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 商品控制层
@@ -238,4 +239,37 @@ public class CommodityController {
     public Commodity queryBySpid(int id){
         return commodityService.querySpByid(id);
     }
+    /**
+     * 查询首页的商品
+     * @return
+     */
+    @RequestMapping("/queryHome")
+    public Map<String,Object> queryHome() {
+        return commodityService.queryHome();
+    }
+
+    /**
+     * 搜索商品提示
+     * @param str
+     * @return
+     */
+    @RequestMapping("/searchTips")
+    public List<Commodity> searchTips(String str) {
+        return commodityService.searchTips(str);
+    }
+
+    /**
+     * 搜索商品
+     * @param str
+     * @param page
+     * @param rows
+     * @return
+     */
+    @RequestMapping("/search")
+    public PageInfo<Commodity> search(String str,
+                                      @RequestParam(value = "page", defaultValue = "1") int page,
+                                      @RequestParam(value = "rows", defaultValue = "10") int rows) {
+        return commodityService.search(str,page,rows);
+    }
+
 }

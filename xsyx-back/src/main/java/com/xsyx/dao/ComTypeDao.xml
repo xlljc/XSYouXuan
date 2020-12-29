@@ -67,5 +67,8 @@
        select name,id from com_type where id = #{fk};
     </select>
 
+    <select id="queryHot" resultMap="ComTypeMap">
+        select * from com_type limit 10;
+    </select>
 
 </mapper>

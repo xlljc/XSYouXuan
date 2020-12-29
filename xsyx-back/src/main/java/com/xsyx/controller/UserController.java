@@ -1,5 +1,6 @@
 package com.xsyx.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.xsyx.service.UserService;
 import com.xsyx.utils.MyUtils;
 import com.xsyx.vo.User;
@@ -76,5 +77,40 @@ public class UserController {
         return userService.login(name, password, session);
     }
 
+    /**
+     * 查询角色带分页
+     * @param sex 性别
+     * @param str 查询条件
+     * @param page 页数
+     * @param row 每页条数
+     * @return
+     */
+    @RequestMapping("/query")
+    public PageInfo<User> query(String sex, String str, Integer isRealName,
+                                @RequestParam(defaultValue = "1") Integer page,
+                                @RequestParam(defaultValue = "10") Integer row) {
+        return userService.query(str,sex, isRealName,page,row);
+    }
 
+    /**
+     * 修改客户
+     * @param user 客户信息
+     * @param empId 操作员id
+     * @return 消息
+     */
+    @RequestMapping("/update")
+    public Message update(User user,Integer empId) {
+        return userService.update(user,empId);
+    }
+
+    /**
+     * 删除客户
+     * @param userId 客户id
+     * @param empId 操作员id
+     * @return 信息
+     */
+    @RequestMapping("/delete")
+    public Message delete(Integer userId, Integer empId) {
+        return userService.delete(userId,empId);
+    }
 }
