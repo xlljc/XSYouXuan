@@ -42,7 +42,7 @@
                             type="primary"
                             size="medium"
                             @click="openpeison(scope.$index, scope.row)"
-                            v-if="$btnPermissions('配送')">>配送
+                            v-if="$btnPermissions('配送')">配送
                     </el-button>
 
                 </template>
