@@ -27,10 +27,10 @@ public class Merchants implements Serializable {
 	/**纬度*/
 	private Float latitude;
 	/**营业起始时间*/
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date openTimeFrom;
 	/**营业结束时间*/
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date openTimeTo;
 	/**商户备注*/
 	private String remark;

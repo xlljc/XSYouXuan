@@ -130,7 +130,7 @@
         loading: boolean = true;
 
         //所有订单记录数据
-        purchaseorderAllData:any = [];
+        purchaseorderAllData : any = [];
         // 获取当前右键点击的订单id
         currentRowIndex: number = 0;
         // 获取当前右键点击的订单状态
@@ -164,39 +164,39 @@
         //                      右键菜单部分
         //***********************************************************
         // table的左键点击关闭右键菜单事件
-        // clickTableRow(row, column, event) {
-        //     let menu = document.querySelector("#menu") as any;
-        //     menu.style.display = 'none';
-        //     // console.log(row,column,event)
-        // }
-        //
-        // // table的右键点击当前行展开右键菜单事件
-        // rightClick(row, column, event) {
-        //
-        //     let menu = document.querySelector("#menu") as any;
-        //     event.preventDefault();
-        //     //获取我们自定义的右键菜单
-        //     //console.log(menu)
-        //
-        //     // 根据事件对象中鼠标点击的位置，进行定位
-        //     menu.style.left = event.clientX + 'px';
-        //     menu.style.top = event.clientY + 'px';
-        //     // 改变自定义菜单的隐藏与显示
-        //     menu.style.display = 'block';
-        //     //console.log(row,column);
-        //
-        //     // 获取当前右键点击table 获取当前行的id值下标
-        //     this.purchaseorderAllData.forEach((item, index) => {
-        //
-        //         if (item.orderid === row.orderid) {
-        //             //订单id
-        //             this.currentRowIndex = item.orderid;
-        //             //订单状态
-        //             this.ddzt=item.state
-        //             return false;
-        //         }
-        //     })
-        // }
+        clickTableRow(row: any, column: any, event: any) {
+            let menu = document.querySelector("#menu") as any;
+            menu.style.display = 'none';
+            // console.log(row,column,event)
+        }
+
+        // table的右键点击当前行展开右键菜单事件
+        rightClick(row: any, column: any, event: any) {
+
+            let menu = document.querySelector("#menu") as any;
+            event.preventDefault();
+            //获取我们自定义的右键菜单
+            //console.log(menu)
+
+            // 根据事件对象中鼠标点击的位置，进行定位
+            menu.style.left = event.clientX + 'px';
+            menu.style.top = event.clientY + 'px';
+            // 改变自定义菜单的隐藏与显示
+            menu.style.display = 'block';
+            //console.log(row,column);
+
+            // 获取当前右键点击table 获取当前行的id值下标
+            this.purchaseorderAllData.forEach((item, index) => {
+
+                if (item.orderid === row.orderid) {
+                    //订单id
+                    this.currentRowIndex = item.orderid;
+                    //订单状态
+                    this.ddzt=item.state
+                    return false;
+                }
+            })
+        }
 
         //获取审核状态
         getState(state: number): string {

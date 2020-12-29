@@ -3,7 +3,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xsyx.dao.UserDao">
-
     <!-- resultMap映射 -->
     <resultMap id="UserMap" type="User">
         <id column="id" property="id"/>
@@ -19,23 +18,23 @@
         <result column="last_login_time" property="lastLoginTime"/>
         <result column="is_delete" property="isDelete"/>
         <association property="merid" column="{fk=merid}"
-                     select="com.xsyx.dao.MerchantsDao.a_Merchants_By_merid" javaType="Merchants" fetchType="lazy"/>
+           select="com.xsyx.dao.MerchantsDao.a_Merchants_By_merid" javaType="Merchants" fetchType="lazy"/>
     </resultMap>
 
     <!-- 查询所有方法 -->
     <select id="queryAll" resultMap="UserMap">
-        select birthday,uname,last_login_time,signature,sex,id_card,is_delete,password,phone,merid,id,username,head_portrait from user;
+       select birthday,uname,last_login_time,signature,sex,id_card,is_delete,password,phone,merid,id,username,head_portrait from user;
     </select>
 
     <!-- 根据主键id查询数据方法 -->
     <select id="queryById" parameterType="int" resultMap="UserMap">
-        select birthday,uname,last_login_time,signature,sex,id_card,is_delete,password,phone,merid,id,username,head_portrait from user where id = #{id};
+       select birthday,uname,last_login_time,signature,sex,id_card,is_delete,password,phone,merid,id,username,head_portrait from user where id = #{id};
     </select>
 
     <!-- 根据User条件查询数据方法 -->
     <select id="query" resultMap="UserMap">
-        select birthday,uname,last_login_time,signature,sex,id_card,is_delete,password,phone,merid,id,username,head_portrait
-        from user
+        select birthday,uname,last_login_time,signature,sex,id_card,is_delete,password,phone,merid,id,username,head_portrait 
+        from user 
         <where>
             <if test="id != null"> and id = #{id}</if>
             <if test="username != null"> and username = #{username}</if>
@@ -48,58 +47,58 @@
             <if test="sex != null"> and sex = #{sex}</if>
             <if test="idCard != null"> and id_card = #{idCard}</if>
             <if test="merid != null">
-                <if test="merid.id != null"> and merid = #{merid.id}</if>
+                 <if test="merid.id != null"> and merid = #{merid.id}</if>
             </if>
             <if test="lastLoginTime != null"> and last_login_time = #{lastLoginTime}</if>
-            <if test="isDelete != null"> and is_delete = #{isDelete}</if>
+            <if test="isDelete != null"> and is_delete = #{isDelete}</if> 
         </where>
     </select>
 
     <!-- 根据User插入数据方法 -->
     <insert id="insert" parameterType="User" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        insert into user (id,username,password,head_portrait,phone,signature,birthday,uname,sex,id_card,merid,last_login_time,is_delete) values
+        insert into user (id,username,password,head_portrait,phone,signature,birthday,uname,sex,id_card,merid,last_login_time,is_delete) values 
         (
-        #{id},
-        #{username},
-        #{password},
-        #{headPortrait},
-        #{phone},
-        #{signature},
-        #{birthday},
-        #{uname},
-        #{sex},
-        #{idCard},
-        #{merid.id},
-        <if test="lastLoginTime != null">#{lastLoginTime}</if><if test="lastLoginTime == null">default</if>,
-        <if test="isDelete != null">#{isDelete}</if><if test="isDelete == null">default</if>
-        );
+            #{id},
+            #{username},
+            #{password},
+            #{headPortrait},
+            #{phone},
+            #{signature},
+            #{birthday},
+            #{uname},
+            #{sex},
+            #{idCard},
+            #{merid.id},
+            <if test="lastLoginTime != null">#{lastLoginTime}</if><if test="lastLoginTime == null">default</if>,
+            <if test="isDelete != null">#{isDelete}</if><if test="isDelete == null">default</if>
+        ); 
     </insert>
 
     <!-- 根据User插入多条数据方法 -->
     <insert id="inserts" parameterType="List" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        insert into user (id,username,password,head_portrait,phone,signature,birthday,uname,sex,id_card,merid,last_login_time,is_delete) values
+        insert into user (id,username,password,head_portrait,phone,signature,birthday,uname,sex,id_card,merid,last_login_time,is_delete) values 
         <foreach collection="users" item="item" separator=",">
             (
-            #{item.id},
-            #{item.username},
-            #{item.password},
-            #{item.headPortrait},
-            #{item.phone},
-            #{item.signature},
-            #{item.birthday},
-            #{item.uname},
-            #{item.sex},
-            #{item.idCard},
-            #{item.merid.id},
-            <if test="item.lastLoginTime != null">#{item.lastLoginTime}</if><if test="item.lastLoginTime == null">default</if>,
-            <if test="item.isDelete != null">#{item.isDelete}</if><if test="item.isDelete == null">default</if>
-            )
+                #{item.id},
+                #{item.username},
+                #{item.password},
+                #{item.headPortrait},
+                #{item.phone},
+                #{item.signature},
+                #{item.birthday},
+                #{item.uname},
+                #{item.sex},
+                #{item.idCard},
+                #{item.merid.id},
+                <if test="item.lastLoginTime != null">#{item.lastLoginTime}</if><if test="item.lastLoginTime == null">default</if>,
+                <if test="item.isDelete != null">#{item.isDelete}</if><if test="item.isDelete == null">default</if>
+            ) 
         </foreach>
     </insert>
 
     <!-- 根据User条件修改单条数据方法,从传入对象获取主键id -->
     <update id="updateById" parameterType="User">
-        update user
+        update user 
         <set>
             <if test="username != null">username = #{username},</if>
             <if test="password != null">password = #{password},</if>
@@ -121,25 +120,25 @@
 
     <!-- 关联查询,调用者:"com.xsyx.dao.ShopcarDao" -->
     <select id="a_User_By_uid" resultMap="UserMap">
-        select birthday,uname,last_login_time,signature,sex,id_card,is_delete,password,phone,merid,id,username,head_portrait from user where id = #{fk};
+       select birthday,uname,last_login_time,signature,sex,id_card,is_delete,password,phone,merid,id,username,head_portrait from user where id = #{fk};
     </select>
 
 
     <!-- 关联查询,调用者:"com.xsyx.dao.MerchantsApplyDao" -->
     <select id="a_User_By_user_id" resultMap="UserMap">
-        select birthday,uname,last_login_time,signature,sex,id_card,is_delete,password,phone,merid,id,username,head_portrait from user where id = #{fk};
+       select birthday,uname,last_login_time,signature,sex,id_card,is_delete,password,phone,merid,id,username,head_portrait from user where id = #{fk};
     </select>
 
 
     <!-- 关联查询,调用者:"com.xsyx.dao.SearchRecordDao" -->
     <select id="a_User_By_user" resultMap="UserMap">
-        select birthday,uname,last_login_time,signature,sex,id_card,is_delete,password,phone,merid,id,username,head_portrait from user where id = #{fk};
+       select birthday,uname,last_login_time,signature,sex,id_card,is_delete,password,phone,merid,id,username,head_portrait from user where id = #{fk};
     </select>
 
 
     <!-- 关联查询,调用者:"com.xsyx.dao.MerLogDao" -->
     <select id="a_User_By_emp" resultMap="UserMap">
-        select birthday,uname,last_login_time,signature,sex,id_card,is_delete,password,phone,merid,id,username,head_portrait from user where id = #{fk};
+       select birthday,uname,last_login_time,signature,sex,id_card,is_delete,password,phone,merid,id,username,head_portrait from user where id = #{fk};
     </select>
 
     <!-- 用户登录 -->
@@ -147,5 +146,34 @@
         select birthday,uname,last_login_time,signature,sex,id_card,is_delete,password,phone,merid,id,username,head_portrait from user
         where (username=#{nameOrPhone} or phone=#{nameOrPhone}) and password=#{password} and is_delete!=1 limit 1;
     </select>
+
+    <!--搜索客户-->
+    <select id="search" resultMap="UserMap">
+        select id, username, password, head_portrait, phone, signature, birthday, uname, sex, id_card, merid, last_login_time, is_delete from user
+        where
+            (
+                username like concat('%',#{str},'%') or
+                phone like concat('%',#{str},'%') or
+                signature like concat('%',#{str},'%') or
+                uname like concat('%',#{str},'%') or
+                id_card like concat('%',#{str},'%')
+            )
+            <if test="sex != null"> and sex=#{sex}</if>
+            <if test="isRealName != null">
+                <if test="isRealName == 1">
+                    and id_card is not null and id_card != ''
+                </if>
+                <if test="isRealName == 0">
+                    and (id_card is null or id_card = '')
+                </if>
+            </if>
+            and is_delete = 0
+            order by id desc
+    </select>
+
+    <!--用户解除商户关系-->
+    <update id="unMerchant" parameterType="int">
+        update user set merid = null where merid = #{merId}
+    </update>
 
 </mapper>

@@ -43,4 +43,43 @@
         )
     </update>
 
+    <select id="queryIncomeByCom" resultType="java.util.HashMap">
+        select c.name name,sum(co.totlemoney) value from com_order co
+        left join shopcar s on co.sid = s.id
+        left join commodity c on s.cid = c.id
+        where co.delivery_time &gt;= date_add(now(),interval -#{day} DAY) and
+              co.merid=#{merId}
+        group by c.id;
+    </select>
+
+    <select id="queryDateSum" resultType="java.util.HashMap">
+        select date_format(delivery_time,
+                <if test="day > 30">'%Y-%m'</if>
+                <if test="day &lt;= 30">'%m-%d'</if>
+            ) date,sum(co.totlemoney) value from com_order co
+        left join shopcar s on co.sid = s.id
+        where co.delivery_time >= date_add(now(),interval -#{day} DAY) and
+              co.merid=#{merId}
+        group by date
+    </select>
+
+    <!--<select id="queryForMer" resultType="OrderDetails">
+        select ordstate,count(0)
+        from com_order
+        where com_order.merid = #{merId}
+        group by ordstate
+    </select>-->
+
+    <select id="queryStateCount" resultType="java.util.HashMap">
+        select ordstate,count(0) count
+        from com_order
+        where com_order.merid = #{merId} and ordstate in (0,1)
+        group by ordstate
+    </select>
+
+    <select id="queryYesterdayIncome" resultType="int" parameterType="int">
+        select count(0) from com_order
+        where com_order.merid=#{merId} and date_format(com_order.delivery_time, '%Y-%m-%d') = date_add(CURDATE(), interval -1 day);
+    </select>
+
 </mapper>
