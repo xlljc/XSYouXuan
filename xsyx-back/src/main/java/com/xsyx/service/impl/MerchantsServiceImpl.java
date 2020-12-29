@@ -41,12 +41,13 @@ public class MerchantsServiceImpl implements MerchantsService {
     @Override
     public Message delete(Integer merId, Integer empId) {
         if (empId == null) return new Message(false, "请先登录 !");
+        System.out.println("merId : " + merId);
         //先把用户解绑
-        if (userDao.unMerchant(merId) > 0) {
-            Merchants merchants = new Merchants();
-            merchants.setId(merId);
-            merchants.setState(-1);
-            merchantsDao.updateById(merchants);
+        userDao.unMerchant(merId);
+        Merchants merchants = new Merchants();
+        merchants.setId(merId);
+        merchants.setState(-1);
+        if (merchantsDao.updateById(merchants) > 0) {
             empLogDao.addLog(empId, "删除商户: id = " + merId, "{\"merId\": \"" + merId + "\"}");
         }
         return new Message(true, "操作成功 !");

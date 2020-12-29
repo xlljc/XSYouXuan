@@ -5,13 +5,14 @@
             <svg :class="['zdy-icon','index' + index]" style="width: 50px;height: 50px" aria-hidden="true">
                 <use :xlink:href="index | icon"></use>
             </svg>
-            <div class="type-name">肉类</div>
+            <div class="type-name">{{ data.name }}</div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
     import {Vue, Component, Prop} from "vue-property-decorator";
+    import {ComType} from "@/helper/entity";
 
     @Component({
         filters: {
@@ -26,18 +27,11 @@
         }
     })
     export default class CommodityType extends Vue {
-
         @Prop()
         index: number;
+        @Prop()
+        data: ComType;
 
-
-        created() {
-
-        }
-
-        mounted() {
-
-        }
     }
 </script>
 

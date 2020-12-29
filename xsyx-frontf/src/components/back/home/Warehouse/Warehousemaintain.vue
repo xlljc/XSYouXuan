@@ -19,7 +19,8 @@
                 type="success"
                 slot="append"
                 icon="el-icon-circle-plus"
-
+                @click="OpenAddWarehouse"
+                v-if="$btnPermissions('仓库添加')"
         >添加
         </el-button>
         <!--strip 双行阴影效果属性-->
@@ -77,7 +78,8 @@
                                 circle
                                 icon="el-icon-edit"
                                 size="medium"
-                                @click="queryCommodityTypedetails(scope.$index, scope.row)"></el-button>
+                                @click="queryWarehouseByid(scope.$index, scope.row)"
+                                v-if="$btnPermissions('仓库修改')"></el-button>
                     </el-tooltip>
                     <el-tooltip class="item" effect="dark" content="删除仓库" placement="top-start">
                         <el-button
@@ -85,7 +87,8 @@
                                 circle
                                 icon="el-icon-delete"
                                 size="medium"
-                                @click="deleteCommodityType(scope.$index, scope.row)"></el-button>
+                                @click="deleteWarehouse(scope.$index, scope.row)"
+                                v-if="$btnPermissions('仓库删除')"></el-button>
                     </el-tooltip>
                 </template>
             </el-table-column>
@@ -94,15 +97,21 @@
         <div id="menu">
             <div class="menu"
                  @click="openquerywarehousemotaikuang"
+                 v-if="$btnPermissions('查看仓库存储')"
             ><i style="font-size: 15px" class="el-icon-lock"></i>查看仓库存储
             </div>
             <div class="menu"
-                 @click="donjie"><i style="font-size: 15px" class="el-icon-lock"></i>冻结仓库</div>
+                 @click="donjie"
+                 v-if="$btnPermissions('仓库冻结')">
+                <i style="font-size: 15px" class="el-icon-lock"></i>冻结仓库</div>
             <div class="menu"
-                 @click="opencaigoumotaikuang"><i style="font-size: 15px" class="el-icon-lock"></i>采购
+                 @click="opencaigoumotaikuang"
+                 v-if="$btnPermissions('采购')">
+                <i style="font-size: 15px" class="el-icon-lock"></i>采购
             </div>
             <div class="menu"
                  @click="openzhuankumotaikuang"
+                 v-if="$btnPermissions('转库')"
             ><i style="font-size: 15px" class="el-icon-lock"></i>转库
             </div>
         </div>
@@ -110,6 +119,7 @@
         <div id="menu1">
             <div class="menu"
                  @click="jiedon"
+                 v-if="$btnPermissions('解冻')"
             ><i style="font-size: 15px" class="el-icon-lock"></i>解冻
             </div>
         </div>
@@ -390,6 +400,53 @@
                 <el-button type="primary" @click="SubmitCaiGou">确 定</el-button>
             </div>
         </el-dialog>
+       <!-- 添加仓库模态框-->
+        <el-dialog :close-on-click-modal="false"
+                   title="添加仓库"
+                   :visible.sync="addmotaikuang"
+                   width="500px">
+            <el-form label-width="80px">
+                <el-form-item label="仓库名:">
+                    <el-input v-model="warname" style="width: 250px"></el-input>
+                </el-form-item>
+                <el-form-item label="仓库类型:">
+                    <el-input v-model="wartype" style="width: 250px"></el-input>
+                </el-form-item>
+                <el-form-item label="仓库容量;">
+                    <el-input v-model="warcapacity" style="width: 250px"></el-input>
+                </el-form-item>
+                <el-form-item label="仓库地址:">
+                    <el-input v-model="waraddress" style="width: 250px"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="AddWarehouse">确 定</el-button>
+            </div>
+        </el-dialog>
+        <!--修改仓库模态框-->
+        <el-dialog :close-on-click-modal="false"
+                   title="修改仓库"
+                   :visible.sync="updatemotaikuang"
+                    width="500px">
+            <el-form label-width="80px">
+                <el-form-item label="仓库名:">
+                    <el-input v-model="warname" style="width: 250px"></el-input>
+                </el-form-item>
+                <el-form-item label="仓库类型:">
+                    <el-input v-model="wartype" style="width: 250px"></el-input>
+                </el-form-item>
+                <el-form-item label="仓库容量;">
+                    <el-input v-model="warcapacity" style="width: 250px"></el-input>
+                </el-form-item>
+                <el-form-item label="仓库地址:">
+                    <el-input v-model="waraddress" style="width: 250px"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="updateWarehouse">确 定</el-button>
+            </div>
+        </el-dialog>
+
     </div>
 </template>
 
@@ -485,6 +542,18 @@
 
         //登录用户实体
         empInfo: Employee = {};
+
+        //添加和修改模态框数据
+        //仓库名
+        warname : string="";
+        //仓库类型
+        wartype: string="";
+        //仓库容量
+        warcapacity: string="";
+        //仓库地址
+        waraddress: string="";
+        //仓库id 修改删除用
+        warid : string="";
 
         async created() {
             this.$store.commit('back/url', window.location.href);
@@ -713,7 +782,10 @@
               console.log(this.warehousestorage.warid===this.warehouseid)*/
             //判断不能选择原本仓库
             if (this.warehousestorage.warid.toString() === this.warehouseid.toString()) {
-                alert("不能选择原本仓库,请重新选择")
+                this.$message({
+                    type: 'error',
+                    message: "不能选择原本仓库,请重新选择"
+                });
                 this.warehouseid = "0";
                 this.warehouseron = 0;
             }
@@ -740,19 +812,40 @@
 
         //点击确定转库按钮
         zhuanku() {
+            //验证数量是不是数字
+            let value = this.shopsum.toString().replace('/(^*)|(*$)','')  //去除字符串前后空格
+            let num = Number(value)  //将字符串转换为数字
+            if(isNaN(num)){  //判断是否是非数字
+                this.$message.error("数量必须是数字")
+                return;
+            }else if(value === ''|| value === null){  //空字符串和null都会被当做数字
+                this.$message.error("数量必须是数字")
+                return;
+            }
+            //数量大于0
+            if(num<=0){
+                this.$message.error("数量必须大于0")
+                return;
+            }
             //拿到点击转库的商品的数据
             //console.log(this.warehousestorage)
             /*//判断变量
             let a=0;*/
             //判断是否选择仓库
             if (this.warehouseid === "0") {
-                alert("请选择仓库")
+                this.$message({
+                    type: 'error',
+                    message: "请选择仓库"
+                });
                 return;
             }
 
             //判断输入的商品数量是否超过拥有的量
             if (this.shopsum > this.warehousestorage.number) {
-                alert("所选商品数量不足，已为您选择最大值")
+                this.$message({
+                    type: 'error',
+                    message:"所选商品数量不足，已为您选择最大值"
+                });
                 this.shopsum = this.warehousestorage.number;
                 //计算商品总容量
                 this.getshopron();
@@ -760,7 +853,10 @@
             }
             //判断商品总量是否超过仓库容量
             if (this.shopron > this.warehouseron) {
-                alert("仓库容量不足，请重新选择")
+                this.$message({
+                    type: 'error',
+                    message: "仓库容量不足，请重新选择"
+                });
                 return;
             } else {
                 let params = new URLSearchParams();
@@ -788,7 +884,10 @@
                     this.querywarehousestorage();
                     //刷新显示仓库信息页面
                     this.getWarehouseAll();
-                    alert("转库成功")
+                    this.$message({
+                        type: 'success',
+                        message: "转库成功"
+                    });
                     /*this.warehousestoragetableData = value.data;*/
                 })
             }
@@ -818,6 +917,23 @@
 
         //给临时订单表加数据
         tianjiacaigou(){
+            //caigousum  判断输入的数量是不是数字  是不是大于0
+            //验证数量是不是数字
+            let value = this.caigousum.toString().replace('/(^*)|(*$)','')  //去除字符串前后空格
+            let num = Number(value)  //将字符串转换为数字
+            if(isNaN(num)){  //判断是否是非数字
+                this.$message.error("数量必须是数字")
+                return;
+            }else if(value === ''|| value === null){  //空字符串和null都会被当做数字
+                this.$message.error("数量必须是数字")
+                return;
+            }
+            //数量大于0
+            if(num<=0){
+                this.$message.error("数量必须大于0")
+                return;
+            }
+
             //获取这个商品的数据
             //alert(this.caigoushop.id)
             //获取采购多少数量
@@ -831,8 +947,11 @@
                 url: "/purchase/addLinShiPurchase",
                 data: params
             }).then(value => {
+                this.$message({
+                    type: 'success',
+                    message: value.data.msg
+                });
                 //console.log(value)
-                alert(value.data.msg)
                 //计算所有临时采购表里的商品的总价
                 this.getPurchaseLinShiShopZon();
                 //刷新临时订单表
@@ -888,8 +1007,11 @@
                 url: "/purchase/addCaiGou",
                 data: params
             }).then(value => {
+                this.$message({
+                    type: 'success',
+                    message: value.data.msg
+                });
                 //console.log(value)
-                alert(value.data.msg)
                 //临时采购表数据 在点击采购或者点击取消后就会清除
                 //关闭备注模态框
                 this.caigoubeizhu=false;
@@ -910,7 +1032,10 @@
                 data: params
             }).then(value => {
                 //console.log(value)
-                alert(value.data.msg)
+                this.$message({
+                    type: 'success',
+                    message: value.data.msg
+                });
                 //关闭右键菜单
                 let menu = document.querySelector("#menu") as any;
                 menu.style.display = 'none';
@@ -931,8 +1056,11 @@
                 url: "/warehouse/donjieOrjiedon",
                 data: params
             }).then(value => {
+                this.$message({
+                    type: 'success',
+                    message: value.data.msg
+                });
                 //console.log(value)
-                alert(value.data.msg)
                 //关闭右键菜单
                 let menu = document.querySelector("#menu") as any;
                 menu.style.display = 'none';
@@ -943,14 +1071,171 @@
             })
         }
 
-
-
-        queryCommodityLabledetails() {
-
+        //打开添加模态框
+        OpenAddWarehouse(){
+            this.addmotaikuang=true;
+            //清除数据
+            this.warname="";
+            this.wartype="";
+            this.warcapacity="";
+            this.waraddress="";
         }
+        //添加仓库
+        AddWarehouse(){
+            //验证 不能有空值
+            let value = this.warname.toString().replace('/(^*)|(*$)','')  //去除字符串前后空格
+            let value2 = this.wartype.toString().replace('/(^*)|(*$)','')  //去除字符串前后空格
+            let value3 = this.warcapacity.toString().replace('/(^*)|(*$)','')  //去除字符串前后空格
+            let value4 = this.waraddress.toString().replace('/(^*)|(*$)','')  //去除字符串前后空格
+            if(value === ''|| value === null ||
+                value2 === ''|| value2 === null||
+                value3 === ''|| value3 === null ||
+                value4 === ''|| value4 === null){
+                this.$message.error("不能有空值")
+                return ;
+            }
+            //验证容量是不是数字
+            let num = Number(value3)  //将字符串转换为数字
+            if(isNaN(num)){  //判断是否是非数字
+                this.$message.error("仓库容量必须是数字")
+                return;
+            }
 
-        deleteCommodityLable() {
+            //alert("添加")
+            let params = new URLSearchParams();
+            params.append("warname",this.warname);
+            params.append("wartype",this.wartype);
+            params.append("warcapacity",this.warcapacity);
+            params.append("waraddress",this.waraddress);
+            //添加
+            Axios({
+                method: "post",
+                url: "/warehouse/addWarehouse",
+                data: params
+            }).then(value => {
+                //console.log(value)
+                this.$message({
+                    type: 'success',
+                    message: value.data.msg
+                });
+                //关闭模态框
+                this.addmotaikuang=false;
+                //刷新页面
+                this.getWarehouseAll();
+            })
+        }
+        //查询当前仓库信息 并打开模态框赋值
+        queryWarehouseByid(index: number, row: any) {
+            //判断仓库是否被冻结  冻结不执行操作
+            if(row.warstate===0){
+                this.$message.error("仓库已被冻结，不能操作")
+                return;
+            }
 
+            this.updatemotaikuang=true;
+            //打开模态框赋值
+            this.warname=row.warname;
+            this.wartype=row.wartype;
+            this.warcapacity=row.warcapacity;
+            this.waraddress=row.waraddress;
+            this.warid=row.warid;
+        }
+        //修改仓库
+        updateWarehouse(){
+            //验证 不能有空值
+            let value = this.warname.toString().replace('/(^*)|(*$)','')  //去除字符串前后空格
+            let value2 = this.wartype.toString().replace('/(^*)|(*$)','')  //去除字符串前后空格
+            let value3 = this.warcapacity.toString().replace('/(^*)|(*$)','')  //去除字符串前后空格
+            let value4 = this.waraddress.toString().replace('/(^*)|(*$)','')  //去除字符串前后空格
+            if(value === ''|| value === null ||
+                value2 === ''|| value2 === null||
+                value3 === ''|| value3 === null ||
+                value4 === ''|| value4 === null){
+                this.$message.error("不能有空值")
+                return ;
+            }
+            //验证容量是不是数字
+            let num = Number(value3)  //将字符串转换为数字
+            if(isNaN(num)){  //判断是否是非数字
+                this.$message.error("仓库容量必须是数字")
+                return;
+            }
+            //判断仓库里有没有商品 有就不能执行操作  （后台判断了）
+            let params = new URLSearchParams();
+            params.append("warname",this.warname);
+            params.append("wartype",this.wartype);
+            params.append("warcapacity",this.warcapacity);
+            params.append("waraddress",this.waraddress);
+            params.append("warid",this.warid);
+            //修改
+            Axios({
+                method: "post",
+                url: "/warehouse/updateWarehouse",
+                data: params
+            }).then(value => {
+                if (value.data.flag===true){
+                    this.$message({
+                        type: 'success',
+                        message: value.data.msg
+                    });
+                }else {
+                    this.$message({
+                        type: 'error',
+                        message: value.data.msg
+                    });
+                }
+
+                //关闭模态框
+                this.updatemotaikuang=false;
+                //刷新页面
+                this.getWarehouseAll();
+            })
+        }
+        //删除仓库
+        deleteWarehouse(index: number, row: any) {
+            //判断仓库是否被冻结  冻结不执行操作
+            if(row.warstate===0){
+                this.$message.error("仓库已被冻结，不能操作")
+                return;
+            }
+            this.$confirm('此操作将删除仓库, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+                center: true
+            }).then(() => {
+                let params = new URLSearchParams();
+                params.append("warid",row.warid)
+                //执行删除操作
+                this.$axios.post("/warehouse/deleteWarehouse",params)
+                    .then((result)=> {
+                        if (result.data.flag===true){
+                            this.$message({
+                                type: 'success',
+                                message: result.data.msg
+                            });
+                        }else {
+                            this.$message({
+                                type: 'error',
+                                message: result.data.msg
+                            });
+                        }
+                        //刷新页面
+                        this.getWarehouseAll();
+                    }).catch((msg) => {
+                    this.$message({
+                        type: 'error',
+                        message: "删除失败×"
+                    });
+                });
+
+
+            }).catch(() => {
+                this.$message({
+                    type: 'error',
+                    message: '已取消删除'
+                });
+            });
         }
     }
 </script>

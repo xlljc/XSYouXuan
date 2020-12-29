@@ -121,7 +121,7 @@
             phone like concat('%',#{str},'%') or
             address like concat('%',#{str},'%') or
             remark like concat('%',#{str},'%')
-        ) and state = 1;
+        ) and state = 1
     </select>
 
 </mapper>

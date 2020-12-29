@@ -54,4 +54,21 @@ public interface WarehouseDao {
   //根据仓库id 和 传过来的状态 修改仓库状态
   int updateWareHouseWarstate(@Param("warid") String warid,
                               @Param("warstate") String warstate);
+
+  //添加仓库
+  int addWarehouse(@Param("warname") String warname,
+                   @Param("wartype") String wartype,
+                   @Param("warcapacity") String warcapacity,
+                   @Param("waraddress") String waraddress);
+  //修改仓库
+  int updateWarehouse(@Param("warname") String warname,
+                   @Param("wartype") String wartype,
+                   @Param("warcapacity") String warcapacity,
+                   @Param("waraddress") String waraddress,
+                      @Param("warid") String warid);
+  //删除仓库
+  int deleteWarehouse(@Param("warid") String warid);
+
+  //根据仓库id 查询仓库存储表是否有数据 没有就返回 仓库不为空 不能执行删除
+  int queryWarehouseshop(@Param("warid") String warid);
 }

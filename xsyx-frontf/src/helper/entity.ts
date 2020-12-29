@@ -318,7 +318,7 @@ export interface Merchants {
     /**商户状态, 0 被冻结, 1正常 , -1删除*/
     state?: number;
     pickupMerchantss?: PickupMerchants;
-    users?: User;
+    users?: User[];
 
     [key: string]: any;
 }
@@ -791,6 +791,17 @@ export interface ShopStatisticalType {
     shouHuoCount?: number;
     sum?: number;
     timeIncome?: { date: string; value: number }[];
+
+    [key: string]: any;
+}
+
+/**
+ * 首页数据类型
+ */
+export interface HomeDataType {
+    newReleases: Commodity[];
+    hotSale: Commodity[];
+    guessLikes: Commodity[];
 
     [key: string]: any;
 }

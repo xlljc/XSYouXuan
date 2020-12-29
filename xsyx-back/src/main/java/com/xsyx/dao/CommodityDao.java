@@ -69,6 +69,8 @@ public interface CommodityDao {
   int addCommodityType(@Param("name") String name);
   //修改商品类型
   int updateCommodityType(@Param("id") String id,@Param("name") String name);
+  //删除商品类型
+  int deleteCommodityType(@Param("id") String id);
 
   //查询所有商品标签
   List<ComLabel> queryAllLabel();
@@ -81,4 +83,15 @@ public interface CommodityDao {
   /*根据id查询
    */
   Commodity querySpByid(int id);
+
+
+  List<Commodity> queryNewReleases();
+
+  List<Commodity> queryHotSale();
+
+  List<Commodity> queryGuessLikes();
+
+  List<Commodity> search(@Param("str") String str);
+
+  List<Commodity> searchTips(@Param("str") String str);
 }

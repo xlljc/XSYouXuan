@@ -3,20 +3,20 @@
         <div class="xsyx-commodity-content">
             <el-badge :value="'NEW'" type="success" class="badge"/>
             <div class="image-box" @click="$router.replace('/spxq')">
-                <el-image :src="image" fit="cover" class="image"></el-image>
+                <el-image :src="$host + data.image" fit="cover" class="image"></el-image>
             </div>
-            <el-row style="height: 52px" >
-                <div class="title">西红柿</div>
+            <el-row style="height: 52px">
+                <div class="title">{{ data.name }}</div>
             </el-row>
             <el-row>
-                <div class="type">素菜</div>
+                <div class="type">{{ data.comType.name }}</div>
             </el-row>
             <el-row>
                 <el-button class="add-to-car" type="success" round plain>加入购物车</el-button>
                 <div class="price">
                     <span class="discount"></span>
-                    <span class="discount-price"> ￥1.5</span>
-                    <span> / 斤</span>
+                    <span class="discount-price"> ￥{{ data.price }}</span>
+                    <span> / {{ data.unit }}</span>
                 </div>
             </el-row>
         </div>
@@ -25,12 +25,14 @@
 </template>
 
 <script lang="ts">
-    import {Vue, Component} from "vue-property-decorator";
+    import {Vue, Component, Prop} from "vue-property-decorator";
+    import {Commodity as Com} from '@/helper/entity';
 
     @Component
     export default class Commodity extends Vue {
 
-        image = require('@/assets/xhs.jpg');
+        @Prop()
+        data: Com;
 
         created() {
 

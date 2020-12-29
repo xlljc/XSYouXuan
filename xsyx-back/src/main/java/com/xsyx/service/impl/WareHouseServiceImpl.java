@@ -87,5 +87,25 @@ public class WareHouseServiceImpl implements WareHouseService {
         return warehouseDao.updateWareHouseWarstate(warid,warstate);
     }
 
+    @Override
+    public int addWarehouse(String warname, String wartype, String warcapacity, String waraddress) {
+        return warehouseDao.addWarehouse(warname,wartype,warcapacity,waraddress);
+    }
+
+    @Override
+    public int updateWarehouse(String warname, String wartype, String warcapacity, String waraddress, String warid) {
+        return warehouseDao.updateWarehouse(warname,wartype,warcapacity,waraddress,warid);
+    }
+
+    @Override
+    public int deleteWarehouse(String warid) {
+        return warehouseDao.deleteWarehouse(warid);
+    }
+
+    @Override
+    public int queryWarehouseshop(String warid) {
+        return warehouseDao.queryWarehouseshop(warid);
+    }
+
 
 }

@@ -9,7 +9,7 @@
 
         <el-row>
             <div class="xsys-commodity-box">
-                <commodity v-for="item in 10" :key="item"></commodity>
+                <commodity v-for="item in data" :key="item" :data="item"></commodity>
             </div>
         </el-row>
 
@@ -17,15 +17,19 @@
 </template>
 
 <script lang="ts">
-    import {Vue, Component} from "vue-property-decorator";
+    import {Vue, Component, Prop} from "vue-property-decorator";
     import Commodity from "@/components/front/home/Commodity.vue";
+    import {Commodity as Com} from '@/helper/entity';
+
     @Component({
         components: {
             Commodity
-
         }
     })
     export default class NewCommodity extends Vue {
+
+        @Prop()
+        data: Com[];
 
         created() {
 
