@@ -417,7 +417,6 @@
                 this.$message.error("价格必须是数字")
                 return;
             }
-            alert(num)
             //价格大于0
             if(num<=0){
                 this.$message.error("价格必须大于0")
