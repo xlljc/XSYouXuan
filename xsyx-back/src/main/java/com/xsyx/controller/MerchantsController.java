@@ -1,7 +1,7 @@
 package com.xsyx.controller;
 import com.xsyx.service.MerchantsService;
 import com.xsyx.vo.Merchants;
-import com.xsyx.vo.User;
+import com.xsyx.vo.MerchantsApply;
 import com.xsyx.vo.system.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,15 +44,17 @@ public class MerchantsController {
     }
 
     //商户申请查询
-    public PageInfo<Merchants> queryApply() {
-        return null;
+    @RequestMapping("/queryApply")
+    public PageInfo<MerchantsApply> queryApply(String str,
+                                          @RequestParam(defaultValue = "1") Integer page,
+                                          @RequestParam(defaultValue = "10") Integer row) {
+        return merchantsService.queryApply(str,page,row);
     }
 
     //商户申请审批
-    public Message approval() {
-        return null;
+    @RequestMapping("/approval")
+    public Message approval(Integer id,Boolean flag,String message,Integer empId) {
+        return merchantsService.approval(id,flag,message,empId);
     }
-
-    //商户
 
 }

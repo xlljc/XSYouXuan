@@ -114,7 +114,6 @@ export class HomeQueryHelper {
     getHotQuery(): Promise<HotQueryData[]> {
         return new Promise<HotQueryData[]>(resolve => {
             Axios.get("/commodity/queryHotSearch").then(value => {
-                console.log(value.data)
                 resolve(value.data);
             })
         });
