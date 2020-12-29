@@ -36,6 +36,8 @@
             <if test="name!=null"> and co.name like  concat('%',#{name},'%')</if>
             <if test="state != null"> and co.state like  concat('%',#{state},'%')</if>
         </where>
+        ORDER BY co.id
+        ASC
     </select>
 
     <!--根据条件查询商品总数量-->
@@ -47,6 +49,8 @@
             <if test="name!=null"> and co.name like  concat('%',#{name},'%')</if>
             <if test="state != null"> and co.state like  concat('%',#{state},'%')</if>
         </where>
+        ORDER BY co.id
+        ASC
     </select>
 
     <!-- 添加商品 -->
@@ -90,7 +94,11 @@
         UPDATE com_type SET name=#{name}
         WHERE id=#{id}
     </update>
-
+    <!--删除商品类型-->
+    <delete id="deleteCommodityType">
+      delete from com_type
+        WHERE id=#{id}
+    </delete>
 
 
     <!--查询所有商品标签-->
@@ -98,6 +106,15 @@
         select * from  com_label
     </select>
 
+<!--    连表查询要用-->
+    <select id="a_Commodity_By_cid" resultMap="CommodityMap">
+        select * from commodity where id = #{fk};
+    </select>
+
+<!--    根据商品id查询商品-->
+    <select id="querySpByid" parameterType="int" resultMap="CommodityMap">
+        select * from commodity where id=#{id};
+    </select>
     <!-- 查询最新上架的商品 -->
     <select id="queryNewReleases" resultMap="CommodityMap">
         select * from commodity where state = 1 order by newest_putaway_date limit 10

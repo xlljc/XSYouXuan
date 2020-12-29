@@ -126,4 +126,76 @@ public class WareHouseController {
 
     }
 
+    //添加仓库
+    @RequestMapping("/addWarehouse")
+    public Message addWarehouse(String warname,
+                                String wartype,
+                                String warcapacity,
+                                String waraddress) {
+        Message message = new Message();
+
+        int row = wareHouseService.addWarehouse(warname,wartype,warcapacity,waraddress);
+        if (row > 0) {
+            message.flag = true;
+            message.msg = "添加成功√";
+            return message;
+        }
+        message.flag = false;
+        message.msg = "添加失败×";
+        return message;
+    }
+
+    //修改仓库信息
+    @RequestMapping("/updateWarehouse")
+    public Message updateWarehouse(String warname,
+                                String wartype,
+                                String warcapacity,
+                                String waraddress,
+                                   String warid) {
+        Message message = new Message();
+        //根据仓库id 查询仓库存储表是否有数据 没有就返回 仓库不为空 不能执行修改
+        int jieguo=wareHouseService.queryWarehouseshop(warid);
+
+        if (jieguo!=0){
+            message.flag = false;
+            message.msg = "仓库不为空 不能执行修改";
+            return message;
+        }
+
+        int row = wareHouseService.updateWarehouse(warname,wartype,warcapacity,waraddress,warid);
+        if (row > 0) {
+            message.flag = true;
+            message.msg = "修改成功√";
+            return message;
+        }
+        message.flag = false;
+        message.msg = "修改失败×";
+        return message;
+    }
+    //删除仓库
+    @RequestMapping("/deleteWarehouse")
+    public Message deleteWarehouse(String warid) {
+        Message message = new Message();
+        //判断仓库里有没有商品 有就不能执行操作
+        //根据仓库id 查询仓库存储表是否有数据 没有就返回 仓库不为空 不能执行删除
+        int jieguo=wareHouseService.queryWarehouseshop(warid);
+
+        if (jieguo!=0){
+            message.flag = false;
+            message.msg = "仓库不为空 不能执行删除";
+            return message;
+        }
+
+        int row = wareHouseService.deleteWarehouse(warid);
+        if (row > 0) {
+            message.flag = true;
+            message.msg = "删除成功√";
+            return message;
+        }else {
+            message.flag = false;
+            message.msg = "删除失败×";
+            return message;
+        }
+
+    }
 }

@@ -13,6 +13,7 @@ import PurchaseOrderJiLu from "@/components/back/home/Purchase/PurchaseOrderJiLu
 
 import CustomerMaintain from "@/components/back/home/Customer/CustomerMaintain.vue";
 import MerchantsMaintain from "@/components/back/home/Merchants/MerchantsMaintain.vue";
+import Distribution from "@/components/back/home/Distribution/Distribution.vue";
 
 
 /**
@@ -32,6 +33,8 @@ const BackRouter: Array<RouteConfig> = [
     {path:"/purchaseorderapply",component:PurchaseOrder},
     //采购审批记录
     {path:"/purchaseorderapplyjilu",component:PurchaseOrderJiLu},
+    //配送管理
+    {path:"/peison",component:Distribution},
     /*{
         path: '/aaa',
         component: BackHome,

@@ -2,7 +2,7 @@ package com.xsyx.controller;
 
 import com.xsyx.dao.ComOrderDao;
 import com.xsyx.dao.OrderDetailsDao;
-import com.xsyx.dao.RoleDao;
+
 
 import com.xsyx.vo.OrderDetails;
 import com.xsyx.vo.Role;
@@ -20,15 +20,15 @@ import java.util.Map;
 @RequestMapping("/test")
 public class TestController {
 
-    @Autowired
+    /*@Autowired
     private RoleDao roleDao;
 
     @Autowired
     private OrderDetailsDao orderDetailsDao;
 
-    /**
+    *//**
      * 测试
-     */
+     *//*
     @RequestMapping("/test1")
     public Map<String,String> test1() {
         Map<String,String> map = new HashMap<>();
@@ -36,21 +36,21 @@ public class TestController {
         return map;
     }
 
-    /**
+    *//**
      * 测试2
-     */
+     *//*
     @RequestMapping("/test2")
     public List<Role> test2() {
         List<Role> roles = roleDao.queryAll();
         return roles;
     }
 
-    /**
+    *//**
      * 测试2
-     */
+     *//*
     @RequestMapping("/test3")
     public List<OrderDetails> test3(@RequestParam(defaultValue = "") String str, Integer merId, Integer state) {
         return orderDetailsDao.queryForMer(str,merId,state);
-    }
+    }*/
 
 }

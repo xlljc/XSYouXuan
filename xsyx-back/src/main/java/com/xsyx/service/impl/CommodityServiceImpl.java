@@ -58,6 +58,11 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
+    public int deleteCommodityType(String id) {
+        return commodityDao.deleteCommodityType(id);
+    }
+
+    @Override
     public List<Commodity> moHuquery(String name, String state) {
         return commodityDao.moHuquery(name,state);
     }
@@ -86,6 +91,11 @@ public class CommodityServiceImpl implements CommodityService {
     @Override
     public List<ComLabel> queryAllLabel() {
         return commodityDao.queryAllLabel();
+    }
+
+    @Override
+    public Commodity querySpByid(int id) {
+        return commodityDao.querySpByid(id);
     }
 
     @Override

@@ -25,6 +25,14 @@ public class MerchantsServiceImpl implements MerchantsService {
     private UserDao userDao;
 
     @Override
+    public Message insert(Merchants merchants) {
+        Message message = new Message(true, merchants);
+        merchants.getId();
+        merchantsDao.insert(merchants);
+
+        return message;
+    }
+    @Override
     public PageInfo<Merchants> query(String str, Integer page, Integer row) {
         PageHelper.startPage(page, row);
         return new PageInfo<>(merchantsDao.queryBy(str));

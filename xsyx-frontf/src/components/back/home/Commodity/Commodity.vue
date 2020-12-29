@@ -32,6 +32,7 @@
         </el-button>
         <!--strip 双行阴影效果属性-->
         <el-table
+                v-loading="loading"
                 border
                 :data="tableData.rows"
                 style="width: 100%;margin-top: 30px">
@@ -102,7 +103,8 @@
                             circle
                             icon="el-icon-edit"
                             size="medium"
-                            @click="queryCommoditydetails(scope.$index, scope.row)"></el-button>
+                            @click="queryCommoditydetails(scope.$index, scope.row)"
+                            v-if="$btnPermissions('商品修改')"></el-button>
                     </el-tooltip>
                     <el-tooltip class="item" effect="dark" content="下架商品" placement="top-start">
                     <el-button
@@ -110,7 +112,8 @@
                             circle
                             icon="el-icon-delete"
                             size="medium"
-                            @click="deleteCommodity(scope.$index, scope.row)"></el-button>
+                            @click="deleteCommodity(scope.$index, scope.row)"
+                            v-if="$btnPermissions('商品下架')"></el-button>
                     </el-tooltip>
                     <el-tooltip class="item" effect="dark" content="上架商品" placement="top-start">
                         <el-button
@@ -118,7 +121,8 @@
                                 circle
                                 icon="el-icon-top"
                                 size="medium"
-                                @click="PutCommodity(scope.$index, scope.row)"></el-button>
+                                @click="PutCommodity(scope.$index, scope.row)"
+                                v-if="$btnPermissions('商品上架')"></el-button>
                     </el-tooltip>
                 </template>
             </el-table-column>
@@ -139,7 +143,7 @@
                    title="商品添加"
                    :visible.sync="addmotaikuang">
             <!-- 商品编辑组件, 传入data值, 传入图片列表 -->
-            <commodity-edit :from-data="fromData" :image-file="imageFile"></commodity-edit>
+            <commodity-edit ref="addFrom" :from-data="fromData" :image-file="imageFile"></commodity-edit>
 
             <div slot="footer" class="dialog-footer">
                 <el-button @click="addmotaikuang = false">取 消</el-button>
@@ -153,7 +157,7 @@
                    title="商品修改"
                    :visible.sync="updatemotaikuang">
             <!-- 商品编辑组件, 传入data值, 传入图片列表 -->
-            <commodity-edit :from-data="fromData" :image-file="imageFile"></commodity-edit>
+            <commodity-edit ref="updateFrom" :from-data="fromData" :image-file="imageFile"></commodity-edit>
 
             <div slot="footer" class="dialog-footer">
                 <el-button @click="updatemotaikuang = false">取 消</el-button>
@@ -171,7 +175,7 @@
     import {ComDiscount, Commodity as Com, FileInfo, Message} from "@/helper/entity";
     import CommodityEdit from "@/components/back/home/Commodity/CommodityEdit.vue";
     import {EmpHelper} from "@/helper/back/EmpHelper";
-    import el from "element-ui/src/locale/lang/el";
+    // import el from "element-ui/src/locale/lang/el";
 
     /**
      * 创建一个空的商品对象
@@ -201,6 +205,13 @@
     })
     export default class Commodity extends Vue {
 
+        $refs: {
+            addFrom: any;
+            updateFrom: any;
+        }
+
+        /*延迟表格加载*/
+        loading: boolean = true;
         //添加模态框的状态
         addmotaikuang =false;
         //修改模态框的状态
@@ -237,6 +248,10 @@
             /*EmpHelper.getEmp().then(value => {
                 console.log(value);
             })*/
+            //延迟表格加载
+            setTimeout(() => {
+                this.loading = false;
+            }, 2000)
         }
 
         //获取商品上架状态
@@ -276,7 +291,43 @@
             this.imageFile = createEmptyFileInfo();
         }
         //提交添加的商品信息方法
-        submitAddCommodity() {
+        async submitAddCommodity() {
+
+            if (!await this.$refs.addFrom.validate()) {
+                this.$message.error("验证失败")
+              return ;
+            }
+            //验证价格是不是数字
+            let value = this.fromData.price.toString().replace('/(^*)|(*$)','')  //去除字符串前后空格
+            let num = Number(value)  //将字符串转换为数字
+            if(isNaN(num)){  //判断是否是非数字
+                this.$message.error("价格必须是数字")
+                return;
+            }else if(value === ''|| value === null){  //空字符串和null都会被当做数字
+                this.$message.error("价格必须是数字")
+                return;
+            }
+            //价格大于0
+            if(num<=0){
+                this.$message.error("价格必须大于0")
+                return;
+            }
+            //验证规格是不是数字
+            let value1 = this.fromData.specification.toString().replace('/(^*)|(*$)','')  //去除字符串前后空格
+            let num1 = Number(value1)  //将字符串转换为数字
+            if(isNaN(num1)){  //判断是否是非数字
+                this.$message.error("规格必须是数字")
+                return;
+            }else if(value1 === ''|| value1 === null){  //空字符串和null都会被当做数字
+                this.$message.error("规格必须是数字")
+                return;
+            }
+            //规格大于0
+            if(num1<=0){
+                this.$message.error("规格必须大于0")
+                return;
+            }
+
             //关闭模态框
             this.addmotaikuang = false;
             //执行提交操作
@@ -350,7 +401,43 @@
         }
 
         //点击模态框确定按钮  修改商品信息方法
-        updateCommodity() {
+        async updateCommodity() {
+            //验证非空
+            if (!await this.$refs.updateFrom.validate()) {
+                this.$message.error("验证失败")
+                return ;
+            }
+            //验证价格是不是数字
+            let value = this.fromData.price.toString().replace('/(^*)|(*$)','')  //去除字符串前后空格
+            let num = Number(value)  //将字符串转换为数字
+            if(isNaN(num)){  //判断是否是非数字
+                this.$message.error("价格必须是数字")
+                return;
+            }else if(value === ''|| value === null){  //空字符串和null都会被当做数字
+                this.$message.error("价格必须是数字")
+                return;
+            }
+            alert(num)
+            //价格大于0
+            if(num<=0){
+                this.$message.error("价格必须大于0")
+                return;
+            }
+            //验证规格是不是数字
+            let value1 = this.fromData.specification.toString().replace('/(^*)|(*$)','')  //去除字符串前后空格
+            let num1 = Number(value1)  //将字符串转换为数字
+            if(isNaN(num1)){  //判断是否是非数字
+                this.$message.error("规格必须是数字")
+                return;
+            }else if(value1 === ''|| value1 === null){  //空字符串和null都会被当做数字
+                this.$message.error("规格必须是数字")
+                return;
+            }
+            //规格大于0
+            if(num1<=0){
+                this.$message.error("规格必须大于0")
+                return;
+            }
             //关闭模态框
             this.updatemotaikuang = false;
             //执行提交操作

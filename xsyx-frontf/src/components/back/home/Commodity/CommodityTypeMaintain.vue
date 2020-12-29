@@ -20,6 +20,7 @@
                 slot="append"
                 icon="el-icon-circle-plus"
                 @click="addmotaikuang=true"
+                v-if="$btnPermissions('类型添加')"
         >添加
         </el-button>
         <!--strip 双行阴影效果属性-->
@@ -57,14 +58,16 @@
                             circle
                             icon="el-icon-edit"
                             size="medium"
-                            @click="openupdateCommodityType(scope.$index, scope.row)"></el-button>
+                            @click="openupdateCommodityType(scope.$index, scope.row)"
+                            v-if="$btnPermissions('类型修改')"></el-button>
                     </el-tooltip>
                         <el-button
                             type="danger"
                             circle
                             icon="el-icon-delete"
                             size="medium"
-                            @click="deleteCommodityType(scope.$index, scope.row)"></el-button>
+                            @click="deleteCommodityType(scope.$index, scope.row)"
+                            v-if="$btnPermissions('类型删除')"></el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -165,7 +168,10 @@
                 data: params
             }).then(value => {
                 //console.log(value)
-                alert(value.data.msg)
+                this.$message({
+                    type: 'success',
+                    message: value.data.msg
+                });
                 //关闭模态框
                 this.addmotaikuang=false;
                 //刷新页面
@@ -197,7 +203,10 @@
                 data: params
             }).then(value => {
                 //console.log(value)
-                alert(value.data.msg)
+                this.$message({
+                    type: 'success',
+                    message: value.data.msg
+                });
                 //关闭模态框
                 this.updatemotaikuang=false;
                 //刷新页面
@@ -205,8 +214,44 @@
             })
         }
 
-        deleteCommodityType(){
+        //***********************************************************
+        //                      商品类型删除部分
+        //***********************************************************
 
+        deleteCommodityType(index: number, row: any){
+            this.$confirm('此操作将删除类型, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+                center: true
+            }).then(() => {
+                let params = new URLSearchParams();
+                params.append("id",row.id.toString())
+                //执行删除操作
+                this.$axios.post("/commodity/deleteType",params)
+                    .then((result)=> {
+                        if (result.data.flag===true){
+                            this.$message({
+                                type: 'success',
+                                message: "删除成功√"
+                            });
+                        }
+                        //刷新页面
+                        this.getCommodityTypeAll();
+                    }).catch((msg) => {
+                    this.$message({
+                        type: 'error',
+                        message: "删除失败×"
+                    });
+                });
+
+
+            }).catch(() => {
+                this.$message({
+                    type: 'error',
+                    message: '已取消删除'
+                });
+            });
         }
 
 

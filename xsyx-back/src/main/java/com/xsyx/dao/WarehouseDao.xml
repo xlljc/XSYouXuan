@@ -87,4 +87,23 @@
         UPDATE warehouse SET warstate=#{warstate}
         WHERE warid=#{warid}
     </update>
+    <!--添加仓库-->
+    <insert id="addWarehouse">
+        INSERT INTO warehouse VALUES(NULL,#{warname},#{wartype},#{warcapacity},#{waraddress},-1,-1,DEFAULT);
+    </insert>
+    <!--修改仓库-->
+    <update id="updateWarehouse">
+        UPDATE warehouse SET warname=#{warname},wartype=#{wartype},warcapacity=#{warcapacity},waraddress=#{waraddress}
+        WHERE warid=#{warid}
+    </update>
+   <!-- 删除仓库-->
+    <delete id="deleteWarehouse">
+        delete from warehouse
+        WHERE warid=#{warid}
+    </delete>
+   <!-- 根据仓库id 查询仓库存储表是否有数据 没有就返回 仓库不为空 不能执行删除-->
+    <select id="queryWarehouseshop" resultType="int">
+        SELECT COUNT(*) FROM warehousestorage
+        WHERE warid=#{warid}
+    </select>
 </mapper>

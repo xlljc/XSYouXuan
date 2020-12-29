@@ -60,4 +60,5 @@ public interface UserDao {
    * @return
    */
   int unMerchant(@Param("merId") Integer merId);
+
 }

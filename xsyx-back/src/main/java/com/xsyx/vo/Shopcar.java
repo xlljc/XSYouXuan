@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 表名 :  shopcar<br/>
  * 表注释 : 购物车表
- */ 
+ */
 @JsonIgnoreProperties(value = "handler")
 public class Shopcar implements Serializable {
 
@@ -28,19 +28,21 @@ public class Shopcar implements Serializable {
 	/**用户id*/
 	private User uid;
 	private List<ComOrder> comOrders;
+	private int state;
 
 	public Shopcar() {
 		super();
 	}
-	public Shopcar(Integer id, Integer number, Timestamp jointime, Float totalprice, Commodity cid, User uid) {
+	public Shopcar(Integer id, Integer number, Timestamp jointime, Float totalprice, Commodity cid, User uid,Integer state) {
 		this.id = id;
 		this.number = number;
 		this.jointime = jointime;
 		this.totalprice = totalprice;
 		this.cid = cid;
 		this.uid = uid;
+		this.state=state;
 	}
-	public Shopcar(Integer id, Integer number, Timestamp jointime, Float totalprice, Commodity cid, User uid, List<ComOrder> comOrders) {
+	public Shopcar(Integer id, Integer number, Timestamp jointime, Float totalprice, Commodity cid, User uid, List<ComOrder> comOrders,Integer state) {
 		this.id = id;
 		this.number = number;
 		this.jointime = jointime;
@@ -48,6 +50,7 @@ public class Shopcar implements Serializable {
 		this.cid = cid;
 		this.uid = uid;
 		this.comOrders = comOrders;
+		this.state=state;
 	}
 	/**设置"id"*/
 	public void setId(Integer id){
@@ -72,6 +75,14 @@ public class Shopcar implements Serializable {
 	/**获取"加入购物车时间"*/
 	public Timestamp getJointime(){
 		return jointime;
+	}
+	/**设置"加入购物车状态"*/
+	public void setState(Integer state){
+		this.state = state;
+	}
+	/**获取"加入购物车状态"*/
+	public Integer getState(){
+		return state;
 	}
 	/**设置"总价"*/
 	public void setTotalprice(Float totalprice){
@@ -101,15 +112,16 @@ public class Shopcar implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "shopcar[" + 
-			"id = " + id + 
-			", number = " + number + 
-			", jointime = " + jointime + 
-			", totalprice = " + totalprice + 
-			", cid = " + cid + 
-			", uid = " + uid + 
-			", comOrders = " + comOrders + 
-			"]";
+		return "shopcar[" +
+				"id = " + id +
+				", number = " + number +
+				", jointime = " + jointime +
+				", totalprice = " + totalprice +
+				", cid = " + cid +
+				", uid = " + uid +
+				", comOrders = " + comOrders +
+				", state = " + state +
+				"]";
 	}
 }
 

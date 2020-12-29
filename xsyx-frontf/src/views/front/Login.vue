@@ -2,7 +2,7 @@
     <div>
         <el-container>
 
-            <el-header style="position: fixed;width: 100%;z-index: 10;margin-top: -9px;">
+            <!--<el-header style="position: fixed;width: 100%;z-index: 10;margin-top: -9px;">
                 <el-menu :default-active="'1'"
                          mode="horizontal">
                     <el-menu-item>
@@ -21,67 +21,68 @@
 
                     <el-menu-item index="3"><i class="el-icon-scissors"></i>每日特价</el-menu-item>
                 </el-menu>
-            </el-header>
-<div style="width: 1900px; height: 800px">
-            <el-main>
-                <el-col :span="24">
-                    <el-image style="width: 1855px; height: 800px;margin-left:12px" :src="require('@/assets/mcimg/loginsss.png')"></el-image>
-                </el-col>
-                <el-col :span="4">
-                    <div class="login">
-                        <div class="login-top">
-                            用户登录
-                        </div>
-                        <div style="margin-top: -20px">
-                        <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm">
-                            <div class="login-center clearfix">
-                                <div class="login-center-img">
-                                    <el-image style="width:30px; height: 27px" :src="require('@/assets/mcimg/name.png')"></el-image>
-                                </div>
-                                    <el-form-item class="login-center-input" prop="username">
-                                        <el-input type="type" placeholder="请输入您的用户名" v-model="ruleForm.username" onfocus="this.placeholder=''"
-                                                  autocomplete="off" onblur="this.placeholder='请输入您的用户名'"/>
-                                    </el-form-item>
+            </el-header>-->
+            <front-header></front-header>
+            <div style="width: 1900px; height: 800px">
+                <el-main>
+                    <el-col :span="24">
+                        <el-image style="width: 1855px; height: 800px;margin-left:12px" :src="require('@/assets/mcimg/loginsss.png')"></el-image>
+                    </el-col>
+                    <el-col :span="4">
+                        <div class="login">
+                            <div class="login-top">
+                                用户登录
                             </div>
-                            <div class="login-center clearfix">
-                                <div class="login-center-img">
-                                    <el-image style="width: 27px; height: 27px" :src="require('@/assets/mcimg/password.png')"></el-image>
-                                </div>
-                                    <el-form-item class="login-center-input" prop="password">
-                                    <el-input type="password" placeholder="请输入您的密码" onfocus="this.placeholder=''"
-                                         v-model="ruleForm.password" autocomplete="off" onblur="this.placeholder='请输入您的密码'"/>
-                                    <div class="login-center-input-text">密码</div>
-                                    </el-form-item>
-                            </div>
+                            <div style="margin-top: -20px">
+                                <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm">
+                                    <div class="login-center clearfix">
+                                        <div class="login-center-img">
+                                            <el-image style="width:30px; height: 27px" :src="require('@/assets/mcimg/name.png')"></el-image>
+                                        </div>
+                                        <el-form-item class="login-center-input" prop="username">
+                                            <el-input type="type" placeholder="请输入您的用户名" v-model="ruleForm.username" onfocus="this.placeholder=''"
+                                                      autocomplete="off" onblur="this.placeholder='请输入您的用户名'"/>
+                                        </el-form-item>
+                                    </div>
+                                    <div class="login-center clearfix">
+                                        <div class="login-center-img">
+                                            <el-image style="width: 27px; height: 27px" :src="require('@/assets/mcimg/password.png')"></el-image>
+                                        </div>
+                                        <el-form-item class="login-center-input" prop="password">
+                                            <el-input type="password" placeholder="请输入您的密码" onfocus="this.placeholder=''"
+                                                      v-model="ruleForm.password" autocomplete="off" onblur="this.placeholder='请输入您的密码'"/>
+                                            <div class="login-center-input-text">密码</div>
+                                        </el-form-item>
+                                    </div>
 
-                            <div class="login-center clearfix">
-                                <div class="login-center-img">
-                                    <el-image style="width: 27px; height: 27px" :src="require('@/assets/mcimg/yzm1.png')"></el-image></div>
-                                <div class="login-center-input">
-                                    <input type="text" placeholder="请输入验证码" onfocus="this.placeholder=''" onblur="this.placeholder='请输入验证码'"/>
-                                    <div class="login-center-input-text">验证码</div>
+                                    <div class="login-center clearfix">
+                                        <div class="login-center-img">
+                                            <el-image style="width: 27px; height: 27px" :src="require('@/assets/mcimg/yzm1.png')"></el-image></div>
+                                        <div class="login-center-input">
+                                            <input type="text" placeholder="请输入验证码" onfocus="this.placeholder=''" onblur="this.placeholder='请输入验证码'"/>
+                                            <div class="login-center-input-text">验证码</div>
+                                            <br>
+                                            <br>
+                                            <canvas id="canvas" @click="showNum"></canvas>
+                                        </div>
+
+                                    </div>
                                     <br>
-                                    <br>
-                                    <canvas id="canvas" @click="showNum"></canvas>
-                                </div>
-
+                                    <el-button style="margin-left: 140px ;margin-top: 20px" type="primary" @click="denglu">提交</el-button>
+                                </el-form>
                             </div>
-                            <br>
-                            <el-button type="primary" @click="denglu">提交</el-button>
-                        </el-form>
                         </div>
-                    </div>
-                    <div class="sk-rotating-plane"></div>
-                </el-col>
-            </el-main>
+                        <div class="sk-rotating-plane"></div>
+                    </el-col>
+                </el-main>
 
-            <el-footer>
+                <el-footer>
 
-                <h2>合作商</h2>
+                    <h2>合作商</h2>
 
 
-            </el-footer>
-</div>
+                </el-footer>
+            </div>
         </el-container>
     </div>
 </template>
@@ -90,10 +91,13 @@
     import {Vue, Component, Watch} from "vue-property-decorator";
     import Axios from "axios";
     import {User} from "@/helper/entity";
+    import FrontHeader from "@/components/front/home/FrontHeader.vue";
+    import {UserHelper} from "@/helper/front/UserHelper";
 
 
     @Component({
         components: {
+            FrontHeader
         }
     })
     export default class Login extends Vue {
@@ -137,15 +141,15 @@
 
             data.append("name",this.ruleForm.username);
             data.append("password",this.ruleForm.password)
-            alert(this.ruleForm.username)
             Axios({
                 method:"post",
                 url:"/user/login",
                 data:data
             }).then((result) => {
 
-                console.log(result.data )
-                sessionStorage.setItem("username",result.data.msg.username)
+                //sessionStorage.setItem("id",result.data.msg.id)
+                UserHelper.userId = result.data.msg.id;
+                this.$router.replace("/");
             })
         }
 

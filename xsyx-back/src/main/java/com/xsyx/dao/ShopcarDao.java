@@ -41,4 +41,13 @@ public interface ShopcarDao {
    * 根据Shopcar条件修改单条数据方法,从传入对象获取id 
    */
   int updateById(Shopcar shopcar);
+
+  List<Shopcar> queryShopcarByuid(@Param("uid") Integer uid);
+
+  /*
+   *删除购物车
+   */
+  int delShopcar(@Param("id") int id);
+
+
 }

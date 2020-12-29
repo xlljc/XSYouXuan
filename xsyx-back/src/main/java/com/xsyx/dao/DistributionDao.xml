@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xsyx.dao.DistributionDao">
+
+    <!-- resultMap映射 -->
+    <resultMap id="DistributionMap" type="Distribution">
+        <id column="id" property="id"/>
+        <result column="order_number" property="ordernumber"/>
+        <result column="ordstate" property="ordstate"/>
+        <result column="id1" property="id1"/>
+        <result column="name" property="name"/>
+        <result column="specification" property="specification"/>
+        <result column="totlemoney" property="number"/>
+
+    </resultMap>
+
+    <!-- 查询所有方法 -->
+    <select id="querypeisonAll" resultMap="DistributionMap">
+        SELECT c.id,c.order_number,c.ordstate,b.id id1,b.name,b.specification,c.totlemoney FROM com_order c
+        INNER JOIN shopcar s ON c.sid=s.id
+        INNER JOIN commodity b ON s.cid=b.id
+    </select>
+   <!-- 根据商品id查询拥有这个商品的仓库-->
+    <select id="warehouseAllByshopid" resultType="Warehouse">
+        SELECT war.* FROM warehousestorage stg
+        INNER JOIN commodity com ON stg.commodityid=com.id
+        INNER JOIN warehouse war ON stg.warid=war.warid
+        WHERE com.id=#{shopid}
+    </select>
+    <!--根据仓库id 查询这个仓库里的这个商品的数量-->
+    <select id="querywarehouseshopsum" resultType="int">
+        SELECT number FROM warehousestorage WHERE commodityid=#{shopid} AND warid=#{warid}
+    </select>
+    <!--修改 仓库商品中间表的商品数量数据-->
+    <update id="updateshopsum">
+        UPDATE warehousestorage SET number=number-#{xuqiushopsum}
+        WHERE commodityid=#{shopid} AND warid=#{warid}
+    </update>
+    <!--删除中间表里的这个商品-->
+    <delete id="deleteshop">
+        delete from warehousestorage
+        WHERE commodityid=#{shopid} AND warid=#{warid}
+    </delete>
+    <!--根据订单修改订单状态 为待收货 1-->
+    <update id="updatedingdanstate">
+        UPDATE com_order SET ordstate=1
+        WHERE order_number=#{ddid}
+    </update>
+</mapper>

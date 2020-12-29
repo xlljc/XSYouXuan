@@ -3,66 +3,62 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xsyx.dao.CollectDao">
-
-
-
-
     <!-- resultMap映射 -->
     <resultMap id="CollectMap" type="Collect">
         <id column="id" property="id"/>
         <result column="coltime" property="coltime"/>
         <association property="cid" column="{fk=cid}"
-           select="com.xsyx.dao.CommodityDao.a_Commodity_By_cid" javaType="Commodity" fetchType="lazy"/>
+                     select="com.xsyx.dao.CommodityDao.a_Commodity_By_cid" javaType="Commodity" fetchType="lazy"/>
     </resultMap>
 
     <!-- 查询所有方法 -->
     <select id="queryAll" resultMap="CollectMap">
-       select coltime,id,cid from collect;
+        select coltime,id,cid from collect;
     </select>
 
     <!-- 根据主键id查询数据方法 -->
     <select id="queryById" parameterType="int" resultMap="CollectMap">
-       select coltime,id,cid from collect where id = #{id};
+        select coltime,id,cid from collect where id = #{id};
     </select>
 
     <!-- 根据Collect条件查询数据方法 -->
     <select id="query" resultMap="CollectMap">
-        select coltime,id,cid 
-        from collect 
+        select coltime,id,cid
+        from collect
         <where>
             <if test="id != null"> and id = #{id}</if>
             <if test="coltime != null"> and coltime = #{coltime}</if>
             <if test="cid != null">
-                 <if test="cid.id != null"> and cid = #{cid.id}</if>
-            </if> 
+                <if test="cid.id != null"> and cid = #{cid.id}</if>
+            </if>
         </where>
     </select>
 
     <!-- 根据Collect插入数据方法 -->
     <insert id="insert" parameterType="Collect" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        insert into collect (id,coltime,cid) values 
+        insert into collect (id,coltime,cid) values
         (
-            #{id},
-            <if test="coltime != null">#{coltime}</if><if test="coltime == null">default</if>,
-            #{cid.id}
-        ); 
+        #{id},
+        <if test="coltime != null">#{coltime}</if><if test="coltime == null">default</if>,
+        #{cid.id}
+        );
     </insert>
 
     <!-- 根据Collect插入多条数据方法 -->
     <insert id="inserts" parameterType="List" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        insert into collect (id,coltime,cid) values 
+        insert into collect (id,coltime,cid) values
         <foreach collection="collects" item="item" separator=",">
             (
-                #{item.id},
-                <if test="item.coltime != null">#{item.coltime}</if><if test="item.coltime == null">default</if>,
-                #{item.cid.id}
-            ) 
+            #{item.id},
+            <if test="item.coltime != null">#{item.coltime}</if><if test="item.coltime == null">default</if>,
+            #{item.cid.id}
+            )
         </foreach>
     </insert>
 
     <!-- 根据Collect条件修改单条数据方法,从传入对象获取主键id -->
     <update id="updateById" parameterType="Collect">
-        update collect 
+        update collect
         <set>
             <if test="coltime != null">coltime = #{coltime},</if>
             <if test="cid != null">

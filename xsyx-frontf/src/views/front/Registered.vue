@@ -3,21 +3,21 @@
         <el-container>
             <el-header style="position: fixed;width: 100%;z-index: 10;margin-top: -9px;">
                 <el-menu :default-active="'1'"
-                     mode="horizontal">
-                <el-menu-item>
-                    <el-image style="width: 60px; height: 60px" :src="require('@/assets/mcimg/logos.png')"></el-image>
-                </el-menu-item>
-                <el-menu-item><i class="el-icon-house"/>首页</el-menu-item>
-                <el-menu-item class="right">
-                    <el-image style="width: 55px; height: 50px" :src="require('@/assets/mcimg/hua.png')"></el-image>
-                </el-menu-item>
-                <el-menu-item class="right" index="8">关于我们</el-menu-item>
-                <el-menu-item class="right" index="7">联系客服</el-menu-item>
-                <el-menu-item class="right" index="6">注册</el-menu-item>
-                <el-menu-item class="right" index="5">登录</el-menu-item>
+                         mode="horizontal">
+                    <el-menu-item>
+                        <el-image style="width: 60px; height: 60px" :src="require('@/assets/mcimg/logos.png')"></el-image>
+                    </el-menu-item>
+                    <el-menu-item><i class="el-icon-house"/>首页</el-menu-item>
+                    <el-menu-item class="right">
+                        <el-image style="width: 55px; height: 50px" :src="require('@/assets/mcimg/hua.png')"></el-image>
+                    </el-menu-item>
+                    <el-menu-item class="right" index="8">关于我们</el-menu-item>
+                    <el-menu-item class="right" index="7">联系客服</el-menu-item>
+                    <el-menu-item class="right" index="6">注册</el-menu-item>
+                    <el-menu-item class="right" index="5">登录</el-menu-item>
 
-                <el-menu-item index="3"><i class="el-icon-scissors"></i>每日特价</el-menu-item>
-            </el-menu>
+                    <el-menu-item index="3"><i class="el-icon-scissors"></i>每日特价</el-menu-item>
+                </el-menu>
             </el-header>
 
             <el-main>
@@ -43,15 +43,15 @@
                                 <div class="login-center-img">
                                     <el-image style="width: 27px; height: 27px" :src="require('@/assets/mcimg/dh.png')"></el-image>
                                 </div>
-                                    <el-form-item class="login-center-input" prop="phone">
-                                        <el-input type="text" placeholder="请输入您的电话号码" onfocus="this.placeholder=''"
-                                                  autocomplete="off" v-model="ruleForm.phone" onblur="this.placeholder='请输入您的手机号码'"/>
-                                    </el-form-item>
+                                <el-form-item class="login-center-input" prop="phone">
+                                    <el-input type="text" placeholder="请输入您的电话号码" onfocus="this.placeholder=''"
+                                              autocomplete="off" v-model="ruleForm.phone" onblur="this.placeholder='请输入您的手机号码'"/>
+                                </el-form-item>
                             </div>
 
                             <div class="login-center clearfix" v-show="index===1">
                                 <div class="login-center-img">
-                                    <el-image style="width: 27px; height: 27px" :src="require('@/assets/mcimg/dh.png')"></el-image>
+                                    <el-image style="width: 27px; height: 27px" :src="require('@/assets/mcimg/yh1.png')"></el-image>
                                 </div>
                                 <el-form-item class="login-center-input" prop="username">
                                     <el-input type="text" placeholder="请输入您的用户名" onfocus="this.placeholder=''"
@@ -60,7 +60,7 @@
                             </div>
                             <div class="login-center clearfix" v-show="index===1">
                                 <div class="login-center-img">
-                                    <el-image style="width: 27px; height: 27px" :src="require('@/assets/mcimg/dh.png')"></el-image>
+                                    <el-image style="width: 27px; height: 27px" :src="require('@/assets/mcimg/mm.png')"></el-image>
                                 </div>
                                 <el-form-item class="login-center-input" prop="password">
                                     <el-input type="password" placeholder="请输入您的密码" onfocus="this.placeholder=''"
@@ -71,7 +71,7 @@
 
                             <div class="login-center clearfix" v-show="index===1">
                                 <div class="login-center-img">
-                                    <el-image style="width: 27px; height: 27px" :src="require('@/assets/mcimg/dh.png')"></el-image>
+                                    <el-image style="width: 27px; height: 27px" :src="require('@/assets/mcimg/mm.png')"></el-image>
                                 </div>
                                 <el-form-item class="login-center-input" prop="checkPass">
                                     <el-input type="password" placeholder="请确认您的密码" onfocus="this.placeholder=''"
@@ -81,11 +81,11 @@
 
                             <div class="login-center clearfix" v-show="index===1">
                                 <div class="login-center-img">
-                                    <el-image style="width: 27px; height: 27px" :src="require('@/assets/mcimg/dh.png')"></el-image>
+                                    <el-image style="width: 27px; height: 27px" :src="require('@/assets/mcimg/xx.png')"></el-image>
                                 </div>
                                 <el-form-item class="login-center-input" prop="uname">
                                     <el-input type="text" placeholder="请输入您的姓名" onfocus="this.placeholder=''"
-                                              autocomplete="off" v-model="ruleForm.uname" onblur="this.placeholder='请输入您的姓名号码'"/>
+                                              autocomplete="off" v-model="ruleForm.uname" onblur="this.placeholder='请输入您的姓名'"/>
                                 </el-form-item>
                             </div>
                             <div class="login-center clearfix" v-show="index===1">
@@ -100,24 +100,24 @@
                                 </el-form-item>
                             </div>
 
-                        <div class="login-center clearfix" v-show="index===0">
-                            <div class="login-center-img">
-                                <el-image style="width: 27px; height: 27px" :src="require('@/assets/mcimg/yzm2.png')"></el-image>
+                            <div class="login-center clearfix" v-show="index===0">
+                                <div class="login-center-img">
+                                    <el-image style="width: 27px; height: 27px" :src="require('@/assets/mcimg/yzm2.png')"></el-image>
+                                </div>
+                                <div class="login-center-input">
+                                    <input type="text" placeholder="请输入验证码" onfocus="this.placeholder=''" onblur="this.placeholder='请输入验证码'" style="width: 140px"/>
+                                    <el-button type="primary" size="small" plain class="fs">点击发送</el-button>
+                                    <div class="login-center-input-text">验证码</div>
+                                </div>
                             </div>
-                            <div class="login-center-input">
-                                <input type="text" placeholder="请输入验证码" onfocus="this.placeholder=''" onblur="this.placeholder='请输入验证码'" style="width: 140px"/>
-                                <el-button type="primary" size="small" plain class="fs">点击发送</el-button>
-                                <div class="login-center-input-text">验证码</div>
+
+                            <div v-show="index===2">
+                                <el-image style="width:80px; height: 80px;margin-left: 130px" :src="require('@/assets/mcimg/accomplish.png')"></el-image>
                             </div>
-                        </div>
 
-                        <div v-show="index===2">
-                            <el-image style="width:80px; height: 80px;margin-left: 130px" :src="require('@/assets/mcimg/accomplish.png')"></el-image>
-                        </div>
-
-                        <div class="login-button"  @click="next" >
-                            确认注册
-                        </div>
+                            <div class="login-button"  @click="next" >
+                                确认注册
+                            </div>
                         </el-form>
                     </div>
                 </el-steps>
@@ -162,6 +162,8 @@
                 }).then((result) => {
                     if (result.data.flag === false) alert(result.data.msg);
                 })
+            }if (this.index===3){
+                this.$router.replace("/login");
             }
 
         }
