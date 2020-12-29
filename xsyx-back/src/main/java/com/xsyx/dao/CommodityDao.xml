@@ -156,4 +156,12 @@
         limit 10;
     </select>
 
+    <!-- 查询热搜榜 -->
+    <select id="queryHotSearch" resultType="java.util.Map">
+        select content value from search_record
+        group by content
+        order by count(0) desc
+        limit 5
+    </select>
+
 </mapper>

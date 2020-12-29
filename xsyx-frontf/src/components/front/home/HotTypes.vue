@@ -8,7 +8,7 @@
         </el-row>
         <el-row>
             <div class="xsyx-type-box">
-                <commodity-type v-for="(item,index) in data" :data="item" :index="index" :key="item"></commodity-type>
+                <commodity-type v-for="(item,index) in data" :data="item" :index="index" :key="index"></commodity-type>
             </div>
         </el-row>
     </div>

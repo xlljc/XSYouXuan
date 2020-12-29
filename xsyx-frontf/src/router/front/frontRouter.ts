@@ -11,6 +11,7 @@ import Dingdan from "@/views/front/Dingdan.vue";
 import Shopcars from "@/views/front/Shopcars.vue";
 import UpdateUser from "@/views/front/UpdateUser.vue";
 import Mylove from "@/views/front/Mylove.vue";
+import HomeSearch from "@/components/front/home/HomeSearch.vue";
 
 /**
  * 前台路由
@@ -48,6 +49,11 @@ const FontRouter: Array<RouteConfig> = [
         component:Login
     },
 
+
+    {
+        path: "/search",
+        component: HomeSearch
+    }
 ]
 
 

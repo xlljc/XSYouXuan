@@ -78,4 +78,6 @@ public interface CommodityService{
     List<Commodity> searchTips(String str);
 
     PageInfo<Commodity> search(String str, int page, int rows);
+
+    List<Map<String, Object>> queryHotSearch();
 }

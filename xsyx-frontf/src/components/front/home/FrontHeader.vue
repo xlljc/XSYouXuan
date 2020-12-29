@@ -31,7 +31,7 @@
                 <template slot="title"><i class="el-icon-notebook-2"></i>商品分类</template>
             </el-submenu>
             <el-menu-item class="right">
-                <home-query></home-query>
+                <home-query ref="search"></home-query>
             </el-menu-item>
 
         </el-menu>

@@ -2,7 +2,7 @@
  * 死的数据
  */
 import Axios from "axios";
-import {Commodity} from "@/helper/entity";
+import {Commodity, PageInfo} from "@/helper/entity";
 
 const data: QueryData[] = [
     { "value": "三全鲜食（北新泾店）" },
@@ -94,14 +94,29 @@ export class HomeQueryHelper {
         return list;
     }
 
-
+    /**
+     * 搜索商品
+     * @param str
+     * @param page
+     * @param row
+     */
+    async searchCom(str: string,page: number,row: number): Promise<PageInfo<Commodity>> {
+        let params = new URLSearchParams();
+        params.append("str",str);
+        params.append("page",page.toString());
+        params.append("row",row.toString());
+        return (await Axios.post("/commodity/search",params)).data;
+    }
 
     /**
      * 获取热搜数据
      */
     getHotQuery(): Promise<HotQueryData[]> {
         return new Promise<HotQueryData[]>(resolve => {
-            resolve(hotData);
+            Axios.get("/commodity/queryHotSearch").then(value => {
+                console.log(value.data)
+                resolve(value.data);
+            })
         });
     }
 

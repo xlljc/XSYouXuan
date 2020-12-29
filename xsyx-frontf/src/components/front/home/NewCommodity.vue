@@ -9,7 +9,7 @@
 
         <el-row>
             <div class="xsys-commodity-box">
-                <commodity v-for="item in data" :key="item" :data="item"></commodity>
+                <commodity v-for="(item,index) in data" :key="index" :data="item"></commodity>
             </div>
         </el-row>
 

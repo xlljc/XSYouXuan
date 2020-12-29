@@ -6,7 +6,7 @@ import com.xsyx.vo.Commodity;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
-
+import java.util.Map;
 
 
 @Repository
@@ -94,4 +94,6 @@ public interface CommodityDao {
   List<Commodity> search(@Param("str") String str);
 
   List<Commodity> searchTips(@Param("str") String str);
+
+  List<Map<String, Object>> queryHotSearch();
 }
