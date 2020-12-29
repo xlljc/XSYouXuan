@@ -104,7 +104,7 @@ public class PurchaseController {
         //查询订单详情表的最大订单号
         int orderid = purchaseService.queryorderidBig();
         for (int i=0;i<arr.size();i++){
-            purchaseService.addPurchase(orderid,arr.get(i).getId().toString(),arr.get(i).getPrice().toString());
+            purchaseService.addPurchase(orderid,arr.get(i).getId().toString(),arr.get(i).getCaigousum().toString());
         }
         message.flag = true;
         message.msg = "提交采购申请成功√";

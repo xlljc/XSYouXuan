@@ -11,8 +11,10 @@ import java.util.Date;
 @JsonIgnoreProperties(value = "handler")
 public class OrderDetails implements Serializable {
 
+    //订单id
     private Integer id;
     private String orderNumber;
+    //状态
     private Integer ordstate;
     private Float totlemoney;
     private String commodityName;

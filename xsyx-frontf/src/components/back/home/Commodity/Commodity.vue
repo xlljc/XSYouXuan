@@ -32,6 +32,7 @@
         </el-button>
         <!--strip 双行阴影效果属性-->
         <el-table
+                v-loading="loading"
                 border
                 :data="tableData.rows"
                 style="width: 100%;margin-top: 30px">
@@ -200,7 +201,8 @@
         components: {CommodityEdit}
     })
     export default class Commodity extends Vue {
-
+        /*延迟表格加载*/
+        loading: boolean = true;
         //添加模态框的状态
         addmotaikuang =false;
         //修改模态框的状态
@@ -237,6 +239,10 @@
             /*EmpHelper.getEmp().then(value => {
                 console.log(value);
             })*/
+            //延迟表格加载
+            setTimeout(() => {
+                this.loading = false;
+            }, 2000)
         }
 
         //获取商品上架状态
