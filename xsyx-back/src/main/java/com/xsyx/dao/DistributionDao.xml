@@ -12,13 +12,13 @@
         <result column="id1" property="id1"/>
         <result column="name" property="name"/>
         <result column="specification" property="specification"/>
-        <result column="number" property="number"/>
+        <result column="totlemoney" property="number"/>
 
     </resultMap>
 
     <!-- 查询所有方法 -->
     <select id="querypeisonAll" resultMap="DistributionMap">
-        SELECT c.id,c.order_number,c.ordstate,b.id id1,b.name,b.specification,s.number FROM com_order c
+        SELECT c.id,c.order_number,c.ordstate,b.id id1,b.name,b.specification,c.totlemoney FROM com_order c
         INNER JOIN shopcar s ON c.sid=s.id
         INNER JOIN commodity b ON s.cid=b.id
     </select>

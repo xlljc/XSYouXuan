@@ -39,7 +39,9 @@
         <!--右键显示菜单-->
         <div id="menu">
             <div class="menu"
-                 @click="openDinDanXiangQing"><i style="font-size: 15px" class="el-icon-lock"></i>查询订单详情
+                 @click="openDinDanXiangQing"
+                 v-if="$btnPermissions('查询订单详情')"
+            ><i style="font-size: 15px" class="el-icon-lock"></i>查询订单详情
             </div>
         </div>
 
@@ -256,7 +258,10 @@
                 data: params
             }).then(value => {
                 //审核成功
-                alert(value.data.msg)
+                this.$message({
+                    type: 'success',
+                    message: value.data.msg
+                });
                 //关闭备注模态框
                 this.shenhebeizhu=false;
                 //订单详情审核模态框
@@ -272,7 +277,11 @@
                         url: "/purchase/caigouwancheng",
                         data: params
                     }).then(value => {
-                        alert("订单："+this.currentRowIndex+"已经"+value.data.msg)
+
+                        this.$message({
+                            type: 'success',
+                            message: "订单："+this.currentRowIndex+"已经"+value.data.msg
+                        });
                     })
 
                 }, 10000)
@@ -302,7 +311,10 @@
                 data: params
             }).then(value => {
                 //审核成功
-                alert(value.data.msg)
+                this.$message({
+                    type: 'success',
+                    message: value.data.msg
+                });
                 //关闭备注模态框
                 this.shenhebeizhu=false;
                 //订单详情审核模态框

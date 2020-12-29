@@ -45,7 +45,9 @@
         <!--右键显示菜单-->
         <div id="menu">
             <div class="menu"
-                 @click="openRuKu"><i style="font-size: 15px" class="el-icon-lock"></i>入库
+                 @click="openRuKu"
+                 v-if="$btnPermissions('入库')">
+                <i style="font-size: 15px" class="el-icon-lock"></i>入库
             </div>
         </div>
 
@@ -226,7 +228,10 @@
         openRuKu(index: number, row: any) {
             //判断是否已经采购完成
             if (this.ddzt!==2){
-                alert("采购未完成")
+                this.$message({
+                    type: 'error',
+                    message: "采购未完成"
+                });
             }else {
                 //查看订单详情
                 this.rukumotaikuang = true;
@@ -284,7 +289,10 @@
         ruke(){
             //判断有没有选择仓库
             if (this.warehouseid === "0") {
-                alert("请选择仓库")
+                this.$message({
+                    type: 'error',
+                    message: "请选择仓库"
+                });
                 return;
             }
             //商品总容量小于仓库 可以入库
@@ -300,7 +308,10 @@
                     url: "/purchase/ruku",
                     data: params
                 }).then(value => {
-                    alert(value.data.msg)
+                    this.$message({
+                        type: 'success',
+                        message: value.data.msg
+                    });
                     //关闭选择仓库模态框
                     this.selectwarehousemotaikuang = false;
                     //关闭入库模态框
@@ -311,7 +322,10 @@
 
                 //修改订单状态为已入库
             }else {
-                alert("仓库容量不足")
+                this.$message({
+                    type: 'error',
+                    message: "仓库容量不足"
+                });
             }
         }
     }

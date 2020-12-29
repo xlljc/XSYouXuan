@@ -23,6 +23,9 @@ public interface CommodityService{
     int addCommodityType(@Param("name") String name);
     //修改商品类型
     int updateCommodityType(@Param("id") String id,@Param("name") String name);
+    //删除商品类型
+    int deleteCommodityType(@Param("id") String id);
+
 
     /**
      *根据商品名 还有上架状态执行模糊查询

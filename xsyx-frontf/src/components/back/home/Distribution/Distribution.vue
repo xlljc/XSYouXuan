@@ -41,7 +41,8 @@
                     <el-button
                             type="primary"
                             size="medium"
-                            @click="openpeison(scope.$index, scope.row)">配送
+                            @click="openpeison(scope.$index, scope.row)"
+                            v-if="$btnPermissions('配送')">>配送
                     </el-button>
 
                 </template>
@@ -131,7 +132,10 @@
         openpeison(index: number, row: any) {
             //alert(row.ordstate)
             if (row.ordstate!=="0"){
-                alert("请选择待发货的订单")
+                this.$message({
+                    type: 'error',
+                    message: "请选择待发货的订单×"
+                });
                 return;
             }
 
@@ -155,6 +159,9 @@
 
         //转库下拉框值改变触发事件
         warehousechange() {
+            if(this.warehouseid==="0"){
+                this.shopsum=0;
+            }
             //让商品总量 随着仓库更改而更改  this.shopsum
            //alert(this.warehouseid)
             //商品id
@@ -181,6 +188,14 @@
             //this.xuqiushopsum
             //商品规格
             //订单id
+            //如果仓库id为0 提示选择仓库
+            if(this.warehouseid==="0"){
+                this.$message({
+                    type: 'error',
+                    message: "请选择仓库"
+                });
+                return
+            }
             //如果配送数量小于仓库数量 就可以配送
             if (this.xuqiushopsum<=this.shopsum){
                 let params = new URLSearchParams();
@@ -194,7 +209,10 @@
                     url: "/peison/querenpeison",
                     data: params
                 }).then(value => {
-                    alert(value.data.msg)
+                    this.$message({
+                        type: 'success',
+                        message: value.data.msg
+                    });
                     //this.shopsum = value.data;
                     //关闭选择配送仓库模态框
                     this.selectwarehousemotaikuang=false
@@ -202,7 +220,10 @@
                     this.getorderAll();
                 })
             }else {
-                alert("仓库商品数量不足")
+                this.$message({
+                    type: 'error',
+                    message: "仓库商品数量不足×"
+                });
             }
 
         }

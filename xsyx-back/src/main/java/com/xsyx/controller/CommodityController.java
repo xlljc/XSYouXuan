@@ -205,6 +205,23 @@ public class CommodityController {
         message.msg = "修改失败×";
         return message;
     }
+    /**
+     * 删除商品类型
+     * @return
+     */
+    @RequestMapping("/deleteType")
+    public Message deleteType(String id) {
+        Message message = new Message();
+        int row = commodityService.deleteCommodityType(id);
+        if (row > 0) {
+            message.flag = true;
+            message.msg = "删除成功√";
+            return message;
+        }
+        message.flag = false;
+        message.msg = "删除失败×";
+        return message;
+    }
 
     /**
      * 查询所有商品标签

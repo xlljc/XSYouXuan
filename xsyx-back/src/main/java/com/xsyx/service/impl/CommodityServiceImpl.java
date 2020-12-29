@@ -55,6 +55,11 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
+    public int deleteCommodityType(String id) {
+        return commodityDao.deleteCommodityType(id);
+    }
+
+    @Override
     public List<Commodity> moHuquery(String name, String state) {
         return commodityDao.moHuquery(name,state);
     }
