@@ -25,10 +25,10 @@ export class UserHelper {
      * 获取商户id
      */
     public static get merId(): string {
-        return "1";
+        return sessionStorage.getItem("merId");
     }
 
     public static set merId(val: string) {
-
+        sessionStorage.setItem("merId",val);
     }
 }

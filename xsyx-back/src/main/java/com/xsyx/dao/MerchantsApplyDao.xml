@@ -105,7 +105,7 @@
     <select id="queryApply" resultMap="MerchantsApplyMap">
         select merchants_apply.* from merchants_apply
         left join user u on merchants_apply.user_id = u.id
-        where is_read = 0 and (
+        where state = 0 and (
             name like concat('%',#{str},'%') or
             address like concat('%',#{str},'%') or
             user_message like concat('%',#{str},'%') or
