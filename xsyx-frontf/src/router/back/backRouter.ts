@@ -14,6 +14,7 @@ import PurchaseOrderJiLu from "@/components/back/home/Purchase/PurchaseOrderJiLu
 import CustomerMaintain from "@/components/back/home/Customer/CustomerMaintain.vue";
 import MerchantsMaintain from "@/components/back/home/Merchants/MerchantsMaintain.vue";
 import Distribution from "@/components/back/home/Distribution/Distribution.vue";
+import MerchantsApply from "@/components/back/home/Merchants/MerchantsApply.vue";
 
 
 /**
@@ -55,6 +56,8 @@ const BackRouter: Array<RouteConfig> = [
     {path:"/permissionManagement",component:PermManagement},
 
     {path:"/customermaintain",component:CustomerMaintain},
+
+    {path: "/merchantsApply",component: MerchantsApply}
 ]
 
 export default BackRouter;

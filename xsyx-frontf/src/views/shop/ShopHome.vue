@@ -68,6 +68,7 @@
 
 <script lang="ts">
     import {Vue, Component} from "vue-property-decorator";
+    import {UserHelper} from "@/helper/front/UserHelper";
 
     @Component
     export default class Demo1 extends Vue {
@@ -77,6 +78,11 @@
         }
 
         mounted() {
+            //没有登录就不能跳转商户
+            if (!UserHelper.merId) {
+                this.$router.replace("/");
+                return;
+            }
             if (this.$router.currentRoute.path !== "/shop/statistics")
                 this.$router.push({path: "/shop/statistics"});
         }
