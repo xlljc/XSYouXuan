@@ -33,8 +33,9 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
     public Message shouHuo(List<Integer> ids, Integer merId) {
         if (merId == null) return new Message(false,"请先登录 !");
         if (ids.size() > 0) {
-            merLogDao.addLog(merId,"收货", JSON.toJSONString(ids));
-            orderDetailsDao.setState(ids,1);
+            System.out.println("收货：");
+            //merLogDao.addLog(merId,"收货", JSON.toJSONString(ids));
+            orderDetailsDao.setShouHuo(ids);
         }
         return new Message(true,"收货成功 !");
     }
@@ -43,8 +44,9 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
     public Message tiHuo(List<Integer> ids, Integer merId) {
         if (merId == null) return new Message(false,"请先登录 !");
         if (ids.size() > 0) {
-            merLogDao.addLog(merId,"提货", JSON.toJSONString(ids));
-            orderDetailsDao.setState(ids,2);
+            //merLogDao.addLog(merId,"提货", JSON.toJSONString(ids));
+            System.out.println("提货：");
+            orderDetailsDao.setTiHuo(ids);
         }
         return new Message(true,"提货成功 !");
     }
@@ -74,9 +76,9 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
         long tiHuoCount = 0;
         for (Map<String, Object> i : list2) {
             Object temp = i.get("ordstate");
-            if (temp.equals(0)) {
+            if (temp.equals(1)) {
                 shouHuoCount = (long) i.get("count");
-            } else if (temp.equals(1)) {
+            } else if (temp.equals(2)) {
                 tiHuoCount = (long) i.get("count");
             }
         }

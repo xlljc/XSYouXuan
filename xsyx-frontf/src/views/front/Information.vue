@@ -38,7 +38,7 @@
             </div>
 
             <div style="margin-left: 390px;margin-top: -40px" v-show="sh">
-                <el-button type="warning" plain>商户中心</el-button>
+                <el-button type="warning" plain @click="gotoShop()">商户中心</el-button>
             </div>
 
             <file-load-demo></file-load-demo>
@@ -238,6 +238,15 @@
                 this.$message.error('上传头像图片大小不能超过 2MB!');
             }
             return isLt2M;
+        }
+
+        async gotoShop() {
+            let data = await UserHelper.getUser();
+            console.log(data);
+            if (data.merid){
+                UserHelper.merId = data.merid.id.toString();
+            }
+            this.$router.push({path: '/shop'})
         }
     }
 </script>

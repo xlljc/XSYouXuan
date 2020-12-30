@@ -38,6 +38,26 @@
 
     <update id="setState">
         update com_order set ordstate=#{state}
+        <if test="state == 2">
+            ,delivery_time=now()
+        </if>
+        <if test="state == 3">
+            ,pick_up_time=now()
+        </if>
+        where id in (
+            <foreach collection="ids" item="item" separator=",">#{item}</foreach>
+        )
+    </update>
+
+    <update id="setShouHuo">
+        update com_order set ordstate=2,delivery_time=DATE_FORMAT(NOW(),'%Y-%m-%d %H:%m:%s')
+        where id in (
+            <foreach collection="ids" item="item" separator=",">#{item}</foreach>
+        )
+    </update>
+
+    <update id="setTiHuo">
+        update com_order set ordstate=3,pick_up_time=DATE_FORMAT(NOW(),'%Y-%m-%d %H:%m:%s')
         where id in (
             <foreach collection="ids" item="item" separator=",">#{item}</foreach>
         )
@@ -73,7 +93,7 @@
     <select id="queryStateCount" resultType="java.util.HashMap">
         select ordstate,count(0) count
         from com_order
-        where com_order.merid = #{merId} and ordstate in (0,1)
+        where com_order.merid = #{merId} and ordstate in (1,2)
         group by ordstate
     </select>
 

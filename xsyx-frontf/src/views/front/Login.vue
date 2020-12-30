@@ -151,6 +151,8 @@
                 let message: Message = result.data;
                 if (message.flag) {
                     UserHelper.userId = message.msg.id;
+                    UserHelper.merId = message.msg.merid?.id;
+                    console.log("商户id：",UserHelper.merId);
                     this.$router.replace("/");
                 } else {
                     this.$message.error(message.msg)

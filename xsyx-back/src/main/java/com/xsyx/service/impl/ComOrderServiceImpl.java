@@ -9,6 +9,8 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -31,6 +33,9 @@ public class ComOrderServiceImpl implements ComOrderService {
     @Override
     public Message insert(ComOrder comOrder) {
         Message message=new Message();
+        /*Date date = new Date();
+        long time  = date.getTime() + 1000 * 60 *60 *24;
+        comOrder.setDelivery_time(new java.sql.Date(time));*/
         comOrderDao.insert(comOrder);
         comOrder.getId();
 

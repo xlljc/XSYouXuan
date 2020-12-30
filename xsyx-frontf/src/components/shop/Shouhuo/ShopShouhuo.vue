@@ -156,9 +156,9 @@
             phone: (phone: string) => phone && phone.substring(0,3) + '****' + phone.substring(7),
             idCard: (idCard: string) => idCard && idCard.substring(0,6) + '****' + idCard.substring(10),
             state: (state: number) => {
-                if (state === 0) return "未收货";
-                if (state === 1) return "待提货";
-                if (state === 2) return "已提货";
+                if (state === 1) return "未收货";
+                if (state === 2) return "待提货";
+                if (state === 3) return "已提货";
                 return state;
             },
             date: (time: number) => Utils.formatDate(time),
@@ -187,7 +187,7 @@
 
         async query() {
             this.isLoading = true;
-            this.tableData = await ShopHelper.queryOrderDetails(this.searchStr,0,this.page,this.row);
+            this.tableData = await ShopHelper.queryOrderDetails(this.searchStr,1,this.page,this.row);
             this.isLoading = false;
         }
 

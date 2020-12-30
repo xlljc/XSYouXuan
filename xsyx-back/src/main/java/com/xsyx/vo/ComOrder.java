@@ -4,6 +4,7 @@ package com.xsyx.vo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 /**
  * 表名 :  com_order<br/>
@@ -20,6 +21,7 @@ public class ComOrder implements Serializable {
 	private String orderNumber;
 	/**删除状态, 0未删除, 1已删除*/
 	private Integer isdelete;
+	private Date delivery_time;
 	/**购物车id*/
 	private Shopcar sid;
 	private Integer totlemoney;
@@ -82,6 +84,14 @@ public class ComOrder implements Serializable {
 	/**获取"总价"*/
 	public Integer getTotlemoney(){
 		return totlemoney;
+	}
+
+	public Date getDelivery_time() {
+		return delivery_time;
+	}
+
+	public void setDelivery_time(Date delivery_time) {
+		this.delivery_time = delivery_time;
 	}
 
 	/**设置"总价"*/

@@ -1,3 +1,6 @@
+import {User} from "@/helper/entity";
+import Axios from "axios";
+
 export class UserHelper {
 
     /**
@@ -30,5 +33,9 @@ export class UserHelper {
 
     public static set merId(val: string) {
         sessionStorage.setItem("merId",val);
+    }
+
+    public static async getUser(id?: number): Promise<User> {
+        return (await Axios.get("/user/get/" + (id ?? UserHelper.userId))).data;
     }
 }

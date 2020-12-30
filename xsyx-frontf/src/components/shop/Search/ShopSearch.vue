@@ -15,9 +15,9 @@
                                 <!-- 订单状态 -->
                                 <el-select v-model="state" placeholder="订单状态" style="width: 110px;">
                                     <el-option label="全部" :value="null"></el-option>
-                                    <el-option label="未收货" :value="0"></el-option>
-                                    <el-option label="待提货" :value="1"></el-option>
-                                    <el-option label="已提货" :value="2"></el-option>
+                                    <el-option label="未收货" :value="1"></el-option>
+                                    <el-option label="待提货" :value="2"></el-option>
+                                    <el-option label="已提货" :value="3"></el-option>
                                 </el-select>
                             </el-tooltip>
                         </div>
@@ -166,9 +166,9 @@
             phone: (phone: string) => phone && phone.substring(0,3) + '****' + phone.substring(7),
             idCard: (idCard: string) => idCard && idCard.substring(0,6) + '****' + idCard.substring(10),
             state: (state: number) => {
-                if (state === 0) return "未收货";
-                if (state === 1) return "待提货";
-                if (state === 2) return "已提货";
+                if (state === 1) return "未收货";
+                if (state === 2) return "待提货";
+                if (state === 3) return "已提货";
                 return state;
             },
             date: (time: number) => Utils.formatDate(time),

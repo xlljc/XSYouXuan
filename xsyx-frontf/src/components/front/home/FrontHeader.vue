@@ -17,7 +17,7 @@
 
             <el-menu-item class="right" index="5" @click="$router.replace('/login')" v-show="xs">登录</el-menu-item>
             <el-avatar shape="square" class="right" style="margin-top: 10px"
-                       :size="small" :fit="fit" :src="require('@/assets/mcimg/6.png')" v-show="bxs">
+                       :size="'small'" :fit="'fit'" :src="require('@/assets/mcimg/6.png')" v-show="bxs">
 
             </el-avatar>
             <!--购物车-->

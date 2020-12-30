@@ -20,6 +20,10 @@ public interface OrderDetailsDao {
 
     int setState(@Param("ids") List<Integer> ids,@Param("state") Integer state);
 
+    int setShouHuo(@Param("ids") List<Integer> ids);
+
+    int setTiHuo(@Param("ids") List<Integer> ids);
+
     /**
      * 查询day天之内所有商品的销量
      * @param merId
