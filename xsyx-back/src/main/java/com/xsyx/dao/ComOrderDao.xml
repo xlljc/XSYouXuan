@@ -96,7 +96,7 @@
         inner join shopcar s on c.sid = s.id
         inner join user u on s.uid = u.id
         inner join commodity c2 on s.cid = c2.id
-        where u.id=#{uid}
+        where u.id=#{uid} and  c.ordstate = #{ordstate}
     </select>
 
 </mapper>

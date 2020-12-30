@@ -51,7 +51,7 @@ public class ShopcarController {
     @RequestMapping("/update/{id}")
     public Message updateById(@PathVariable Integer id,Shopcar shopcar){
         shopcar.setId(id);
-        System.out.println("*****"+id);
+
         return shopcarService.updateShopcar(shopcar);
     }
 }

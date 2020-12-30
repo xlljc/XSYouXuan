@@ -45,14 +45,16 @@ public class ComOrderController {
     }
     
     @RequestMapping("/upd/{id}")
-    public int updateOrder(@PathVariable Integer id, ComOrder comOrder){
+    public Message updateOrder(@PathVariable Integer id, ComOrder comOrder){
         comOrder.setId(id);
+        System.out.println(id+"---------");
         return comOrderService.updateOrder(comOrder);
     }
 
     @RequestMapping("/queryOrdbyuid")
-    public List<ComOrder> queryOrderByUid(Integer uid){
-        System.out.println("-----"+uid);
-        return comOrderService.queryAllByUid(uid);
+    public List<ComOrder> queryOrderByUid(Integer uid,Integer ordstate){
+        return comOrderService.queryAllByUid(uid,ordstate);
     }
+
+
 }

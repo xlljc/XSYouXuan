@@ -96,7 +96,8 @@
             </el-main>
 </div>
         </el-container>
-
+        <el-image style="float: right !important;margin-top: -60px"
+                  :src="require('@/assets/mcimg/home-2.png')"></el-image>
     </div>
 </template>
 
@@ -227,13 +228,12 @@
             let params = new URLSearchParams();
             params.append("state",this.state.toString());
 
-
             Axios({
                 method:'post',
                 url:'/shopcar/update/'+this.da.id
             }).then((result) => {
-
                 if (result.data.flag === false) alert(result.data.msg);
+                location.reload()
             })
         }
 

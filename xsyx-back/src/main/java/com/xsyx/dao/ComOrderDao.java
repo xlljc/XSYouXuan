@@ -27,7 +27,7 @@ public interface ComOrderDao {
   /**
    * 根据ComOrder条件查询多条数据方法
    */
-  List<ComOrder> query(ComOrder comorder);
+  List<ComOrder> query(ComOrder comorder,@Param("ordstate") Integer ordstate);
 
   /**
    * 根据ComOrder插入数据方法
@@ -45,7 +45,9 @@ public interface ComOrderDao {
   int updateById(ComOrder comorder);
 
   //根据UID查询订单
-    List<ComOrder> queryAllByUid(@Param("uid") Integer uid);
+    List<ComOrder> queryAllByUid(@Param("uid") Integer uid,@Param("ordstate") Integer ordstate);
+
+
 
 
 

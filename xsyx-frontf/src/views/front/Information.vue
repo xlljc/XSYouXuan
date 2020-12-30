@@ -98,7 +98,13 @@
             <el-button type="primary" @click="smrzff">确 定</el-button>
           </span>
         </el-dialog>
+
+<!--        <el-image style="float: right !important;margin-top: -600px"-->
+<!--                  :src="require('@/assets/mcimg/home-3.png')"></el-image>-->
+        <el-image style="float: right !important;margin-top: -60px"
+                :src="require('@/assets/mcimg/home-2.png')"></el-image>
     </div>
+
 </template>
 
 <script lang="ts">

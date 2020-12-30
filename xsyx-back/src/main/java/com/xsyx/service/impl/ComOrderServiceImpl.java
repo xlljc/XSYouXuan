@@ -5,6 +5,7 @@ import com.xsyx.service.ComOrderService;
 import com.xsyx.vo.ComOrder;
 import com.xsyx.vo.Commodity;
 import com.xsyx.vo.system.Message;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,13 @@ public class ComOrderServiceImpl implements ComOrderService {
         return comOrderDao.queryAlls();
     }
 
+
+
+    @Override
+    public List<ComOrder> query(ComOrder comorder,@Param("ordstate") Integer ordstate) {
+        return comOrderDao.query(comorder,ordstate);
+    }
+
     @Override
     public Message insert(ComOrder comOrder) {
         Message message=new Message();
@@ -31,12 +39,14 @@ public class ComOrderServiceImpl implements ComOrderService {
         return message;
     }
 
-    public int updateOrder(ComOrder comOrder){
-        return comOrderDao.updateById(comOrder);
+    public Message updateOrder(ComOrder comOrder){
+
+        comOrderDao.updateById(comOrder);
+        return new Message(true,comOrder);
     }
 
     @Override
-    public List<ComOrder> queryAllByUid(Integer uid) {
-        return comOrderDao.queryAllByUid(uid);
+    public List<ComOrder> queryAllByUid(Integer uid,Integer ordstate) {
+        return comOrderDao.queryAllByUid(uid,ordstate);
     }
 }

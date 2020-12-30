@@ -3,13 +3,14 @@
         <el-container>
             <el-menu :default-active="'1'"
                      mode="horizontal" style="width: 1500px">
-                <el-menu-item>代付款</el-menu-item>
+
+
                 <el-menu-item style="cursor: default">|</el-menu-item>
-                <el-menu-item>代发货</el-menu-item>
+                <el-menu-item @click="daifahuo">代发货</el-menu-item>
                 <el-menu-item style="cursor: default">|</el-menu-item>
-                <el-menu-item>待评价</el-menu-item>
+                <el-menu-item @click="weishouhuo">待收货</el-menu-item>
                 <el-menu-item style="cursor: default">|</el-menu-item>
-                <el-menu-item>退款</el-menu-item>
+                <el-menu-item>已收货</el-menu-item>
             </el-menu>
         </el-container>
 
@@ -19,6 +20,7 @@
                 <div style="font-size: 20px;margin-left: 450px;margin-top: -23px;margin-left: 550px">数量</div>
                 <div style="font-size: 20px;margin-left: 600px;margin-top: -24px;margin-left: 750px">实际付款</div>
                 <div style="font-size: 20px;margin-left: 750px;margin-top: -24px;margin-left: 950px">操作</div>
+
             </el-row>
 
 
@@ -43,7 +45,10 @@
                         <div class="allmoney">
                             {{da.isdelete}}
                         </div>
+
                         <div class="cz">
+                            <el-button type="danger" size="small" plain v-show="knew===1" @click="xgsh">确认收货</el-button>
+
                             <el-link type="success" @click="addlove(da.sid.cid.id)">添加至收藏夹</el-link>
                             <br><br>
                             <el-link type="success" >再次购买</el-link>
@@ -52,6 +57,7 @@
                 </div>
             </el-col>
         </el-main>
+
     </div>
 </template>
 
@@ -60,6 +66,7 @@
     import Axios from "axios";
     import {Collect, ComOrder, ComOrder as scs} from '@/helper/entity'
     import {UserHelper} from "@/helper/front/UserHelper";
+    import {number} from "echarts/lib/export";
 
 
     interface MyShopcar extends scs {
@@ -71,11 +78,44 @@
 
         da1:Collect={}
         data:MyShopcar[] =[];
+        knew:number=0;
+        wsh:number=1
+        anniu:boolean=false
+        three:number=2
 
+        da2:ComOrder={
+
+            ordstate: 0,
+        }
+
+        daifahuo(){
+            this.knew=0
+            this.getcomorderData()
+        }
+
+        weishouhuo(){
+            this.knew=1
+            this.getcomorderData()
+        }
+
+        shouhuoanniu(){
+            if (this.knew===1){
+                this.anniu=true;
+            }
+        }
+
+        yishouhuo(){
+            this.knew=2
+            this.getcomorderData()
+        }
         getcomorderData(){
+            let data = new URLSearchParams();
+            data.append("uid",UserHelper.userId);
+            data.append("ordstate",this.knew.toString());
             Axios({
-                method: 'get',
-                url: '/ord/queryOrdbyuid?uid=' + UserHelper.userId
+                method: 'post',
+                url: '/ord/queryOrdbyuid',
+                data: data
             }).then(value => {
 
                 let temp = value.data as MyShopcar[];
@@ -84,6 +124,21 @@
                 }
                 this.data=temp;
             })
+        }
+
+        xgsh(){
+            let data = new URLSearchParams();
+            data.append("ordstate",this.three.toString());
+            Axios({
+                method:'post',
+                url:'/ord/upd'+this.da2.id
+            }).then((result) => {
+                if (result.data.flag === false) alert(result.data.msg);
+                alert("收货成功")
+                location.reload()
+            })
+
+
         }
 
         //加入收藏夹
@@ -110,6 +165,7 @@
 
         created() {
             this.getcomorderData();
+            this.shouhuoanniu();
         }
 
         mounted() {
@@ -127,7 +183,7 @@
 
         /*box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);*/
         margin-left: -20px;
-        background-color: #FCFCFC;
+
     }
     .guige{
         font-size: 15px;
@@ -161,7 +217,7 @@
     }
     .cz{
         font-size: 18px;
-        margin-top: -65px;
+        margin-top: -85px;
         margin-left: 940px;
         width: 150px;
         height: 50px;

@@ -92,7 +92,6 @@
 
            data.append("address",this.ruleForm.address)
            data.append("userMessage",this.ruleForm.userMessage)
-
            data.append("userId.id",UserHelper.userId)
            Axios({
                method:'post',
@@ -103,13 +102,12 @@
                alert("请等待审批")
                this.id=result.data.msg.id;
 
-
            })
        }
        //用户表添加商户id
         xg(){
             let params = new URLSearchParams();
-            console.log("this.id :",this.id)
+
             params.append("merid.id",this.id.toString())
             Axios({
                 method:'post',
