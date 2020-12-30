@@ -11,8 +11,9 @@
                     :before-upload="beforeAvatarUpload"
                     name="file">
                 <!--                <img v-if="imageUrl" :src="'http://localhost:8080/' + imageUrl" class="avatar">-->
-                <el-image style="width:200px;height: 200px" v-if="user.headPortrait" :src="$host + user.headPortrait"></el-image>
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+
+                    <el-image style="width:200px;height: 200px" v-if="user.headPortrait" :src="$host + user.headPortrait"></el-image>
+
             </el-upload>
             <div style="font-size: 15px;margin-left: 240px;margin-top: -60px">
                 昵称：{{ user.username }}<br><br>

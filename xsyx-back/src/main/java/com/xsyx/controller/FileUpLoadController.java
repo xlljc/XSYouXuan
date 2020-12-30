@@ -1,6 +1,7 @@
 package com.xsyx.controller;
 
 import com.xsyx.dao.EmpLogDao;
+import com.xsyx.dao.UserLogDao;
 import com.xsyx.utils.FileUpLoadUtil;
 import com.xsyx.vo.system.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,17 @@ public class FileUpLoadController {
 
     @Autowired
     private EmpLogDao empLogDao;
+    @Autowired
+    private UserLogDao userLogDao;
 
+    /**
+     * 文件上传
+     * @param file 文件对象
+     * @param empId 员工id, 上传需要根据员工id生成日志
+     * @param dir 选填 文件在resource文件夹的子路径位置
+     * @param request 请求对象
+     * @return 消息对象, 包含是否成功, 如果成功, 消息中将包含文件访问路径
+     */
     /**
      * 文件上传
      * @param file 文件对象
@@ -37,6 +48,22 @@ public class FileUpLoadController {
         try {
             String fileName = FileUpLoadUtil.upload(file,request,dir);
             empLogDao.addLog(empId,"上传图片到服务器","{\"" + empId + "\": " + empId + ",\"fileName\": \"" + fileName + "\"}");
+            return new Message(true,fileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new Message(false,"文件上传失败, 请检查原因!");
+    }
+
+    @RequestMapping("/userFileUpload")
+    public Message userUpload(@RequestParam("file") MultipartFile file,
+                              Integer uId,
+                              String dir,
+                              HttpServletRequest request) {
+        if (uId == null) return new Message(false, "文件上传失败! 未指定用户id!");
+        try {
+            String fileName = FileUpLoadUtil.upload(file,request,dir);
+            userLogDao.addLog(uId,"上传图片到服务器","{\"uId\": " + uId + ",\"fileName\": \"" + fileName + "\"}");
             return new Message(true,fileName);
         } catch (Exception e) {
             e.printStackTrace();

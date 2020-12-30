@@ -7,6 +7,7 @@ export class UserHelper {
         console.log("获取UID = " + sessionStorage.getItem("uid"));
 
         return sessionStorage.getItem("uid");
+
     }
 
     /**

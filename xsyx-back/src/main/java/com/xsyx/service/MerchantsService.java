@@ -5,6 +5,8 @@ import com.xsyx.vo.MerchantsApply;
 import com.xsyx.vo.system.Message;
 import com.github.pagehelper.PageInfo;
 
+import java.util.List;
+
 
 public interface MerchantsService {
 
@@ -19,4 +21,6 @@ public interface MerchantsService {
     PageInfo<MerchantsApply> queryApply(String str, Integer page, Integer row);
 
     Message approval(Integer id, Boolean flag, String message, Integer empId);
+
+    List<Merchants> queryAll();
 }

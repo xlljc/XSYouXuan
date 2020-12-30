@@ -3,8 +3,6 @@
         <el-container>
             <el-menu :default-active="'1'"
                      mode="horizontal" style="width: 1500px">
-
-
                 <el-menu-item style="cursor: default">|</el-menu-item>
                 <el-menu-item @click="daifahuo">代发货</el-menu-item>
                 <el-menu-item style="cursor: default">|</el-menu-item>
@@ -47,7 +45,7 @@
                         </div>
 
                         <div class="cz">
-                            <el-button type="danger" size="small" plain v-show="knew===1" @click="xgsh">确认收货</el-button>
+                            <el-button type="danger" size="small" plain v-show="knew===1" @click="xgsh(da.id)">确认收货</el-button>
 
                             <el-link type="success" @click="addlove(da.sid.cid.id)">添加至收藏夹</el-link>
                             <br><br>
@@ -73,15 +71,20 @@
         checked: boolean;
     }
 
+    interface MyOrder extends ComOrder {
+        checked: boolean;
+    }
+
     @Component
     export default class Dingdan extends Vue {
 
         da1:Collect={}
-        data:MyShopcar[] =[];
+        data:MyOrder[] =[];
         knew:number=0;
         wsh:number=1
         anniu:boolean=false
         three:number=2
+        da3:number=0
 
         da2:ComOrder={
 
@@ -117,22 +120,26 @@
                 url: '/ord/queryOrdbyuid',
                 data: data
             }).then(value => {
-
-                let temp = value.data as MyShopcar[];
+                let temp = value.data as MyOrder[];
                 for (let i of temp) {
                     i.checked = false;
                 }
                 this.data=temp;
+
+
             })
         }
 
-        xgsh(){
+        xgsh(id: number){
             let data = new URLSearchParams();
             data.append("ordstate",this.three.toString());
+
             Axios({
                 method:'post',
-                url:'/ord/upd'+this.da2.id
+                url:'/ord/upd/' + id,
+                data:data
             }).then((result) => {
+                console.log(id,"*******")
                 if (result.data.flag === false) alert(result.data.msg);
                 alert("收货成功")
                 location.reload()
@@ -159,8 +166,6 @@
 
             })
         }
-
-
 
 
         created() {

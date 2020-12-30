@@ -51,13 +51,14 @@
 
     <!-- 根据ComOrder插入数据方法 -->
     <insert id="insert" parameterType="ComOrder" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        insert into com_order (id,ordstate,order_number,isdelete,sid,totlemoney) values
+        insert into com_order (id,ordstate,order_number,isdelete,sid,totlemoney,merid) values
         (
         #{id},
         #{ordstate},
         #{orderNumber},
         <if test="isdelete != null">#{isdelete}</if><if test="isdelete == null">default</if>,
         #{sid.id},
+        #{merid},
         #{totlemoney}
         );
     </insert>

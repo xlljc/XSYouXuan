@@ -23,6 +23,7 @@ public class ComOrder implements Serializable {
 	/**购物车id*/
 	private Shopcar sid;
 	private Integer totlemoney;
+	private Integer merid;
 
 	public ComOrder() {
 		super();
@@ -34,6 +35,7 @@ public class ComOrder implements Serializable {
 		this.isdelete = isdelete;
 		this.sid = sid;
 		this.totlemoney = totlemoney;
+		this.merid=merid;
 	}
 	/**设置"id"*/
 	public void setId(Integer id){
@@ -81,6 +83,16 @@ public class ComOrder implements Serializable {
 	public Integer getTotlemoney(){
 		return totlemoney;
 	}
+
+	/**设置"总价"*/
+	public void setMerid(Integer merid){
+		this.merid = merid;
+	}
+	/**获取"总价"*/
+	public Integer getMerid(){
+		return merid;
+	}
+	
 	@Override
 	public String toString() {
 		return "com_order[" +
@@ -90,6 +102,7 @@ public class ComOrder implements Serializable {
 				", isdelete = " + isdelete +
 				", sid = " + sid +
 				", totlemoney = " + totlemoney +
+				", merid = " + merid +
 				"]";
 	}
 }

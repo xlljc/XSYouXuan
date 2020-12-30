@@ -127,6 +127,7 @@
                 params:params
             }).then((result) => {
                 if (result.data.flag === false) alert(result.data.msg);
+                alert("修改成功  ^^")
             })
         }
         beforeAvatarUpload(file: any) {

@@ -15,7 +15,11 @@
             <el-menu-item class="right" index="6" @click="$router.replace('/zc')">注册</el-menu-item>
             <el-menu-item class="right" index="5" @click="$router.replace('/homepage')">个人首页</el-menu-item>
 
-            <el-menu-item class="right" index="5" @click="$router.replace('/login')">登录</el-menu-item>
+            <el-menu-item class="right" index="5" @click="$router.replace('/login')" v-show="xs">登录</el-menu-item>
+            <el-avatar shape="square" class="right" style="margin-top: 10px"
+                       :size="small" :fit="fit" :src="require('@/assets/mcimg/6.png')" v-show="bxs">
+
+            </el-avatar>
             <!--购物车-->
             <el-submenu class="right" index="4" >
                 <template slot="title">
@@ -46,6 +50,9 @@
     import ShoppingCart from "@/components/front/home/ShoppingCart.vue";
     import HomeQuery from "@/components/front/home/HomeQuery.vue";
     import {ShoppingCartHelper, ShoppingData} from "@/helper/front/ShoppingCartHelper";
+    import {UserHelper} from "@/helper/front/UserHelper";
+
+
 
     let shoppingCartHelper = new ShoppingCartHelper();
 
@@ -53,13 +60,29 @@
         components: {HomeQuery, ShoppingCart}
     })
     export default class FrontHeader extends Vue {
-        logoImg = require('@/assets/logo.png');
+        logoImg = require('@/assets/mcimg/logos.png');
         carData: ShoppingData[] = null;
+
+        xs:boolean=true;
+        bxs:boolean=false
+        xianshi(){
+            if (UserHelper.userId===null){
+
+                this.xs=true
+                this.bxs=false;
+            }else {
+                this.xs=false
+                this.bxs=true;
+            }
+        }
+
+
 
         created() {
             shoppingCartHelper.getShoppingData().then(value => {
                 this.carData = value;
             })
+            this.xianshi()
         }
 
         mounted() {

@@ -35,7 +35,6 @@ public class ComOrderServiceImpl implements ComOrderService {
         comOrder.getId();
 
         message.setMsg(comOrder.getId());
-        System.out.println(comOrder.getIsdelete());
         return message;
     }
 

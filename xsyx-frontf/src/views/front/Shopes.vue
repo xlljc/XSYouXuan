@@ -47,16 +47,16 @@
                     <div class="pls">
                         水果
                     </div>
-                    <!--            <el-main>-->
-                    <!--                <el-menu :default-active="activeIndex2" style="margin-left: 400px;margin-top: 75px"-->
-                    <!--                         text-color="#gray"-->
-                    <!--                         active-text-color="#F58F8D"-->
-                    <!--                         class="el-menu-demo" mode="horizontal">-->
-                    <!--                    <el-menu-item index="1" style="font-size: 20px;width: 150px;">说    明</el-menu-item>-->
-                    <!--                    <el-menu-item index="2" style="font-size: 20px;width: 150px;">附加信息</el-menu-item>-->
-                    <!--                    <el-menu-item index="3" style="font-size: 20px;width: 150px;">用户评论</el-menu-item>-->
-                    <!--                </el-menu>-->
-                    <!--            </el-main>-->
+                                <el-main>
+                                    <el-menu :default-active="activeIndex2" style="margin-left: 400px;margin-top: 75px"
+                                             text-color="#gray"
+                                             active-text-color="#F58F8D"
+                                             class="el-menu-demo" mode="horizontal">
+                                        <el-menu-item index="1" style="font-size: 20px;width: 150px;">说    明</el-menu-item>
+                                        <el-menu-item index="2" style="font-size: 20px;width: 150px;">附加信息</el-menu-item>
+                                        <el-menu-item index="3" style="font-size: 20px;width: 150px;">用户评论</el-menu-item>
+                                    </el-menu>
+                                </el-main>
                 </el-col>
                 <el-col :span="6">
                     <div style="margin-top: 120px;">
@@ -118,7 +118,7 @@
         activeIndex: '1';
         activeIndex2: '1';
         number:number=1;
-        id:number=0;
+        id:string='';
         shopcar:Shopcar={};
 
 
@@ -133,9 +133,10 @@
         querysp(){
             Axios({
                 method:'get',
-                url:'/commodity/queryComShpId?id=10',
+                url:'/commodity/queryComShpId?id='+this.id,
 
             }).then(value => {
+
                 this.sp = value.data;
                 console.log(this.sp);
             })
@@ -176,6 +177,20 @@
         // }
 
         created(){
+            let str = location.search;
+            if (str) {
+                str = str.substring(1);
+                let split = str.split("&");
+                for (let i of split) {
+                    let temp = i.split("=");
+                    if (temp[0] === "id") {
+                        this.id = temp[1];
+                        break;
+                    }
+                }
+            }
+
+
             this.querysp();
         }
     }

@@ -15,6 +15,8 @@ import com.xsyx.vo.system.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MerchantsServiceImpl implements MerchantsService {
 
@@ -110,5 +112,10 @@ public class MerchantsServiceImpl implements MerchantsService {
             empLogDao.addLog(empId, "拒绝商户申请: id = " + id, JSON.toJSONString(merchantsApply));
         }
         return new Message(true, "提交成功 !");
+    }
+
+    @Override
+    public List<Merchants> queryAll() {
+        return merchantsDao.queryAll();
     }
 }

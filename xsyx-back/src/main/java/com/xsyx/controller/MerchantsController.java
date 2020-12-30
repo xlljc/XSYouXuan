@@ -9,6 +9,8 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/merchants")
 public class MerchantsController {
@@ -53,5 +55,11 @@ public class MerchantsController {
     public Message approval(Integer id,Boolean flag,String message,Integer empId) {
         return merchantsService.approval(id,flag,message,empId);
     }
+
+    @RequestMapping("/queryname")
+    public List<Merchants> queryAll(){
+        return merchantsService.queryAll();
+    }
+
 
 }

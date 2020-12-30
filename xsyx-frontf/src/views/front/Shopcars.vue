@@ -48,6 +48,11 @@
                 <el-menu-item index="2" style="font-size: 20px">库存紧张</el-menu-item>
 
                 <div class="zj">
+                    <div class="hh">
+                    <el-select v-model="mers">
+                        <el-option  v-for="type in mer" :value="type.id" :label="type.name" :key="type.id" :index="type.id"></el-option>
+                    </el-select>
+                    </div>
                     已选择商品 总价：
                 </div>
                 <div style="color: #EA6650;font-size: 20px;margin-left: 1470px;margin-top: -27px">
@@ -64,6 +69,8 @@
                 <div style="font-size: 20px;margin-left: 1010px;margin-top: -20px">数量</div>
                 <div style="font-size: 20px;margin-left: 1360px;margin-top: -22px">单价</div>
                 <div style="font-size: 20px;margin-left: 1555px;margin-top: -27px">操作</div>
+                <div style="font-size: 20px;margin-left: 1755px;margin-top: -32px">选择商户</div>
+
             </el-row>
 
             <el-main>
@@ -86,10 +93,11 @@
                                 <span>￥{{da.cid.price}}</span>
                             </div>
                             <div class="cz">
-                                <el-link type="success">添加至收藏夹</el-link>
+
                                 <br>
                                 <el-link type="success" @click="del(da.id)">移除购物车</el-link>
                             </div>
+
                         </div>
                     </div>
                 </el-col>
@@ -106,7 +114,7 @@
     import Axios from "axios";
     import {UserHelper} from "@/helper/front/UserHelper";
     import {MenuHelper} from "@/helper/back/MenuHelper";
-    import {Shopcar, Shopcar as sc} from '@/helper/entity'
+    import {Merchants, Shopcar, Shopcar as sc} from '@/helper/entity'
     import {Message} from "element-ui";
     import {SOURCE_FORMAT_TYPED_ARRAY} from "echarts/lib/util/types";
 
@@ -139,6 +147,8 @@
         data:MyShopcar[] =[];
         ordid:number=0;
         isdelete:number=0;
+        mer={}
+        mers=0
 
 
         handleChange(value: number) {
@@ -159,7 +169,17 @@
                 }
                 this.data=temp;
             })
-        }   
+        }
+
+        chaxunshanghu(){
+            Axios({
+                method:'post',
+                url:'/merchants/queryname'
+            }).then(value => {
+                this.mer=value.data
+                console.log(this.mer)
+            })
+        }
 
         zongjia(){
             this.zj=0;
@@ -203,13 +223,14 @@
             this.data.forEach(value => {
                 if (value.checked) this.da = value;
             })
-
+            console.log(this.mers,"--------")
             let data = new URLSearchParams();
             //data.append("id",this.cid);
             this.isdelete=this.da.number;
             data.append("sid",this.da.id.toString());
             data.append("totlemoney",this.isdelete.toString());
             data.append("isdelete",this.zj.toString())
+            data.append("merid",this.mers.toString())
             Axios({
                 method:'post',
                 url:'/ord/addord',
@@ -246,14 +267,15 @@
                 method:'post',
                 url:'/ord/upd/'+this.ordid,
                 params:params
-            }).then((result) => {
-                if (result.data.flag === false) alert(result.data.msg);
+            }).then(value => {
+                this.mer=value.data
             })
 
         }
 
         created(){
             this.getShopcarData();
+            this.chaxunshanghu()
         }
 
     }
@@ -274,7 +296,7 @@
         width:200px;
     }
     .sp{
-        width: 1400px;
+        width: 1700px;
         border-radius: 4px;
         border: 1px solid #FAF3F4;
 
@@ -282,6 +304,13 @@
         margin-left: 300px;
         /*background-color: #FDF4F2;*/
 
+    }
+    .hh{
+        font-size: 18px;
+        /*margin-top: 40px;*/
+        /*margin-left: 1030px;*/
+        width: 150px;
+        height: 50px;
     }
 
     .danjia{
