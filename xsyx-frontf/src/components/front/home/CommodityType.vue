@@ -1,7 +1,7 @@
 <template>
     <div class="xsyx-type-item">
 
-        <div class="xsyx-type-content">
+        <div class="xsyx-type-content" @click="searchType(data.name)">
             <svg :class="['zdy-icon','index' + index]" style="width: 50px;height: 50px" aria-hidden="true">
                 <use :xlink:href="index | icon"></use>
             </svg>
@@ -32,6 +32,11 @@
         @Prop()
         data: ComType;
 
+        searchType(str: string) {
+            this.$store.commit("front/homeSearch",str);
+            this.$router.push({path: "/search"});
+
+        }
     }
 </script>
 

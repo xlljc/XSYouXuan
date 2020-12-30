@@ -3,13 +3,9 @@ package com.xsyx.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xsyx.dao.CommodityDao;
-import com.xsyx.dao.MenuDao;
+import com.xsyx.dao.SearchRecordDao;
 import com.xsyx.service.CommodityService;
-import com.xsyx.service.MenuService;
-import com.xsyx.vo.ComLabel;
-import com.xsyx.vo.ComType;
-import com.xsyx.vo.Commodity;
-import com.xsyx.vo.Menu;
+import com.xsyx.vo.*;
 import com.xsyx.vo.system.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +19,9 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Autowired
     CommodityDao commodityDao;
+
+    @Autowired
+    SearchRecordDao searchRecordDao;
 
     @Override
     public List<Commodity> queryCommodityAll(String name, String state, int page, int rows) {
@@ -120,7 +119,14 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Override
     public PageInfo<Commodity> search(String str, int page, int rows) {
+        //添加搜索记录
+        searchRecordDao.insert(new SearchRecord(null,null,str,null));
         PageHelper.startPage(page,rows);
         return new PageInfo<>(commodityDao.search(str));
+    }
+
+    @Override
+    public List<Map<String, Object>> queryHotSearch() {
+        return commodityDao.queryHotSearch();
     }
 }

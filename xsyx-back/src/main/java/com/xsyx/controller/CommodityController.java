@@ -260,16 +260,18 @@ public class CommodityController {
 
     /**
      * 搜索商品
-     * @param str
-     * @param page
-     * @param rows
      * @return
      */
     @RequestMapping("/search")
     public PageInfo<Commodity> search(String str,
                                       @RequestParam(value = "page", defaultValue = "1") int page,
-                                      @RequestParam(value = "rows", defaultValue = "10") int rows) {
-        return commodityService.search(str,page,rows);
+                                      @RequestParam(value = "row", defaultValue = "10") int row) {
+        return commodityService.search(str,page,row);
+    }
+
+    @RequestMapping("/queryHotSearch")
+    public List<Map<String,Object>> queryHotSearch() {
+        return commodityService.queryHotSearch();
     }
 
 }

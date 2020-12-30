@@ -11,7 +11,21 @@ const store = new Vuex.Store({
   mutations: {},
   actions: {},
   modules: {
-
+    'front': {
+      namespaced: true,
+      state: {
+        homeSearch: "",
+        search: Function
+      },
+      getters: {
+        homeSearch: state => state.homeSearch,
+        search: state => state.search
+      },
+      mutations: {
+        homeSearch: (state, payload) => state.homeSearch = payload,
+        search: (state, payload) => state.search = payload
+      }
+    },
     'back': {
       namespaced: true,
       state: {
